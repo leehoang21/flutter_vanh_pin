@@ -1,9 +1,8 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
+import 'package:flutter_pin/presentation/themes/themes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../../../presentation/themes/theme_color.dart';
 
 class IconButtonWidget extends StatelessWidget {
   final Function() onPressed;
@@ -53,6 +52,41 @@ class IconButtonWidget extends StatelessWidget {
                   height: 1.07,
                   letterSpacing: 0.2,
                 ),
+          )
+      ],
+    );
+  }
+}
+
+class IconPostButtonWidget extends StatelessWidget {
+  final Function() onPressed;
+  final Widget icon;
+  final Color? buttonColor;
+  final String? title;
+  const IconPostButtonWidget({
+    Key? key,
+    required this.onPressed,
+    this.buttonColor,
+    this.title,
+    required this.icon,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        IconButton(
+          onPressed: onPressed,
+          icon: icon,
+          iconSize: 15.sp,
+        ),
+        if (title != null)
+          Text(
+            title!,
+            style: ThemeText.body2.copyWith(
+              fontSize: 10.sp,
+            ),
           )
       ],
     );

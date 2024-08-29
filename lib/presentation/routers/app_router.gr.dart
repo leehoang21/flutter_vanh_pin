@@ -27,6 +27,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const MainScreenProvider(),
       );
     },
+    MyPageRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const MyPageScreenProvider(),
+      );
+    },
     SplashRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -60,6 +66,20 @@ class MainRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'MainRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [MyPageScreenProvider]
+class MyPageRoute extends PageRouteInfo<void> {
+  const MyPageRoute({List<PageRouteInfo>? children})
+      : super(
+          MyPageRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'MyPageRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

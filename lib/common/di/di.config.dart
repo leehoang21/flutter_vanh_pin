@@ -15,6 +15,7 @@ import 'package:injectable/injectable.dart' as _i526;
 import '../../presentation/bloc/loading_bloc/loading_bloc.dart' as _i190;
 import '../../presentation/journey/home/cubit/home_cubit.dart' as _i449;
 import '../../presentation/journey/main/bloc/tab_manger_cubit.dart' as _i44;
+import '../../presentation/journey/my_page/cubit/my_page_cubit.dart' as _i487;
 import '../../presentation/widgets/pick_image/cubit/pick_image_cubit.dart'
     as _i573;
 import '../configs/dio/dio_config.dart' as _i576;
@@ -33,10 +34,12 @@ extension GetItInjectableX on _i174.GetIt {
       environment,
       environmentFilter,
     );
-    gh.factory<_i44.TabMangerCubit>(() => _i44.TabMangerCubit());
-    gh.factory<_i573.PickImageCubit>(() => _i573.PickImageCubit());
     gh.factory<_i449.HomeCubit>(() => _i449.HomeCubit());
+    gh.factory<_i44.TabMangerCubit>(() => _i44.TabMangerCubit());
+    gh.factory<_i487.MyPageCubit>(() => _i487.MyPageCubit());
+    gh.factory<_i573.PickImageCubit>(() => _i573.PickImageCubit());
     gh.singleton<_i585.FirebaseConfig>(() => _i585.FirebaseConfig()..init());
+    gh.singleton<_i439.LocalStorage>(() => _i439.LocalStorage());
     gh.lazySingleton<_i190.LoadingBloc>(() => _i190.LoadingBloc());
     gh.lazySingleton<_i576.DioApiClient>(
         () => _i576.DioApiClient(options: gh<_i361.BaseOptions>()));

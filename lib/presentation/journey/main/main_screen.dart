@@ -22,7 +22,7 @@ class MainScreen extends StatelessWidget {
       },
       builder: (context, child) => Scaffold(
         body: child,
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         floatingActionButton: FloatingActionButton(
           backgroundColor: AppColor.black,
           onPressed: () async {

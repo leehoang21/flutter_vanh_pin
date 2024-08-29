@@ -30,10 +30,7 @@ class DefaultFirebaseOptions {
           'you can reconfigure this by running the FlutterFire CLI again.',
         );
       case TargetPlatform.windows:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return windows;
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -47,28 +44,38 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBWHtNjtvo-mttYIYRUJldVM62q6QCc4Fo',
-    appId: '1:7534333772:web:a123f766dbc291b85fc9e9',
-    messagingSenderId: '7534333772',
-    projectId: 'espend-b9ba9',
-    authDomain: 'espend-b9ba9.firebaseapp.com',
-    storageBucket: 'espend-b9ba9.appspot.com',
+    apiKey: 'AIzaSyBSHfgboYnJ9yjVxW-lsRObI89dTRbaJ-0',
+    appId: '1:998896689837:web:0b870a97e8c7297d011c24',
+    messagingSenderId: '998896689837',
+    projectId: 'learning-english-6441b',
+    authDomain: 'learning-english-6441b.firebaseapp.com',
+    storageBucket: 'learning-english-6441b.appspot.com',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDP6z7OrwRk726VahwdxQhFKNb0KigFR9E',
-    appId: '1:7534333772:android:1b20a5bb1d90280d5fc9e9',
-    messagingSenderId: '7534333772',
-    projectId: 'espend-b9ba9',
-    storageBucket: 'espend-b9ba9.appspot.com',
+    apiKey: 'AIzaSyB2X8t-GU6tO74CXwuP8qQt7ZEG01fnJJ0',
+    appId: '1:998896689837:android:18f44ca106a1d841011c24',
+    messagingSenderId: '998896689837',
+    projectId: 'learning-english-6441b',
+    storageBucket: 'learning-english-6441b.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDFKw6txIPr6cL_CqWV5Wt6D2UKYuw6RRo',
-    appId: '1:7534333772:ios:9d551292cb664fb15fc9e9',
-    messagingSenderId: '7534333772',
-    projectId: 'espend-b9ba9',
-    storageBucket: 'espend-b9ba9.appspot.com',
-    iosBundleId: 'com.example.flutterESpend',
+    apiKey: 'AIzaSyDctFqwTuyu9nqU1xgf-Xaw8UGpOrr_jTM',
+    appId: '1:998896689837:ios:baeb288a0d5405cc011c24',
+    messagingSenderId: '998896689837',
+    projectId: 'learning-english-6441b',
+    storageBucket: 'learning-english-6441b.appspot.com',
+    iosBundleId: 'vn.vanh.pin',
   );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyBSHfgboYnJ9yjVxW-lsRObI89dTRbaJ-0',
+    appId: '1:998896689837:web:319ac029596dff9a011c24',
+    messagingSenderId: '998896689837',
+    projectId: 'learning-english-6441b',
+    authDomain: 'learning-english-6441b.firebaseapp.com',
+    storageBucket: 'learning-english-6441b.appspot.com',
+  );
+
 }

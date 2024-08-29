@@ -25,7 +25,6 @@ mixin _$UserModel {
   String? get email => throw _privateConstructorUsedError;
   String? get avatar => throw _privateConstructorUsedError;
   String? get uId => throw _privateConstructorUsedError;
-  String? get facebook => throw _privateConstructorUsedError;
   String? get google => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -45,7 +44,6 @@ abstract class $UserModelCopyWith<$Res> {
       String? email,
       String? avatar,
       String? uId,
-      String? facebook,
       String? google});
 }
 
@@ -67,7 +65,6 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? email = freezed,
     Object? avatar = freezed,
     Object? uId = freezed,
-    Object? facebook = freezed,
     Object? google = freezed,
   }) {
     return _then(_value.copyWith(
@@ -91,10 +88,6 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.uId
           : uId // ignore: cast_nullable_to_non_nullable
               as String?,
-      facebook: freezed == facebook
-          ? _value.facebook
-          : facebook // ignore: cast_nullable_to_non_nullable
-              as String?,
       google: freezed == google
           ? _value.google
           : google // ignore: cast_nullable_to_non_nullable
@@ -117,7 +110,6 @@ abstract class _$$UserModelImplCopyWith<$Res>
       String? email,
       String? avatar,
       String? uId,
-      String? facebook,
       String? google});
 }
 
@@ -137,7 +129,6 @@ class __$$UserModelImplCopyWithImpl<$Res>
     Object? email = freezed,
     Object? avatar = freezed,
     Object? uId = freezed,
-    Object? facebook = freezed,
     Object? google = freezed,
   }) {
     return _then(_$UserModelImpl(
@@ -161,10 +152,6 @@ class __$$UserModelImplCopyWithImpl<$Res>
           ? _value.uId
           : uId // ignore: cast_nullable_to_non_nullable
               as String?,
-      facebook: freezed == facebook
-          ? _value.facebook
-          : facebook // ignore: cast_nullable_to_non_nullable
-              as String?,
       google: freezed == google
           ? _value.google
           : google // ignore: cast_nullable_to_non_nullable
@@ -182,7 +169,6 @@ class _$UserModelImpl with DiagnosticableTreeMixin implements _UserModel {
       this.email,
       this.avatar,
       this.uId,
-      this.facebook,
       this.google});
 
   factory _$UserModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -199,13 +185,11 @@ class _$UserModelImpl with DiagnosticableTreeMixin implements _UserModel {
   @override
   final String? uId;
   @override
-  final String? facebook;
-  @override
   final String? google;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'UserModel(phoneNumber: $phoneNumber, userName: $userName, email: $email, avatar: $avatar, uId: $uId, facebook: $facebook, google: $google)';
+    return 'UserModel(phoneNumber: $phoneNumber, userName: $userName, email: $email, avatar: $avatar, uId: $uId, google: $google)';
   }
 
   @override
@@ -218,7 +202,6 @@ class _$UserModelImpl with DiagnosticableTreeMixin implements _UserModel {
       ..add(DiagnosticsProperty('email', email))
       ..add(DiagnosticsProperty('avatar', avatar))
       ..add(DiagnosticsProperty('uId', uId))
-      ..add(DiagnosticsProperty('facebook', facebook))
       ..add(DiagnosticsProperty('google', google));
   }
 
@@ -234,15 +217,13 @@ class _$UserModelImpl with DiagnosticableTreeMixin implements _UserModel {
             (identical(other.email, email) || other.email == email) &&
             (identical(other.avatar, avatar) || other.avatar == avatar) &&
             (identical(other.uId, uId) || other.uId == uId) &&
-            (identical(other.facebook, facebook) ||
-                other.facebook == facebook) &&
             (identical(other.google, google) || other.google == google));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, phoneNumber, userName, email, avatar, uId, facebook, google);
+      runtimeType, phoneNumber, userName, email, avatar, uId, google);
 
   @JsonKey(ignore: true)
   @override
@@ -265,7 +246,6 @@ abstract class _UserModel implements UserModel {
       final String? email,
       final String? avatar,
       final String? uId,
-      final String? facebook,
       final String? google}) = _$UserModelImpl;
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =
@@ -281,8 +261,6 @@ abstract class _UserModel implements UserModel {
   String? get avatar;
   @override
   String? get uId;
-  @override
-  String? get facebook;
   @override
   String? get google;
   @override

@@ -8,7 +8,7 @@ import 'themes.dart';
 ThemeData appTheme() {
   return ThemeData(
     fontFamily: 'QS',
-    primaryColor: AppColor.primaryColor,
+    primaryColor: AppColor.secondaryColor,
     buttonTheme: ButtonThemeData(
       buttonColor: AppColor.buttonColor,
       shape: RoundedRectangleBorder(
@@ -16,7 +16,7 @@ ThemeData appTheme() {
       ),
     ),
     snackBarTheme: const SnackBarThemeData(
-      backgroundColor: AppColor.taupeGray,
+      backgroundColor: AppColor.ebonyClay,
       contentTextStyle: TextStyle(color: Colors.white),
     ),
     scaffoldBackgroundColor: AppColor.backgroundColor,
@@ -29,6 +29,7 @@ ThemeData appTheme() {
       unselectedLabelStyle: TextStyle(color: AppColor.grey),
       selectedLabelStyle: TextStyle(color: AppColor.ebonyClay),
       unselectedItemColor: AppColor.grey,
+      backgroundColor: AppColor.primaryColor,
       selectedItemColor: AppColor.ebonyClay,
     ),
     floatingActionButtonTheme: const FloatingActionButtonThemeData(

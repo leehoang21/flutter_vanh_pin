@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "7534333772",
-    "project_id": "espend-b9ba9",
-    "storage_bucket": "espend-b9ba9.appspot.com"
+    "project_number": "998896689837",
+    "project_id": "learning-english-6441b",
+    "storage_bucket": "learning-english-6441b.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:7534333772:android:1b20a5bb1d90280d5fc9e9",
+        "mobilesdk_app_id": "1:998896689837:android:18f44ca106a1d841011c24",
         "android_client_info": {
-          "package_name": "vn.hoanglee.espend"
+          "package_name": "vn.vanh.pin"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDP6z7OrwRk726VahwdxQhFKNb0KigFR9E"
+          "current_key": "AIzaSyB2X8t-GU6tO74CXwuP8qQt7ZEG01fnJJ0"
         }
       ],
       "services": {
