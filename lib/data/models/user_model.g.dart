@@ -14,6 +14,13 @@ _$UserModelImpl _$$UserModelImplFromJson(Map<String, dynamic> json) =>
       avatar: json['avatar'] as String?,
       uId: json['uId'] as String?,
       google: json['google'] as String?,
+      background: json['background'] as String?,
+      address: json['address'] as String?,
+      education: json['education'] as String?,
+      job: json['job'] as String?,
+      birthday: json['birthday'] == null
+          ? null
+          : DateTime.parse(json['birthday'] as String),
     );
 
 Map<String, dynamic> _$$UserModelImplToJson(_$UserModelImpl instance) =>
@@ -24,4 +31,9 @@ Map<String, dynamic> _$$UserModelImplToJson(_$UserModelImpl instance) =>
       'avatar': instance.avatar,
       'uId': instance.uId,
       'google': instance.google,
+      'background': instance.background,
+      'address': instance.address,
+      'education': instance.education,
+      'job': instance.job,
+      'birthday': instance.birthday?.toIso8601String(),
     };

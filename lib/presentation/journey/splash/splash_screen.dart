@@ -16,7 +16,7 @@ class _SplashScreenProviderState extends State<SplashScreenProvider> {
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 2), () {
-      AutoRouter.of(context).replace(const HomeRoute());
+      AutoRouter.of(context).replace(const LoginRoute());
     });
     super.initState();
   }

@@ -14,6 +14,11 @@ class UserModel with _$UserModel {
     String? avatar,
     String? uId,
     String? google,
+    String? background,
+    String? address,
+    String? education,
+    String? job,
+    DateTime? birthday,
   }) = _UserModel;
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>

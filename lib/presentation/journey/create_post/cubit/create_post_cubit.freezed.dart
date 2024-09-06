@@ -1,0 +1,139 @@
+// coverage:ignore-file
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
+
+part of 'create_post_cubit.dart';
+
+// **************************************************************************
+// FreezedGenerator
+// **************************************************************************
+
+T _$identity<T>(T value) => value;
+
+final _privateConstructorUsedError = UnsupportedError(
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+
+/// @nodoc
+mixin _$CreatePostState {
+  List<File> get images => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $CreatePostStateCopyWith<CreatePostState> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CreatePostStateCopyWith<$Res> {
+  factory $CreatePostStateCopyWith(
+          CreatePostState value, $Res Function(CreatePostState) then) =
+      _$CreatePostStateCopyWithImpl<$Res, CreatePostState>;
+  @useResult
+  $Res call({List<File> images});
+}
+
+/// @nodoc
+class _$CreatePostStateCopyWithImpl<$Res, $Val extends CreatePostState>
+    implements $CreatePostStateCopyWith<$Res> {
+  _$CreatePostStateCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? images = null,
+  }) {
+    return _then(_value.copyWith(
+      images: null == images
+          ? _value.images
+          : images // ignore: cast_nullable_to_non_nullable
+              as List<File>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$CreatePostStateImplCopyWith<$Res>
+    implements $CreatePostStateCopyWith<$Res> {
+  factory _$$CreatePostStateImplCopyWith(_$CreatePostStateImpl value,
+          $Res Function(_$CreatePostStateImpl) then) =
+      __$$CreatePostStateImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({List<File> images});
+}
+
+/// @nodoc
+class __$$CreatePostStateImplCopyWithImpl<$Res>
+    extends _$CreatePostStateCopyWithImpl<$Res, _$CreatePostStateImpl>
+    implements _$$CreatePostStateImplCopyWith<$Res> {
+  __$$CreatePostStateImplCopyWithImpl(
+      _$CreatePostStateImpl _value, $Res Function(_$CreatePostStateImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? images = null,
+  }) {
+    return _then(_$CreatePostStateImpl(
+      null == images
+          ? _value._images
+          : images // ignore: cast_nullable_to_non_nullable
+              as List<File>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$CreatePostStateImpl implements _CreatePostState {
+  _$CreatePostStateImpl(final List<File> images) : _images = images;
+
+  final List<File> _images;
+  @override
+  List<File> get images {
+    if (_images is EqualUnmodifiableListView) return _images;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_images);
+  }
+
+  @override
+  String toString() {
+    return 'CreatePostState(images: $images)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CreatePostStateImpl &&
+            const DeepCollectionEquality().equals(other._images, _images));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_images));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CreatePostStateImplCopyWith<_$CreatePostStateImpl> get copyWith =>
+      __$$CreatePostStateImplCopyWithImpl<_$CreatePostStateImpl>(
+          this, _$identity);
+}
+
+abstract class _CreatePostState implements CreatePostState {
+  factory _CreatePostState(final List<File> images) = _$CreatePostStateImpl;
+
+  @override
+  List<File> get images;
+  @override
+  @JsonKey(ignore: true)
+  _$$CreatePostStateImplCopyWith<_$CreatePostStateImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}

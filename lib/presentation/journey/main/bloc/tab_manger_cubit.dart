@@ -21,6 +21,9 @@ class TabMangerCubit extends BaseBloc<int> {
   List<PageRouteInfo<dynamic>> _initTab() {
     return [
       const HomeRoute(),
+      const GroupRoute(),
+      const NotificationRoute(),
+      const MyPageRoute(),
     ];
   }
 }

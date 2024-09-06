@@ -19,32 +19,38 @@ mixin _$HomeState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
+    required TResult Function(List<PostModel> posts) loaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
+    TResult? Function(List<PostModel> posts)? loaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
+    TResult Function(List<PostModel> posts)? loaded,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Loading value) loading,
+    required TResult Function(_Loaded value) loaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Loading value)? loading,
+    TResult? Function(_Loaded value)? loaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Loading value)? loading,
+    TResult Function(_Loaded value)? loaded,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -106,6 +112,7 @@ class _$LoadingImpl implements _Loading {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
+    required TResult Function(List<PostModel> posts) loaded,
   }) {
     return loading();
   }
@@ -114,6 +121,7 @@ class _$LoadingImpl implements _Loading {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
+    TResult? Function(List<PostModel> posts)? loaded,
   }) {
     return loading?.call();
   }
@@ -122,6 +130,7 @@ class _$LoadingImpl implements _Loading {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
+    TResult Function(List<PostModel> posts)? loaded,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -134,6 +143,7 @@ class _$LoadingImpl implements _Loading {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Loading value) loading,
+    required TResult Function(_Loaded value) loaded,
   }) {
     return loading(this);
   }
@@ -142,6 +152,7 @@ class _$LoadingImpl implements _Loading {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Loading value)? loading,
+    TResult? Function(_Loaded value)? loaded,
   }) {
     return loading?.call(this);
   }
@@ -150,6 +161,7 @@ class _$LoadingImpl implements _Loading {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Loading value)? loading,
+    TResult Function(_Loaded value)? loaded,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -161,4 +173,143 @@ class _$LoadingImpl implements _Loading {
 
 abstract class _Loading implements HomeState {
   const factory _Loading() = _$LoadingImpl;
+}
+
+/// @nodoc
+abstract class _$$LoadedImplCopyWith<$Res> {
+  factory _$$LoadedImplCopyWith(
+          _$LoadedImpl value, $Res Function(_$LoadedImpl) then) =
+      __$$LoadedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({List<PostModel> posts});
+}
+
+/// @nodoc
+class __$$LoadedImplCopyWithImpl<$Res>
+    extends _$HomeStateCopyWithImpl<$Res, _$LoadedImpl>
+    implements _$$LoadedImplCopyWith<$Res> {
+  __$$LoadedImplCopyWithImpl(
+      _$LoadedImpl _value, $Res Function(_$LoadedImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? posts = null,
+  }) {
+    return _then(_$LoadedImpl(
+      null == posts
+          ? _value._posts
+          : posts // ignore: cast_nullable_to_non_nullable
+              as List<PostModel>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$LoadedImpl implements _Loaded {
+  const _$LoadedImpl(final List<PostModel> posts) : _posts = posts;
+
+  final List<PostModel> _posts;
+  @override
+  List<PostModel> get posts {
+    if (_posts is EqualUnmodifiableListView) return _posts;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_posts);
+  }
+
+  @override
+  String toString() {
+    return 'HomeState.loaded(posts: $posts)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$LoadedImpl &&
+            const DeepCollectionEquality().equals(other._posts, _posts));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_posts));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith =>
+      __$$LoadedImplCopyWithImpl<_$LoadedImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() loading,
+    required TResult Function(List<PostModel> posts) loaded,
+  }) {
+    return loaded(posts);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? loading,
+    TResult? Function(List<PostModel> posts)? loaded,
+  }) {
+    return loaded?.call(posts);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? loading,
+    TResult Function(List<PostModel> posts)? loaded,
+    required TResult orElse(),
+  }) {
+    if (loaded != null) {
+      return loaded(posts);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Loading value) loading,
+    required TResult Function(_Loaded value) loaded,
+  }) {
+    return loaded(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_Loaded value)? loaded,
+  }) {
+    return loaded?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Loading value)? loading,
+    TResult Function(_Loaded value)? loaded,
+    required TResult orElse(),
+  }) {
+    if (loaded != null) {
+      return loaded(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _Loaded implements HomeState {
+  const factory _Loaded(final List<PostModel> posts) = _$LoadedImpl;
+
+  List<PostModel> get posts;
+  @JsonKey(ignore: true)
+  _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

@@ -8,6 +8,8 @@ import 'package:flutter_pin/presentation/widgets/image_app_widget/image_app.dart
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
+import '../../../data/models/post_model.dart';
+
 class PostCardModel {
   final UserModel author;
   final UserModel? group;
@@ -31,7 +33,7 @@ class PostCard extends StatelessWidget {
     super.key,
     required this.model,
   });
-  final PostCardModel model;
+  final PostModel model;
 
   @override
   Widget build(BuildContext context) {
@@ -42,48 +44,70 @@ class PostCard extends StatelessWidget {
         bottom: 10.h,
       ),
       child: CardCustom(
-          child: Column(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _AuthorCard(
+              model: model,
+            ),
+            Text(
+              model.content,
+              textAlign: TextAlign.start,
+              style: ThemeText.style12Regular,
+            ),
+            SizedBox(
+              height: 10.h,
+            ),
+            _image(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconPostButtonWidget(
+                  title: '1',
+                  icon: const Icon(Icons.favorite_border),
+                  onPressed: () {},
+                ),
+                IconPostButtonWidget(
+                  title: '2',
+                  icon: const Icon(Icons.comment),
+                  onPressed: () {},
+                ),
+                IconPostButtonWidget(
+                  icon: const Icon(Icons.share),
+                  onPressed: () {},
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  SizedBox _image() {
+    return SizedBox(
+      height: 200.h,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
         children: [
-          _AuthorCard(
-            model: model,
-          ),
-          Text(
-            model.content,
-            style: ThemeText.style12Regular,
-          ),
-          AppImageWidget(
-            path: model.image ?? '',
-            fit: BoxFit.cover,
-            width: 1.sw,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              IconPostButtonWidget(
-                title: '1',
-                icon: const Icon(Icons.favorite_border),
-                onPressed: () {},
+          for (final image in model.images)
+            Padding(
+              padding: EdgeInsets.only(right: 10.w),
+              child: AppImageWidget(
+                path: image,
+                fit: BoxFit.cover,
+                width: 1.sw / 3 - 10.w,
               ),
-              IconPostButtonWidget(
-                title: '2',
-                icon: const Icon(Icons.comment),
-                onPressed: () {},
-              ),
-              IconPostButtonWidget(
-                icon: const Icon(Icons.share),
-                onPressed: () {},
-              ),
-            ],
-          ),
+            ),
         ],
-      )),
+      ),
     );
   }
 }
 
 class _AuthorCard extends StatelessWidget {
   const _AuthorCard({required this.model});
-  final PostCardModel model;
+  final PostModel model;
 
   @override
   Widget build(BuildContext context) {

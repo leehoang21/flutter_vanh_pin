@@ -26,6 +26,11 @@ mixin _$UserModel {
   String? get avatar => throw _privateConstructorUsedError;
   String? get uId => throw _privateConstructorUsedError;
   String? get google => throw _privateConstructorUsedError;
+  String? get background => throw _privateConstructorUsedError;
+  String? get address => throw _privateConstructorUsedError;
+  String? get education => throw _privateConstructorUsedError;
+  String? get job => throw _privateConstructorUsedError;
+  DateTime? get birthday => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -44,7 +49,12 @@ abstract class $UserModelCopyWith<$Res> {
       String? email,
       String? avatar,
       String? uId,
-      String? google});
+      String? google,
+      String? background,
+      String? address,
+      String? education,
+      String? job,
+      DateTime? birthday});
 }
 
 /// @nodoc
@@ -66,6 +76,11 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? avatar = freezed,
     Object? uId = freezed,
     Object? google = freezed,
+    Object? background = freezed,
+    Object? address = freezed,
+    Object? education = freezed,
+    Object? job = freezed,
+    Object? birthday = freezed,
   }) {
     return _then(_value.copyWith(
       phoneNumber: freezed == phoneNumber
@@ -92,6 +107,26 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.google
           : google // ignore: cast_nullable_to_non_nullable
               as String?,
+      background: freezed == background
+          ? _value.background
+          : background // ignore: cast_nullable_to_non_nullable
+              as String?,
+      address: freezed == address
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as String?,
+      education: freezed == education
+          ? _value.education
+          : education // ignore: cast_nullable_to_non_nullable
+              as String?,
+      job: freezed == job
+          ? _value.job
+          : job // ignore: cast_nullable_to_non_nullable
+              as String?,
+      birthday: freezed == birthday
+          ? _value.birthday
+          : birthday // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ) as $Val);
   }
 }
@@ -110,7 +145,12 @@ abstract class _$$UserModelImplCopyWith<$Res>
       String? email,
       String? avatar,
       String? uId,
-      String? google});
+      String? google,
+      String? background,
+      String? address,
+      String? education,
+      String? job,
+      DateTime? birthday});
 }
 
 /// @nodoc
@@ -130,6 +170,11 @@ class __$$UserModelImplCopyWithImpl<$Res>
     Object? avatar = freezed,
     Object? uId = freezed,
     Object? google = freezed,
+    Object? background = freezed,
+    Object? address = freezed,
+    Object? education = freezed,
+    Object? job = freezed,
+    Object? birthday = freezed,
   }) {
     return _then(_$UserModelImpl(
       phoneNumber: freezed == phoneNumber
@@ -156,6 +201,26 @@ class __$$UserModelImplCopyWithImpl<$Res>
           ? _value.google
           : google // ignore: cast_nullable_to_non_nullable
               as String?,
+      background: freezed == background
+          ? _value.background
+          : background // ignore: cast_nullable_to_non_nullable
+              as String?,
+      address: freezed == address
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as String?,
+      education: freezed == education
+          ? _value.education
+          : education // ignore: cast_nullable_to_non_nullable
+              as String?,
+      job: freezed == job
+          ? _value.job
+          : job // ignore: cast_nullable_to_non_nullable
+              as String?,
+      birthday: freezed == birthday
+          ? _value.birthday
+          : birthday // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
@@ -169,7 +234,12 @@ class _$UserModelImpl with DiagnosticableTreeMixin implements _UserModel {
       this.email,
       this.avatar,
       this.uId,
-      this.google});
+      this.google,
+      this.background,
+      this.address,
+      this.education,
+      this.job,
+      this.birthday});
 
   factory _$UserModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserModelImplFromJson(json);
@@ -186,10 +256,20 @@ class _$UserModelImpl with DiagnosticableTreeMixin implements _UserModel {
   final String? uId;
   @override
   final String? google;
+  @override
+  final String? background;
+  @override
+  final String? address;
+  @override
+  final String? education;
+  @override
+  final String? job;
+  @override
+  final DateTime? birthday;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'UserModel(phoneNumber: $phoneNumber, userName: $userName, email: $email, avatar: $avatar, uId: $uId, google: $google)';
+    return 'UserModel(phoneNumber: $phoneNumber, userName: $userName, email: $email, avatar: $avatar, uId: $uId, google: $google, background: $background, address: $address, education: $education, job: $job, birthday: $birthday)';
   }
 
   @override
@@ -202,7 +282,12 @@ class _$UserModelImpl with DiagnosticableTreeMixin implements _UserModel {
       ..add(DiagnosticsProperty('email', email))
       ..add(DiagnosticsProperty('avatar', avatar))
       ..add(DiagnosticsProperty('uId', uId))
-      ..add(DiagnosticsProperty('google', google));
+      ..add(DiagnosticsProperty('google', google))
+      ..add(DiagnosticsProperty('background', background))
+      ..add(DiagnosticsProperty('address', address))
+      ..add(DiagnosticsProperty('education', education))
+      ..add(DiagnosticsProperty('job', job))
+      ..add(DiagnosticsProperty('birthday', birthday));
   }
 
   @override
@@ -217,13 +302,21 @@ class _$UserModelImpl with DiagnosticableTreeMixin implements _UserModel {
             (identical(other.email, email) || other.email == email) &&
             (identical(other.avatar, avatar) || other.avatar == avatar) &&
             (identical(other.uId, uId) || other.uId == uId) &&
-            (identical(other.google, google) || other.google == google));
+            (identical(other.google, google) || other.google == google) &&
+            (identical(other.background, background) ||
+                other.background == background) &&
+            (identical(other.address, address) || other.address == address) &&
+            (identical(other.education, education) ||
+                other.education == education) &&
+            (identical(other.job, job) || other.job == job) &&
+            (identical(other.birthday, birthday) ||
+                other.birthday == birthday));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, phoneNumber, userName, email, avatar, uId, google);
+  int get hashCode => Object.hash(runtimeType, phoneNumber, userName, email,
+      avatar, uId, google, background, address, education, job, birthday);
 
   @JsonKey(ignore: true)
   @override
@@ -246,7 +339,12 @@ abstract class _UserModel implements UserModel {
       final String? email,
       final String? avatar,
       final String? uId,
-      final String? google}) = _$UserModelImpl;
+      final String? google,
+      final String? background,
+      final String? address,
+      final String? education,
+      final String? job,
+      final DateTime? birthday}) = _$UserModelImpl;
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =
       _$UserModelImpl.fromJson;
@@ -263,6 +361,16 @@ abstract class _UserModel implements UserModel {
   String? get uId;
   @override
   String? get google;
+  @override
+  String? get background;
+  @override
+  String? get address;
+  @override
+  String? get education;
+  @override
+  String? get job;
+  @override
+  DateTime? get birthday;
   @override
   @JsonKey(ignore: true)
   _$$UserModelImplCopyWith<_$UserModelImpl> get copyWith =>

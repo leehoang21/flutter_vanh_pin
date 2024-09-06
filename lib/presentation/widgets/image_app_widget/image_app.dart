@@ -138,10 +138,25 @@ class AppImageWidget extends StatelessWidget {
     );
   }
 
+  Widget get _defaultImage {
+    return CachedNetworkImage(
+        imageUrl:
+            'https://cellphones.com.vn/sforum/wp-content/uploads/2024/02/anh-thien-nhien-1.jpg',
+        fit: fit,
+        width: width,
+        filterQuality: FilterQuality.medium,
+        fadeInDuration: const Duration(milliseconds: 100),
+        fadeOutDuration: const Duration(milliseconds: 100),
+        height: height,
+        color: color,
+        placeholder: (context, url) => placeholder ?? _placeholder,
+        errorWidget: (context, url, error) => errorWidget ?? _errorWidget);
+  }
+
   Widget _buildImage() {
     isRemote = checkRemote();
     if (isNullEmpty(path)) {
-      return defultImage ?? const SizedBox();
+      return defultImage ?? _defaultImage;
     }
     switch (imageType) {
       case ImageType.file:

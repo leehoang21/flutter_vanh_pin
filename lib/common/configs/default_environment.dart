@@ -7,6 +7,8 @@ class DefaultEnvironment {
 
   static const String customer = 'customer';
   static const String user = 'user';
+  static const String post = 'post';
+  static const String images = 'images';
 
   //local
   static const String lang = 'lang';

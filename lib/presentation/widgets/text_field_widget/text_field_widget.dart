@@ -31,6 +31,8 @@ class TextFieldWidget extends StatelessWidget {
   final bool? obscureText;
   final bool? readOnly;
   final bool? enabled;
+  final int? maxLines;
+  final Widget? counter;
 
   const TextFieldWidget({
     Key? key,
@@ -56,12 +58,15 @@ class TextFieldWidget extends StatelessWidget {
     this.textCapitalization,
     this.keyboardType,
     this.obscureText,
+    this.maxLines,
     this.readOnly,
+    this.counter,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      maxLines: maxLines,
       readOnly: readOnly ?? false,
       enabled: enabled,
       controller: controller,
@@ -91,6 +96,7 @@ class TextFieldWidget extends StatelessWidget {
       scrollPadding: EdgeInsets.symmetric(vertical: 9.h),
       cursorColor: AppColor.hintColor,
       decoration: InputDecoration(
+        counter: counter,
         contentPadding: EdgeInsets.symmetric(
           horizontal: TextFieldConstants.contentPaddingHorizontal,
           vertical: TextFieldConstants.contentPaddingVertical,
@@ -265,6 +271,7 @@ class _SecurityTextFieldWidgetState extends State<SecurityTextFieldWidget> {
         ),
         fillColor: AppColor.fieldColor,
         filled: true,
+        errorMaxLines: 4,
         enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(color: AppColor.transparent),
           borderRadius: BorderRadius.all(
