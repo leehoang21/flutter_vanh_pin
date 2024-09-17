@@ -1,4 +1,3 @@
-import 'package:flutter_pin/common/configs/dio/dio_config.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import '../../presentation/routers/app_router.dart';
@@ -13,6 +12,5 @@ final GetIt getIt = GetIt.instance;
 )
 void configureDependencies() {
   getIt.registerLazySingleton(() => AppRouter());
-  getIt.registerLazySingleton(() => DioApiClient.defaultOptions);
   getIt.init();
 }

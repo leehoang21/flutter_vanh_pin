@@ -1,4 +1,4 @@
-import 'package:flutter_pin/common/assets/assets.gen.dart';
+import 'package:pinpin/common/assets/assets.gen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MainConstants {
@@ -8,20 +8,20 @@ class MainConstants {
 
   static final List<Map<String, dynamic>> bottomIconsData = [
     {
-      "iconPath": Assets.images.bottomBarTransactions.path,
-      "label": 'transactions',
+      "iconPath": Assets.icons.home.path,
+      "label": 'Home',
     },
     {
-      "iconPath": Assets.images.bottomBarStatistic.path,
-      "label": 'report',
+      "iconPath": Assets.icons.groups.path,
+      "label": 'Groups',
     },
     {
-      "iconPath": Assets.icons.bottomBarGoal.path,
-      "label": 'planning',
+      "iconPath": Assets.icons.notification.path,
+      "label": 'Notifications',
     },
     {
       "iconPath": Assets.images.bottomBarMyPage.path,
-      "label": 'my_page',
+      "label": 'My page',
     },
   ];
 }

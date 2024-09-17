@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:flutter_pin/common/extension/bloc_extension.dart';
-import 'package:flutter_pin/domain/use_cases/post_use_case.dart';
+import 'package:pinpin/common/extension/bloc_extension.dart';
+import 'package:pinpin/data/models/group_model.dart';
+import 'package:pinpin/domain/use_cases/post_use_case.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
@@ -18,6 +19,11 @@ class CreatePostCubit extends BaseBloc<CreatePostState> {
       : super(CreatePostState([]));
   final StorageUseCase storageUseCase;
   final PostUseCase usecase;
+  GroupModel? group;
+
+  initState(GroupModel? group) {
+    this.group = group;
+  }
 
   @override
   Future onInit() async {
@@ -43,8 +49,11 @@ class CreatePostCubit extends BaseBloc<CreatePostState> {
         (error) => showSnackbar(translationKey: error.toString()),
       );
     }
-    final error =
-        await usecase.create(content: content, images: imagePaths, group: null);
+    final error = await usecase.create(
+      content: content,
+      images: imagePaths,
+      group: group,
+    );
     if (error != null) {
       showSnackbar(translationKey: error.toString());
     }

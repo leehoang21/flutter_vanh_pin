@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_pin/common/extension/date_time_extension.dart';
-import 'package:flutter_pin/data/models/user_model.dart';
-import 'package:flutter_pin/presentation/journey/my_page/my_page_constants.dart';
-import 'package:flutter_pin/presentation/themes/themes.dart';
-import 'package:flutter_pin/presentation/widgets/button_widget/text_button_widget.dart';
-import 'package:flutter_pin/presentation/widgets/card_widget/post_card.dart';
+import 'package:pinpin/common/extension/date_time_extension.dart';
+import 'package:pinpin/presentation/journey/my_page/my_page_constants.dart';
+import 'package:pinpin/presentation/themes/themes.dart';
+import 'package:pinpin/presentation/widgets/button_widget/text_button_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../data/models/post_model.dart';
+import 'package:pinpin/presentation/widgets/card_widget/card_custom.dart';
+import 'package:pinpin/presentation/widgets/card_widget/post_card.dart';
+import 'package:pinpin/presentation/widgets/image_app_widget/avatar_widget.dart';
 import '../../widgets/image_app_widget/image_app.dart';
 import 'cubit/my_page_cubit.dart';
+import 'widget/create_post_my_page_widget.dart';
 
 class MyPageScreen extends StatefulWidget {
   const MyPageScreen({Key? key}) : super(key: key);
@@ -29,50 +30,52 @@ class _MyPageScreenState extends State<MyPageScreen> {
         child: Scaffold(
           body: RefreshIndicator(
             onRefresh: () async {
-              context.read<MyPageCubit>().onInit();
+              context.read<MyPageCubit>().init();
             },
             child: ListView(
               children: [
-                const _WallPaperAndAvatarWidget(),
-                SizedBox(
-                  height: 10.h,
+                CardCustom(
+                  padding: EdgeInsets.zero,
+                  child: Column(
+                    children: [
+                      const _WallPaperAndAvatarWidget(),
+                      SizedBox(
+                        height: 10.h,
+                      ),
+                      const _Info(),
+                      SizedBox(
+                        height: 10.h,
+                      ),
+                      SizedBox(
+                        height: 8.h,
+                      ),
+                    ],
+                  ),
                 ),
                 SizedBox(
                   height: 20.h,
                 ),
-                const _Info(),
-                SizedBox(
-                  height: 10.h,
-                ),
-                Column(
-                  children: [
-                    SizedBox(
-                      height: 8.h,
-                    ),
-                    for (var i = 0; i < 10; i++)
-                      PostCard(
-                        model: PostModel(
-                          images: [
-                            'https://cellphones.com.vn/sforum/wp-content/uploads/2024/02/anh-thien-nhien-1.jpg'
-                          ],
-                          author: const UserModel(
-                            avatar:
-                                'https://cellphones.com.vn/sforum/wp-content/uploads/2024/02/anh-thien-nhien-1.jpg',
-                            userName: 'Nguyen Van A',
-                          ),
-                          group: const UserModel(
-                            avatar:
-                                'https://cellphones.com.vn/sforum/wp-content/uploads/2024/02/anh-thien-nhien-1.jpg',
-                            userName: 'Group A',
-                          ),
-                          time: DateTime.now()
-                              .subtract(const Duration(minutes: 10)),
-                          content:
-                              'Trang Web phối màu online của adobe, điều chỉnh màu, lấy màu từ ảnh (hay hơn nữa là chọn màu từ điểm ảnh mà bạn chọn).',
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 20.w,
+                  ),
+                  child: CardCustom(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        const CreatePostMyPageWidget(),
+                        SizedBox(
+                          height: 12.h,
                         ),
-                      )
-                  ],
+                      ],
+                    ),
+                  ),
                 ),
+                SizedBox(
+                  height: 12.h,
+                ),
+                for (var item in context.watch<MyPageCubit>().state.posts)
+                  PostCard(model: item),
               ],
             ),
           ),
@@ -105,6 +108,9 @@ class _Info extends StatelessWidget {
                 width: 100.w,
               ),
             ],
+          ),
+          SizedBox(
+            height: 10.h,
           ),
           _ItemInfo(
             title: MyPageConstants.email,
@@ -192,12 +198,8 @@ class _WallPaperAndAvatarWidget extends StatelessWidget {
             left: 40.sp,
             height: 80.sp,
             width: 80.sp,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(500),
-              child: AppImageWidget(
-                path: context.watch<MyPageCubit>().state.user.avatar,
-                fit: BoxFit.cover,
-              ),
+            child: AvatarWidget(
+              path: context.watch<MyPageCubit>().state.user.avatar,
             ),
           ),
         ],

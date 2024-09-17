@@ -22,7 +22,7 @@ PostModel _$PostModelFromJson(Map<String, dynamic> json) {
 mixin _$PostModel {
   List<String> get images => throw _privateConstructorUsedError;
   UserModel get author => throw _privateConstructorUsedError;
-  UserModel? get group => throw _privateConstructorUsedError;
+  GroupModel? get group => throw _privateConstructorUsedError;
   DateTime get time => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
 
@@ -40,12 +40,12 @@ abstract class $PostModelCopyWith<$Res> {
   $Res call(
       {List<String> images,
       UserModel author,
-      UserModel? group,
+      GroupModel? group,
       DateTime time,
       String content});
 
   $UserModelCopyWith<$Res> get author;
-  $UserModelCopyWith<$Res>? get group;
+  $GroupModelCopyWith<$Res>? get group;
 }
 
 /// @nodoc
@@ -79,7 +79,7 @@ class _$PostModelCopyWithImpl<$Res, $Val extends PostModel>
       group: freezed == group
           ? _value.group
           : group // ignore: cast_nullable_to_non_nullable
-              as UserModel?,
+              as GroupModel?,
       time: null == time
           ? _value.time
           : time // ignore: cast_nullable_to_non_nullable
@@ -101,12 +101,12 @@ class _$PostModelCopyWithImpl<$Res, $Val extends PostModel>
 
   @override
   @pragma('vm:prefer-inline')
-  $UserModelCopyWith<$Res>? get group {
+  $GroupModelCopyWith<$Res>? get group {
     if (_value.group == null) {
       return null;
     }
 
-    return $UserModelCopyWith<$Res>(_value.group!, (value) {
+    return $GroupModelCopyWith<$Res>(_value.group!, (value) {
       return _then(_value.copyWith(group: value) as $Val);
     });
   }
@@ -123,14 +123,14 @@ abstract class _$$PostModelImplCopyWith<$Res>
   $Res call(
       {List<String> images,
       UserModel author,
-      UserModel? group,
+      GroupModel? group,
       DateTime time,
       String content});
 
   @override
   $UserModelCopyWith<$Res> get author;
   @override
-  $UserModelCopyWith<$Res>? get group;
+  $GroupModelCopyWith<$Res>? get group;
 }
 
 /// @nodoc
@@ -162,7 +162,7 @@ class __$$PostModelImplCopyWithImpl<$Res>
       group: freezed == group
           ? _value.group
           : group // ignore: cast_nullable_to_non_nullable
-              as UserModel?,
+              as GroupModel?,
       time: null == time
           ? _value.time
           : time // ignore: cast_nullable_to_non_nullable
@@ -202,7 +202,7 @@ class _$PostModelImpl implements _PostModel {
   @override
   final UserModel author;
   @override
-  final UserModel? group;
+  final GroupModel? group;
   @override
   final DateTime time;
   @override
@@ -253,7 +253,7 @@ abstract class _PostModel implements PostModel {
   const factory _PostModel(
       {final List<String> images,
       required final UserModel author,
-      final UserModel? group,
+      final GroupModel? group,
       required final DateTime time,
       required final String content}) = _$PostModelImpl;
 
@@ -265,7 +265,7 @@ abstract class _PostModel implements PostModel {
   @override
   UserModel get author;
   @override
-  UserModel? get group;
+  GroupModel? get group;
   @override
   DateTime get time;
   @override

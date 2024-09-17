@@ -9,18 +9,21 @@ class CardCustom extends StatelessWidget {
   final double? height;
   final double? width;
   final Color? backgroundColor;
+  final EdgeInsets? padding;
   const CardCustom({
     super.key,
     required this.child,
     this.height,
     this.width,
     this.backgroundColor,
+    this.padding,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 15.h),
+      padding:
+          padding ?? EdgeInsets.symmetric(horizontal: 20.w, vertical: 15.h),
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(LayoutConstants.borderSmall),

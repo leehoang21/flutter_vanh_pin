@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_pin/common/constants/string_constants.dart';
-import 'package:flutter_pin/data/mapper/auth_mapper.dart';
+import 'package:pinpin/common/constants/string_constants.dart';
+import 'package:pinpin/data/mapper/auth_mapper.dart';
 
 import 'package:injectable/injectable.dart';
 import '../../common/configs/default_environment.dart';

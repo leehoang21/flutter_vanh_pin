@@ -1,5 +1,5 @@
-import 'package:flutter_pin/common/extension/string_extension.dart';
-import 'package:flutter_pin/common/utils/app_utils.dart';
+import 'package:pinpin/common/extension/string_extension.dart';
+import 'package:pinpin/common/utils/app_utils.dart';
 
 class AppValidator {
   //số điện thoại phải là số và có 10 ký tự, số đầu tiên là 0

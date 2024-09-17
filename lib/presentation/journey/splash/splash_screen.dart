@@ -1,8 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pinpin/presentation/themes/themes.dart';
 
+import '../../../common/assets/assets.gen.dart';
 import '../../routers/app_router.dart';
-import '../../widgets/loading_widget/loader_widget.dart';
 
 @RoutePage()
 class SplashScreenProvider extends StatefulWidget {
@@ -23,8 +25,15 @@ class _SplashScreenProviderState extends State<SplashScreenProvider> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: LoaderWidget(),
+    return Scaffold(
+      backgroundColor: AppColor.white,
+      body: Center(
+        child: Assets.images.logoSplash.image(
+          fit: BoxFit.cover,
+          width: 120.sp,
+          height: 120.sp,
+        ),
+      ),
     );
   }
 }

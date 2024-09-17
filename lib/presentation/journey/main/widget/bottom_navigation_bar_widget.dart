@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_pin/common/extension/string_extension.dart';
-import 'package:flutter_pin/presentation/themes/themes.dart';
-import 'package:flutter_pin/presentation/widgets/image_app_widget/image_app.dart';
+import 'package:pinpin/common/extension/string_extension.dart';
+import 'package:pinpin/presentation/themes/themes.dart';
+import 'package:pinpin/presentation/widgets/image_app_widget/image_app.dart';
 import 'bottom_navigation_bar_constants.dart';
 
 class BottomNavigationBarWidget extends StatelessWidget {

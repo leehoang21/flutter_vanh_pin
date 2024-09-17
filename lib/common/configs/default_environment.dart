@@ -9,6 +9,7 @@ class DefaultEnvironment {
   static const String user = 'user';
   static const String post = 'post';
   static const String images = 'images';
+  static const String group = 'group';
 
   //local
   static const String lang = 'lang';

@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:either_dart/either.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter_pin/common/constants/string_constants.dart';
+import 'package:pinpin/common/constants/string_constants.dart';
 import 'package:injectable/injectable.dart';
 import '../../common/configs/firebase_config.dart';
 import '../../common/exception/app_error.dart';

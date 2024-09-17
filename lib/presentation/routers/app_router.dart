@@ -1,8 +1,13 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter_pin/presentation/journey/group/group_screen_provider.dart';
+import 'package:flutter/material.dart';
+import 'package:pinpin/presentation/journey/group/group_screen_provider.dart';
+import '../../data/models/group_model.dart';
+import '../../data/models/user_model.dart';
 import '../journey/auth/login/login_screen_provider.dart';
 import '../journey/auth/register/register_screen_provider.dart';
+import '../journey/create_group/create_group_screen_provider.dart';
 import '../journey/create_post/create_post_screen_provider.dart';
+import '../journey/group_detail/group_detail_screen_provider.dart';
 import '../journey/home/home_screen_provider.dart';
 import '../journey/main/main_screen_provider.dart';
 import '../journey/my_page/my_page_screen_provider.dart';
@@ -37,6 +42,7 @@ class AppRouter extends _$AppRouter {
             ),
             AutoRoute(
               page: GroupRoute.page,
+              children: const [],
             ),
             AutoRoute(
               page: NotificationRoute.page,
@@ -49,6 +55,14 @@ class AppRouter extends _$AppRouter {
         //create post
         AutoRoute(
           page: CreatePostRoute.page,
+        ),
+        //create group
+        AutoRoute(
+          page: CreateGroupRoute.page,
+        ),
+        //detail group
+        AutoRoute(
+          page: GroupDetailRoute.page,
         ),
       ];
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pinpin/presentation/themes/themes.dart';
 import '../../login/widget/login_with_item.dart';
 import 'auth_scaffold_contants.dart';
 import 'devider_text_widget.dart';
@@ -10,6 +11,7 @@ class AuthScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColor.white,
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(
           horizontal: AuthScaffoldConstants.horizontal,

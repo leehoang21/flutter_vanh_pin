@@ -1,4 +1,4 @@
-name: flutter_pin
+name: pinpin
 description: A new Flutter project.
 
 # Prevent accidental publishing to pub.dev.
@@ -46,6 +46,8 @@ dependencies:
   flutter_i18n: ^0.36.2
   flutter_secure_storage: ^9.2.2
   timeago: ^3.7.0
+  dropdown_button2: ^2.3.9
+  rxdart: ^0.28.0
 
 dev_dependencies:
   flutter_test:

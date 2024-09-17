@@ -15,7 +15,7 @@ _$PostModelImpl _$$PostModelImplFromJson(Map<String, dynamic> json) =>
       author: UserModel.fromJson(json['author'] as Map<String, dynamic>),
       group: json['group'] == null
           ? null
-          : UserModel.fromJson(json['group'] as Map<String, dynamic>),
+          : GroupModel.fromJson(json['group'] as Map<String, dynamic>),
       time: DateTime.parse(json['time'] as String),
       content: json['content'] as String,
     );

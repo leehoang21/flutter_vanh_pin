@@ -9,6 +9,7 @@ class ScaffoldWidget extends StatelessWidget {
   final Widget body;
   final Widget? bottomNavigationBar;
   final Widget? floatingActionButton;
+  final EdgeInsetsGeometry? padding;
 
   const ScaffoldWidget({
     Key? key,
@@ -16,6 +17,7 @@ class ScaffoldWidget extends StatelessWidget {
     this.appbar,
     this.bottomNavigationBar,
     this.floatingActionButton,
+    this.padding,
   }) : super(key: key);
 
   @override
@@ -24,9 +26,6 @@ class ScaffoldWidget extends StatelessWidget {
       floatingActionButton: floatingActionButton,
       appBar: appbar,
       resizeToAvoidBottomInset: false,
-      backgroundColor: appbar == null
-          ? Theme.of(context).scaffoldBackgroundColor
-          : Theme.of(context).appBarTheme.backgroundColor,
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: appbar != null
             ? SystemUiOverlayStyle.light.copyWith(
@@ -35,11 +34,14 @@ class ScaffoldWidget extends StatelessWidget {
                 statusBarColor: Theme.of(context).scaffoldBackgroundColor),
         child: SafeArea(
           child: Padding(
-            padding: EdgeInsets.only(top: AppDimens.height_20),
+            padding: padding != null
+                ? EdgeInsets.zero
+                : EdgeInsets.only(top: AppDimens.height_8),
             child: Container(
-              padding: EdgeInsets.symmetric(
-                      horizontal: LayoutConstants.paddingHorizontalApp)
-                  .copyWith(bottom: LayoutConstants.paddingVerticalApp),
+              padding: padding ??
+                  EdgeInsets.symmetric(
+                          horizontal: LayoutConstants.paddingHorizontalApp)
+                      .copyWith(bottom: LayoutConstants.paddingVerticalApp),
               decoration: BoxDecoration(
                 color: appbar == null
                     ? null

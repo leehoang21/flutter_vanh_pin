@@ -1,3 +1,4 @@
+import 'package:pinpin/data/models/group_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'user_model.dart';
@@ -12,7 +13,7 @@ class PostModel with _$PostModel {
   const factory PostModel({
     @Default([]) List<String> images,
     required UserModel author,
-    UserModel? group,
+    GroupModel? group,
     required DateTime time,
     required String content,
   }) = _PostModel;

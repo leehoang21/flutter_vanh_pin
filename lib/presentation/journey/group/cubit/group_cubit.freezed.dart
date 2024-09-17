@@ -16,37 +16,12 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$GroupState {
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() loading,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? loading,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? loading,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Loading value) loading,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Loading value)? loading,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Loading value)? loading,
-    required TResult orElse(),
-  }) =>
+  List<PostModel> get posts => throw _privateConstructorUsedError;
+  List<GroupModel> get groups => throw _privateConstructorUsedError;
+  List<GroupModel> get myGroups => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $GroupStateCopyWith<GroupState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -55,6 +30,11 @@ abstract class $GroupStateCopyWith<$Res> {
   factory $GroupStateCopyWith(
           GroupState value, $Res Function(GroupState) then) =
       _$GroupStateCopyWithImpl<$Res, GroupState>;
+  @useResult
+  $Res call(
+      {List<PostModel> posts,
+      List<GroupModel> groups,
+      List<GroupModel> myGroups});
 }
 
 /// @nodoc
@@ -66,100 +46,155 @@ class _$GroupStateCopyWithImpl<$Res, $Val extends GroupState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? posts = null,
+    Object? groups = null,
+    Object? myGroups = null,
+  }) {
+    return _then(_value.copyWith(
+      posts: null == posts
+          ? _value.posts
+          : posts // ignore: cast_nullable_to_non_nullable
+              as List<PostModel>,
+      groups: null == groups
+          ? _value.groups
+          : groups // ignore: cast_nullable_to_non_nullable
+              as List<GroupModel>,
+      myGroups: null == myGroups
+          ? _value.myGroups
+          : myGroups // ignore: cast_nullable_to_non_nullable
+              as List<GroupModel>,
+    ) as $Val);
+  }
 }
 
 /// @nodoc
-abstract class _$$LoadingImplCopyWith<$Res> {
-  factory _$$LoadingImplCopyWith(
-          _$LoadingImpl value, $Res Function(_$LoadingImpl) then) =
-      __$$LoadingImplCopyWithImpl<$Res>;
+abstract class _$$LoadedImplCopyWith<$Res>
+    implements $GroupStateCopyWith<$Res> {
+  factory _$$LoadedImplCopyWith(
+          _$LoadedImpl value, $Res Function(_$LoadedImpl) then) =
+      __$$LoadedImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {List<PostModel> posts,
+      List<GroupModel> groups,
+      List<GroupModel> myGroups});
 }
 
 /// @nodoc
-class __$$LoadingImplCopyWithImpl<$Res>
-    extends _$GroupStateCopyWithImpl<$Res, _$LoadingImpl>
-    implements _$$LoadingImplCopyWith<$Res> {
-  __$$LoadingImplCopyWithImpl(
-      _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
+class __$$LoadedImplCopyWithImpl<$Res>
+    extends _$GroupStateCopyWithImpl<$Res, _$LoadedImpl>
+    implements _$$LoadedImplCopyWith<$Res> {
+  __$$LoadedImplCopyWithImpl(
+      _$LoadedImpl _value, $Res Function(_$LoadedImpl) _then)
       : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? posts = null,
+    Object? groups = null,
+    Object? myGroups = null,
+  }) {
+    return _then(_$LoadedImpl(
+      posts: null == posts
+          ? _value._posts
+          : posts // ignore: cast_nullable_to_non_nullable
+              as List<PostModel>,
+      groups: null == groups
+          ? _value._groups
+          : groups // ignore: cast_nullable_to_non_nullable
+              as List<GroupModel>,
+      myGroups: null == myGroups
+          ? _value._myGroups
+          : myGroups // ignore: cast_nullable_to_non_nullable
+              as List<GroupModel>,
+    ));
+  }
 }
 
 /// @nodoc
 
-class _$LoadingImpl implements _Loading {
-  const _$LoadingImpl();
+class _$LoadedImpl implements _Loaded {
+  const _$LoadedImpl(
+      {required final List<PostModel> posts,
+      required final List<GroupModel> groups,
+      required final List<GroupModel> myGroups})
+      : _posts = posts,
+        _groups = groups,
+        _myGroups = myGroups;
+
+  final List<PostModel> _posts;
+  @override
+  List<PostModel> get posts {
+    if (_posts is EqualUnmodifiableListView) return _posts;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_posts);
+  }
+
+  final List<GroupModel> _groups;
+  @override
+  List<GroupModel> get groups {
+    if (_groups is EqualUnmodifiableListView) return _groups;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_groups);
+  }
+
+  final List<GroupModel> _myGroups;
+  @override
+  List<GroupModel> get myGroups {
+    if (_myGroups is EqualUnmodifiableListView) return _myGroups;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_myGroups);
+  }
 
   @override
   String toString() {
-    return 'GroupState.loading()';
+    return 'GroupState(posts: $posts, groups: $groups, myGroups: $myGroups)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$LoadingImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$LoadedImpl &&
+            const DeepCollectionEquality().equals(other._posts, _posts) &&
+            const DeepCollectionEquality().equals(other._groups, _groups) &&
+            const DeepCollectionEquality().equals(other._myGroups, _myGroups));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_posts),
+      const DeepCollectionEquality().hash(_groups),
+      const DeepCollectionEquality().hash(_myGroups));
 
+  @JsonKey(ignore: true)
   @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() loading,
-  }) {
-    return loading();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? loading,
-  }) {
-    return loading?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? loading,
-    required TResult orElse(),
-  }) {
-    if (loading != null) {
-      return loading();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Loading value) loading,
-  }) {
-    return loading(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Loading value)? loading,
-  }) {
-    return loading?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Loading value)? loading,
-    required TResult orElse(),
-  }) {
-    if (loading != null) {
-      return loading(this);
-    }
-    return orElse();
-  }
+  @pragma('vm:prefer-inline')
+  _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith =>
+      __$$LoadedImplCopyWithImpl<_$LoadedImpl>(this, _$identity);
 }
 
-abstract class _Loading implements GroupState {
-  const factory _Loading() = _$LoadingImpl;
+abstract class _Loaded implements GroupState {
+  const factory _Loaded(
+      {required final List<PostModel> posts,
+      required final List<GroupModel> groups,
+      required final List<GroupModel> myGroups}) = _$LoadedImpl;
+
+  @override
+  List<PostModel> get posts;
+  @override
+  List<GroupModel> get groups;
+  @override
+  List<GroupModel> get myGroups;
+  @override
+  @JsonKey(ignore: true)
+  _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

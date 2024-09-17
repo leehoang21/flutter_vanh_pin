@@ -1,7 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
-import 'package:flutter_pin/presentation/themes/themes.dart';
+import 'package:pinpin/presentation/themes/themes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class IconButtonWidget extends StatelessWidget {

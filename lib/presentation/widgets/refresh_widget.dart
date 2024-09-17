@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_pin/presentation/themes/themes.dart';
+import 'package:pinpin/presentation/themes/themes.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 class RefreshWidget extends StatelessWidget {

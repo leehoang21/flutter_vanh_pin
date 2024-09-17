@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_pin/common/constants/layout_constants.dart';
-import 'package:flutter_pin/common/constants/string_constants.dart';
-import 'package:flutter_pin/presentation/routers/app_router.dart';
-import 'package:flutter_pin/presentation/themes/themes.dart';
+import 'package:pinpin/common/constants/layout_constants.dart';
+import 'package:pinpin/common/constants/string_constants.dart';
+import 'package:pinpin/presentation/routers/app_router.dart';
+import 'package:pinpin/presentation/themes/themes.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_translate/flutter_translate.dart';

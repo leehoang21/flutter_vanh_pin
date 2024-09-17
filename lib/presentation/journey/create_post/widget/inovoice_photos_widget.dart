@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_pin/common/extension/string_extension.dart';
-import 'package:flutter_pin/presentation/journey/create_post/create_post_constants.dart';
-import 'package:flutter_pin/presentation/journey/create_post/cubit/create_post_cubit.dart';
+import 'package:pinpin/common/extension/string_extension.dart';
+import 'package:pinpin/presentation/journey/create_post/create_post_constants.dart';
+import 'package:pinpin/presentation/journey/create_post/cubit/create_post_cubit.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../common/constants/app_dimens.dart';
 import '../../../../../common/constants/layout_constants.dart';
@@ -12,7 +12,7 @@ import '../../../../common/assets/assets.gen.dart';
 import '../../../themes/themes.dart';
 import '../../../widgets/image_app_widget/image_app.dart';
 import 'add_photo_button.dart';
-import 'pick_image/pick_image_widget.dart';
+import '../../../widgets/pick_image/pick_image_widget.dart';
 
 class InvoicePhotosWidget extends StatefulWidget {
   const InvoicePhotosWidget({super.key});
@@ -84,16 +84,11 @@ class _InvoicePhotosWidgetState extends State<InvoicePhotosWidget> {
   }
 
   void _addPhoto(BuildContext context) {
-    showCupertinoModalPopup(
-      context: context,
-      builder: (_) {
-        return PickImageWidget(
-          onPressed: (images) {
-            context.read<CreatePostCubit>().pickImage(images);
-          },
-        );
+    PickImageWidget(
+      onPressed: (images) {
+        context.read<CreatePostCubit>().pickImage(images);
       },
-    );
+    ).show(context);
   }
 }
 

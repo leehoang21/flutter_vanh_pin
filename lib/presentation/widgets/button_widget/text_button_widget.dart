@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_pin/common/constants/app_dimens.dart';
+import 'package:pinpin/common/constants/app_dimens.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../common/constants/layout_constants.dart';

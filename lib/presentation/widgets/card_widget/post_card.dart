@@ -1,10 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_pin/data/models/user_model.dart';
-import 'package:flutter_pin/presentation/themes/themes.dart';
-import 'package:flutter_pin/presentation/widgets/button_widget/icon_button_widget.dart';
-import 'package:flutter_pin/presentation/widgets/card_widget/card_custom.dart';
-import 'package:flutter_pin/presentation/widgets/image_app_widget/image_app.dart';
+import 'package:pinpin/common/utils/app_utils.dart';
+import 'package:pinpin/data/models/user_model.dart';
+import 'package:pinpin/presentation/themes/themes.dart';
+import 'package:pinpin/presentation/widgets/button_widget/icon_button_widget.dart';
+import 'package:pinpin/presentation/widgets/card_widget/card_custom.dart';
+import 'package:pinpin/presentation/widgets/image_app_widget/image_app.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -32,17 +33,20 @@ class PostCard extends StatelessWidget {
   const PostCard({
     super.key,
     required this.model,
+    this.padding,
   });
   final PostModel model;
+  final EdgeInsets? padding;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(
-        left: 20.w,
-        right: 20.w,
-        bottom: 10.h,
-      ),
+      padding: padding ??
+          EdgeInsets.only(
+            left: 20.w,
+            right: 20.w,
+            bottom: 10.h,
+          ),
       child: CardCustom(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -85,23 +89,25 @@ class PostCard extends StatelessWidget {
   }
 
   SizedBox _image() {
-    return SizedBox(
-      height: 200.h,
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        children: [
-          for (final image in model.images)
-            Padding(
-              padding: EdgeInsets.only(right: 10.w),
-              child: AppImageWidget(
-                path: image,
-                fit: BoxFit.cover,
-                width: 1.sw / 3 - 10.w,
-              ),
+    return isNullEmptyList(model.images)
+        ? const SizedBox()
+        : SizedBox(
+            height: 200.h,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: [
+                for (final image in model.images)
+                  Padding(
+                    padding: EdgeInsets.only(right: 10.w),
+                    child: AppImageWidget(
+                      path: image,
+                      fit: BoxFit.cover,
+                      width: 1.sw / 3 - 10.w,
+                    ),
+                  ),
+              ],
             ),
-        ],
-      ),
-    );
+          );
   }
 }
 
@@ -129,7 +135,7 @@ class _AuthorCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                model.group?.userName ?? '',
+                model.group?.name ?? '',
                 style: ThemeText.style14Medium,
               ),
               RichText(

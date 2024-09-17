@@ -31,6 +31,7 @@ mixin _$UserModel {
   String? get education => throw _privateConstructorUsedError;
   String? get job => throw _privateConstructorUsedError;
   DateTime? get birthday => throw _privateConstructorUsedError;
+  List<String> get groupIds => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -54,7 +55,8 @@ abstract class $UserModelCopyWith<$Res> {
       String? address,
       String? education,
       String? job,
-      DateTime? birthday});
+      DateTime? birthday,
+      List<String> groupIds});
 }
 
 /// @nodoc
@@ -81,6 +83,7 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? education = freezed,
     Object? job = freezed,
     Object? birthday = freezed,
+    Object? groupIds = null,
   }) {
     return _then(_value.copyWith(
       phoneNumber: freezed == phoneNumber
@@ -127,6 +130,10 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.birthday
           : birthday // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      groupIds: null == groupIds
+          ? _value.groupIds
+          : groupIds // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ) as $Val);
   }
 }
@@ -150,7 +157,8 @@ abstract class _$$UserModelImplCopyWith<$Res>
       String? address,
       String? education,
       String? job,
-      DateTime? birthday});
+      DateTime? birthday,
+      List<String> groupIds});
 }
 
 /// @nodoc
@@ -175,6 +183,7 @@ class __$$UserModelImplCopyWithImpl<$Res>
     Object? education = freezed,
     Object? job = freezed,
     Object? birthday = freezed,
+    Object? groupIds = null,
   }) {
     return _then(_$UserModelImpl(
       phoneNumber: freezed == phoneNumber
@@ -221,6 +230,10 @@ class __$$UserModelImplCopyWithImpl<$Res>
           ? _value.birthday
           : birthday // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      groupIds: null == groupIds
+          ? _value._groupIds
+          : groupIds // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ));
   }
 }
@@ -239,7 +252,9 @@ class _$UserModelImpl with DiagnosticableTreeMixin implements _UserModel {
       this.address,
       this.education,
       this.job,
-      this.birthday});
+      this.birthday,
+      final List<String> groupIds = const <String>[]})
+      : _groupIds = groupIds;
 
   factory _$UserModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserModelImplFromJson(json);
@@ -266,10 +281,18 @@ class _$UserModelImpl with DiagnosticableTreeMixin implements _UserModel {
   final String? job;
   @override
   final DateTime? birthday;
+  final List<String> _groupIds;
+  @override
+  @JsonKey()
+  List<String> get groupIds {
+    if (_groupIds is EqualUnmodifiableListView) return _groupIds;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_groupIds);
+  }
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'UserModel(phoneNumber: $phoneNumber, userName: $userName, email: $email, avatar: $avatar, uId: $uId, google: $google, background: $background, address: $address, education: $education, job: $job, birthday: $birthday)';
+    return 'UserModel(phoneNumber: $phoneNumber, userName: $userName, email: $email, avatar: $avatar, uId: $uId, google: $google, background: $background, address: $address, education: $education, job: $job, birthday: $birthday, groupIds: $groupIds)';
   }
 
   @override
@@ -287,7 +310,8 @@ class _$UserModelImpl with DiagnosticableTreeMixin implements _UserModel {
       ..add(DiagnosticsProperty('address', address))
       ..add(DiagnosticsProperty('education', education))
       ..add(DiagnosticsProperty('job', job))
-      ..add(DiagnosticsProperty('birthday', birthday));
+      ..add(DiagnosticsProperty('birthday', birthday))
+      ..add(DiagnosticsProperty('groupIds', groupIds));
   }
 
   @override
@@ -310,13 +334,26 @@ class _$UserModelImpl with DiagnosticableTreeMixin implements _UserModel {
                 other.education == education) &&
             (identical(other.job, job) || other.job == job) &&
             (identical(other.birthday, birthday) ||
-                other.birthday == birthday));
+                other.birthday == birthday) &&
+            const DeepCollectionEquality().equals(other._groupIds, _groupIds));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, phoneNumber, userName, email,
-      avatar, uId, google, background, address, education, job, birthday);
+  int get hashCode => Object.hash(
+      runtimeType,
+      phoneNumber,
+      userName,
+      email,
+      avatar,
+      uId,
+      google,
+      background,
+      address,
+      education,
+      job,
+      birthday,
+      const DeepCollectionEquality().hash(_groupIds));
 
   @JsonKey(ignore: true)
   @override
@@ -344,7 +381,8 @@ abstract class _UserModel implements UserModel {
       final String? address,
       final String? education,
       final String? job,
-      final DateTime? birthday}) = _$UserModelImpl;
+      final DateTime? birthday,
+      final List<String> groupIds}) = _$UserModelImpl;
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =
       _$UserModelImpl.fromJson;
@@ -371,6 +409,8 @@ abstract class _UserModel implements UserModel {
   String? get job;
   @override
   DateTime? get birthday;
+  @override
+  List<String> get groupIds;
   @override
   @JsonKey(ignore: true)
   _$$UserModelImplCopyWith<_$UserModelImpl> get copyWith =>

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_pin/common/extension/string_extension.dart';
+import 'package:pinpin/common/extension/string_extension.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../common/utils/debouncer.dart';

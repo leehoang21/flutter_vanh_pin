@@ -17,44 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$MyPageState {
   UserModel get user => throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(UserModel user) loading,
-    required TResult Function(UserModel user) loaded,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(UserModel user)? loading,
-    TResult? Function(UserModel user)? loaded,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(UserModel user)? loading,
-    TResult Function(UserModel user)? loaded,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Loading value) loading,
-    required TResult Function(_Loaded value) loaded,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Loading value)? loading,
-    TResult? Function(_Loaded value)? loaded,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Loaded value)? loaded,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+  List<PostModel> get posts => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $MyPageStateCopyWith<MyPageState> get copyWith =>
@@ -67,7 +30,7 @@ abstract class $MyPageStateCopyWith<$Res> {
           MyPageState value, $Res Function(MyPageState) then) =
       _$MyPageStateCopyWithImpl<$Res, MyPageState>;
   @useResult
-  $Res call({UserModel user});
+  $Res call({UserModel user, List<PostModel> posts});
 
   $UserModelCopyWith<$Res> get user;
 }
@@ -86,12 +49,17 @@ class _$MyPageStateCopyWithImpl<$Res, $Val extends MyPageState>
   @override
   $Res call({
     Object? user = null,
+    Object? posts = null,
   }) {
     return _then(_value.copyWith(
       user: null == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as UserModel,
+      posts: null == posts
+          ? _value.posts
+          : posts // ignore: cast_nullable_to_non_nullable
+              as List<PostModel>,
     ) as $Val);
   }
 
@@ -112,7 +80,7 @@ abstract class _$$LoadingImplCopyWith<$Res>
       __$$LoadingImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({UserModel user});
+  $Res call({UserModel user, List<PostModel> posts});
 
   @override
   $UserModelCopyWith<$Res> get user;
@@ -130,12 +98,17 @@ class __$$LoadingImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? user = null,
+    Object? posts = null,
   }) {
     return _then(_$LoadingImpl(
       null == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as UserModel,
+      null == posts
+          ? _value._posts
+          : posts // ignore: cast_nullable_to_non_nullable
+              as List<PostModel>,
     ));
   }
 }
@@ -143,14 +116,21 @@ class __$$LoadingImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$LoadingImpl implements _Loading {
-  const _$LoadingImpl(this.user);
+  const _$LoadingImpl(this.user, final List<PostModel> posts) : _posts = posts;
 
   @override
   final UserModel user;
+  final List<PostModel> _posts;
+  @override
+  List<PostModel> get posts {
+    if (_posts is EqualUnmodifiableListView) return _posts;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_posts);
+  }
 
   @override
   String toString() {
-    return 'MyPageState.loading(user: $user)';
+    return 'MyPageState(user: $user, posts: $posts)';
   }
 
   @override
@@ -158,228 +138,31 @@ class _$LoadingImpl implements _Loading {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LoadingImpl &&
-            (identical(other.user, user) || other.user == user));
+            (identical(other.user, user) || other.user == user) &&
+            const DeepCollectionEquality().equals(other._posts, _posts));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, user);
+  int get hashCode => Object.hash(
+      runtimeType, user, const DeepCollectionEquality().hash(_posts));
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$LoadingImplCopyWith<_$LoadingImpl> get copyWith =>
       __$$LoadingImplCopyWithImpl<_$LoadingImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(UserModel user) loading,
-    required TResult Function(UserModel user) loaded,
-  }) {
-    return loading(user);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(UserModel user)? loading,
-    TResult? Function(UserModel user)? loaded,
-  }) {
-    return loading?.call(user);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(UserModel user)? loading,
-    TResult Function(UserModel user)? loaded,
-    required TResult orElse(),
-  }) {
-    if (loading != null) {
-      return loading(user);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Loading value) loading,
-    required TResult Function(_Loaded value) loaded,
-  }) {
-    return loading(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Loading value)? loading,
-    TResult? Function(_Loaded value)? loaded,
-  }) {
-    return loading?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Loaded value)? loaded,
-    required TResult orElse(),
-  }) {
-    if (loading != null) {
-      return loading(this);
-    }
-    return orElse();
-  }
 }
 
 abstract class _Loading implements MyPageState {
-  const factory _Loading(final UserModel user) = _$LoadingImpl;
+  const factory _Loading(final UserModel user, final List<PostModel> posts) =
+      _$LoadingImpl;
 
   @override
   UserModel get user;
+  @override
+  List<PostModel> get posts;
   @override
   @JsonKey(ignore: true)
   _$$LoadingImplCopyWith<_$LoadingImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$LoadedImplCopyWith<$Res>
-    implements $MyPageStateCopyWith<$Res> {
-  factory _$$LoadedImplCopyWith(
-          _$LoadedImpl value, $Res Function(_$LoadedImpl) then) =
-      __$$LoadedImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({UserModel user});
-
-  @override
-  $UserModelCopyWith<$Res> get user;
-}
-
-/// @nodoc
-class __$$LoadedImplCopyWithImpl<$Res>
-    extends _$MyPageStateCopyWithImpl<$Res, _$LoadedImpl>
-    implements _$$LoadedImplCopyWith<$Res> {
-  __$$LoadedImplCopyWithImpl(
-      _$LoadedImpl _value, $Res Function(_$LoadedImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? user = null,
-  }) {
-    return _then(_$LoadedImpl(
-      null == user
-          ? _value.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as UserModel,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$LoadedImpl implements _Loaded {
-  _$LoadedImpl(this.user);
-
-  @override
-  final UserModel user;
-
-  @override
-  String toString() {
-    return 'MyPageState.loaded(user: $user)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$LoadedImpl &&
-            (identical(other.user, user) || other.user == user));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, user);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith =>
-      __$$LoadedImplCopyWithImpl<_$LoadedImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(UserModel user) loading,
-    required TResult Function(UserModel user) loaded,
-  }) {
-    return loaded(user);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(UserModel user)? loading,
-    TResult? Function(UserModel user)? loaded,
-  }) {
-    return loaded?.call(user);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(UserModel user)? loading,
-    TResult Function(UserModel user)? loaded,
-    required TResult orElse(),
-  }) {
-    if (loaded != null) {
-      return loaded(user);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Loading value) loading,
-    required TResult Function(_Loaded value) loaded,
-  }) {
-    return loaded(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Loading value)? loading,
-    TResult? Function(_Loaded value)? loaded,
-  }) {
-    return loaded?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Loaded value)? loaded,
-    required TResult orElse(),
-  }) {
-    if (loaded != null) {
-      return loaded(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _Loaded implements MyPageState {
-  factory _Loaded(final UserModel user) = _$LoadedImpl;
-
-  @override
-  UserModel get user;
-  @override
-  @JsonKey(ignore: true)
-  _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

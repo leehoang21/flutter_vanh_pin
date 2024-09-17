@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'package:flutter_pin/common/extension/bloc_extension.dart';
-import 'package:flutter_pin/domain/use_cases/post_use_case.dart';
+import 'package:pinpin/common/extension/bloc_extension.dart';
+import 'package:pinpin/domain/use_cases/post_use_case.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
@@ -12,8 +12,9 @@ part 'home_state.dart';
 
 @injectable
 class HomeCubit extends BaseBloc<HomeState> {
-  HomeCubit(this.postUseCase) : super(const HomeState.loading());
+  HomeCubit(this.postUseCase) : super(const HomeState({}));
   final PostUseCase postUseCase;
+  StreamSubscription _postSubscription = const Stream.empty().listen((_) {});
 
   @override
   Future onInit() async {
@@ -21,11 +22,26 @@ class HomeCubit extends BaseBloc<HomeState> {
     super.onInit();
   }
 
+  @override
+  Future<void> close() {
+    _postSubscription.cancel();
+    return super.close();
+  }
+
   void getPosts() async {
-    final result = await postUseCase.get();
-    result.fold(
-      (posts) => emit(HomeState.loaded(posts)),
-      (error) => showSnackbar(translationKey: error.toString()),
-    );
+    _postSubscription.cancel();
+    _postSubscription = postUseCase.get().listen((event) {
+      event.fold(
+        (posts) {
+          emit(HomeState({
+            ...state.posts,
+            ...posts,
+          }));
+        },
+        (error) {
+          showSnackbar(translationKey: error.toString());
+        },
+      );
+    });
   }
 }

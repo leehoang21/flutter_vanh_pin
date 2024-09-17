@@ -2,11 +2,11 @@
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_pin/common/di/di.dart';
-import 'package:flutter_pin/common/extension/string_extension.dart';
-import 'package:flutter_pin/presentation/bloc/base_bloc/base_bloc.dart';
-import 'package:flutter_pin/presentation/bloc/loading_bloc/loading_bloc.dart';
-import 'package:flutter_pin/presentation/routers/app_router.dart';
+import 'package:pinpin/common/di/di.dart';
+import 'package:pinpin/common/extension/string_extension.dart';
+import 'package:pinpin/presentation/bloc/base_bloc/base_bloc.dart';
+import 'package:pinpin/presentation/bloc/loading_bloc/loading_bloc.dart';
+import 'package:pinpin/presentation/routers/app_router.dart';
 
 import '../../presentation/widgets/snackbar_widget/snackbar_widget.dart';
 

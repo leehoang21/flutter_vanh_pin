@@ -15,10 +15,31 @@ abstract class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
-    CreatePostRoute.name: (routeData) {
+    CreateGroupRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const CreatePostScreenProvider(),
+        child: const CreateGroupScreenProvider(),
+      );
+    },
+    CreatePostRoute.name: (routeData) {
+      final args = routeData.argsAs<CreatePostRouteArgs>(
+          orElse: () => const CreatePostRouteArgs());
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: CreatePostScreenProvider(
+          key: args.key,
+          group: args.group,
+        ),
+      );
+    },
+    GroupDetailRoute.name: (routeData) {
+      final args = routeData.argsAs<GroupDetailRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: GroupDetailScreenProvider(
+          key: args.key,
+          groupModel: args.groupModel,
+        ),
       );
     },
     GroupRoute.name: (routeData) {
@@ -46,9 +67,13 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     MyPageRoute.name: (routeData) {
+      final args = routeData.argsAs<MyPageRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const MyPageScreenProvider(),
+        child: MyPageScreenProvider(
+          key: args.key,
+          user: args.user,
+        ),
       );
     },
     NotificationRoute.name: (routeData) {
@@ -73,17 +98,93 @@ abstract class _$AppRouter extends RootStackRouter {
 }
 
 /// generated route for
-/// [CreatePostScreenProvider]
-class CreatePostRoute extends PageRouteInfo<void> {
-  const CreatePostRoute({List<PageRouteInfo>? children})
+/// [CreateGroupScreenProvider]
+class CreateGroupRoute extends PageRouteInfo<void> {
+  const CreateGroupRoute({List<PageRouteInfo>? children})
       : super(
+          CreateGroupRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'CreateGroupRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [CreatePostScreenProvider]
+class CreatePostRoute extends PageRouteInfo<CreatePostRouteArgs> {
+  CreatePostRoute({
+    Key? key,
+    GroupModel? group,
+    List<PageRouteInfo>? children,
+  }) : super(
           CreatePostRoute.name,
+          args: CreatePostRouteArgs(
+            key: key,
+            group: group,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'CreatePostRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<CreatePostRouteArgs> page =
+      PageInfo<CreatePostRouteArgs>(name);
+}
+
+class CreatePostRouteArgs {
+  const CreatePostRouteArgs({
+    this.key,
+    this.group,
+  });
+
+  final Key? key;
+
+  final GroupModel? group;
+
+  @override
+  String toString() {
+    return 'CreatePostRouteArgs{key: $key, group: $group}';
+  }
+}
+
+/// generated route for
+/// [GroupDetailScreenProvider]
+class GroupDetailRoute extends PageRouteInfo<GroupDetailRouteArgs> {
+  GroupDetailRoute({
+    Key? key,
+    required GroupModel groupModel,
+    List<PageRouteInfo>? children,
+  }) : super(
+          GroupDetailRoute.name,
+          args: GroupDetailRouteArgs(
+            key: key,
+            groupModel: groupModel,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'GroupDetailRoute';
+
+  static const PageInfo<GroupDetailRouteArgs> page =
+      PageInfo<GroupDetailRouteArgs>(name);
+}
+
+class GroupDetailRouteArgs {
+  const GroupDetailRouteArgs({
+    this.key,
+    required this.groupModel,
+  });
+
+  final Key? key;
+
+  final GroupModel groupModel;
+
+  @override
+  String toString() {
+    return 'GroupDetailRouteArgs{key: $key, groupModel: $groupModel}';
+  }
 }
 
 /// generated route for
@@ -144,16 +245,39 @@ class MainRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [MyPageScreenProvider]
-class MyPageRoute extends PageRouteInfo<void> {
-  const MyPageRoute({List<PageRouteInfo>? children})
-      : super(
+class MyPageRoute extends PageRouteInfo<MyPageRouteArgs> {
+  MyPageRoute({
+    Key? key,
+    required UserModel? user,
+    List<PageRouteInfo>? children,
+  }) : super(
           MyPageRoute.name,
+          args: MyPageRouteArgs(
+            key: key,
+            user: user,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'MyPageRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<MyPageRouteArgs> page = PageInfo<MyPageRouteArgs>(name);
+}
+
+class MyPageRouteArgs {
+  const MyPageRouteArgs({
+    this.key,
+    required this.user,
+  });
+
+  final Key? key;
+
+  final UserModel? user;
+
+  @override
+  String toString() {
+    return 'MyPageRouteArgs{key: $key, user: $user}';
+  }
 }
 
 /// generated route for

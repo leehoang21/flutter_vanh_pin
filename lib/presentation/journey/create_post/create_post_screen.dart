@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_pin/common/extension/string_extension.dart';
+import 'package:pinpin/common/extension/string_extension.dart';
 
-import 'package:flutter_pin/presentation/journey/create_post/widget/inovoice_photos_widget.dart';
-import 'package:flutter_pin/presentation/widgets/button_widget/text_button_widget.dart';
-import 'package:flutter_pin/presentation/widgets/text_field_widget/text_field_widget.dart';
+import 'package:pinpin/presentation/journey/create_post/widget/inovoice_photos_widget.dart';
+import 'package:pinpin/presentation/widgets/button_widget/text_button_widget.dart';
+import 'package:pinpin/presentation/widgets/text_field_widget/text_field_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../widgets/appbar_widget/appbar_widget.dart';
 import '../../widgets/scaffold_wdiget/scaffold_widget.dart';

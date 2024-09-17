@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_pin/common/extension/string_extension.dart';
-import 'package:flutter_pin/presentation/journey/home/home_constants.dart';
-import 'package:flutter_pin/presentation/themes/themes.dart';
+import 'package:pinpin/common/extension/string_extension.dart';
+import 'package:pinpin/presentation/journey/home/home_constants.dart';
+import 'package:pinpin/presentation/themes/themes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../routers/app_router.dart';
@@ -16,7 +16,7 @@ class CreatePostWidget extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 20.w),
       child: InkWell(
         onTap: () {
-          context.pushRoute(const CreatePostRoute());
+          context.pushRoute(CreatePostRoute());
         },
         child: Row(
           children: [

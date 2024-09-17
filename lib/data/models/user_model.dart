@@ -19,6 +19,7 @@ class UserModel with _$UserModel {
     String? education,
     String? job,
     DateTime? birthday,
+    @Default(<String>[]) List<String> groupIds,
   }) = _UserModel;
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
@@ -26,6 +27,6 @@ class UserModel with _$UserModel {
 
   factory UserModel.fromDocument(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>;
-    return UserModel.fromJson(data).copyWith(uId: doc.id);
+    return UserModel.fromJson(data);
   }
 }

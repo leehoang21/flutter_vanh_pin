@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_pin/data/models/user_model.dart';
+import 'package:pinpin/data/models/user_model.dart';
 
 class AuthMapper {
   static UserModel convertUserCredentialToUserModel(User user) {

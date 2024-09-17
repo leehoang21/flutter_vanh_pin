@@ -3,7 +3,7 @@ import 'package:flutter_translate/flutter_translate.dart';
 
 class LoginConstants {
   static double topHeightLogo = 86.h;
-  static double sizeLogo = 100.w;
+  static double sizeLogo = 120.sp;
   static double topColumn = 71.h;
   static double distanceTextToField = 28.h;
   static double distanceButtonToField = 40.h;

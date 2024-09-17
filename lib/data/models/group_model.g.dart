@@ -19,22 +19,27 @@ _$GroupModelImpl _$$GroupModelImplFromJson(Map<String, dynamic> json) =>
           .toList(),
       avatar: json['avatar'] as String?,
       uId: json['uId'] as String?,
+      name: json['name'] as String?,
       background: json['background'] as String?,
       type: $enumDecodeNullable(_$GroupTypeEnumMap, json['type']),
+      time:
+          json['time'] == null ? null : DateTime.parse(json['time'] as String),
     );
 
 Map<String, dynamic> _$$GroupModelImplToJson(_$GroupModelImpl instance) =>
     <String, dynamic>{
-      'author': instance.author,
-      'admins': instance.admins,
-      'members': instance.members,
+      'author': instance.author?.toJson(),
+      'admins': instance.admins?.map((e) => e.toJson()).toList(),
+      'members': instance.members?.map((e) => e.toJson()).toList(),
       'avatar': instance.avatar,
       'uId': instance.uId,
+      'name': instance.name,
       'background': instance.background,
       'type': _$GroupTypeEnumMap[instance.type],
+      'time': instance.time?.toIso8601String(),
     };
 
 const _$GroupTypeEnumMap = {
-  GroupType.private: 'private',
   GroupType.public: 'public',
+  GroupType.private: 'private',
 };

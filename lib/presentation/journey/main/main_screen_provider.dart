@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_pin/common/di/di.dart';
-import 'package:flutter_pin/presentation/journey/main/main_screen.dart';
+import 'package:pinpin/common/di/di.dart';
+import 'package:pinpin/presentation/journey/main/main_screen.dart';
 
 import 'bloc/tab_manger_cubit.dart';
 

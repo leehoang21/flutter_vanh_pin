@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_pin/presentation/widgets/card_widget/post_card.dart';
-import 'package:flutter_pin/presentation/widgets/loading_widget/loader_widget.dart';
+import 'package:pinpin/common/constants/string_constants.dart';
+import 'package:pinpin/common/extension/string_extension.dart';
+import 'package:pinpin/presentation/widgets/card_widget/post_card.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../data/models/post_model.dart';
+import '../../widgets/appbar_widget/appbar_main_widget.dart';
 import 'cubit/home_cubit.dart';
 import 'widget/create_post_widget.dart';
 
@@ -22,6 +25,10 @@ class _HomeScreenState extends State<HomeScreen> {
         value: SystemUiOverlayStyle.light.copyWith(
             statusBarColor: Theme.of(context).appBarTheme.backgroundColor),
         child: Scaffold(
+          appBar: AppBarMainWidget(
+            title: StringConstants.appTitle.tr,
+            onSearch: () {},
+          ),
           body: RefreshIndicator(
             onRefresh: () async {
               context.read<HomeCubit>().onInit();
@@ -37,28 +44,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 BlocBuilder<HomeCubit, HomeState>(
                   builder: (context, state) {
-                    return state.when(
-                      loading: () {
-                        return Center(
-                          child: SizedBox(
-                            height: 100.h,
-                            width: 100.h,
-                            child: const LoaderWidget(),
-                          ),
-                        );
-                      },
-                      loaded: (posts) {
-                        return Column(
-                          children: posts
-                              .map(
-                                (e) => PostCard(
-                                  model: e,
-                                ),
-                              )
-                              .toList(),
-                        );
-                      },
-                    );
+                    return Column(
+                        children: convertMaptoListAndSoft(state.posts)
+                            .map(
+                              (e) => PostCard(
+                                model: e,
+                              ),
+                            )
+                            .toList());
                   },
                 )
               ],
@@ -67,5 +60,19 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
+  }
+
+  List<PostModel> convertMaptoListAndSoft(Map<int, List<PostModel>> data) {
+    final posts = <PostModel>[];
+    if (data.isEmpty) return [];
+    for (final list in data.values) {
+      posts.addAll(list);
+    }
+    posts.sort(
+      (a, b) {
+        return b.time.compareTo(a.time);
+      },
+    );
+    return posts;
   }
 }

@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:flutter_pin/common/utils/app_utils.dart';
+import 'package:pinpin/common/utils/app_utils.dart';
 import 'package:image_picker/image_picker.dart';
 
 class PickImage {

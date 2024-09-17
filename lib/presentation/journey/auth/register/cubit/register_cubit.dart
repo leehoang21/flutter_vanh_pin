@@ -1,10 +1,9 @@
 import 'dart:io';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_pin/common/extension/bloc_extension.dart';
+import 'package:pinpin/common/extension/bloc_extension.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
 import '../../../../../common/configs/default_environment.dart';
-import '../../../../../common/utils/pick_image.dart';
 import '../../../../../data/models/user_model.dart';
 import '../../../../../domain/use_cases/auth_use_case.dart';
 import '../../../../../domain/use_cases/storage_use_case.dart';
@@ -41,12 +40,12 @@ class RegisterCubit extends BaseBloc<RegisterState> {
     );
   }
 
-  Future addAvatar(ImageSource source) async {
+  Future addAvatar(XFile? image) async {
     try {
-      final image = await PickImage().pickImage(source: source);
       if (image == null) return;
+
       emit(
-        state.copyWith(avatar: image),
+        state.copyWith(avatar: File(image.path)),
       );
     } catch (e) {
       showSnackbar(translationKey: e.toString());

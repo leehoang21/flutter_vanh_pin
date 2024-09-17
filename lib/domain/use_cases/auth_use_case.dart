@@ -1,4 +1,4 @@
-import 'package:flutter_pin/common/service/app_service.dart';
+import 'package:pinpin/common/service/app_service.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../common/constants/string_constants.dart';

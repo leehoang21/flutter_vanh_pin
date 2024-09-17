@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:flutter_pin/data/models/user_model.dart';
+import 'package:pinpin/data/models/user_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 

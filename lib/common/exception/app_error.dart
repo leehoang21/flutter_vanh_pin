@@ -1,4 +1,4 @@
-import 'package:flutter_pin/common/constants/string_constants.dart';
+import 'package:pinpin/common/constants/string_constants.dart';
 
 class AppError implements Exception {
   final String message;

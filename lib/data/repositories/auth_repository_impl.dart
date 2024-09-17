@@ -1,6 +1,6 @@
 import 'package:either_dart/either.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_pin/data/models/user_model.dart';
+import 'package:pinpin/data/models/user_model.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
 import '../../common/configs/firebase_config.dart';

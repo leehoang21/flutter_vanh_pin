@@ -25,8 +25,10 @@ mixin _$GroupModel {
   List<UserModel>? get members => throw _privateConstructorUsedError;
   String? get avatar => throw _privateConstructorUsedError;
   String? get uId => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
   String? get background => throw _privateConstructorUsedError;
   GroupType? get type => throw _privateConstructorUsedError;
+  DateTime? get time => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -46,8 +48,10 @@ abstract class $GroupModelCopyWith<$Res> {
       List<UserModel>? members,
       String? avatar,
       String? uId,
+      String? name,
       String? background,
-      GroupType? type});
+      GroupType? type,
+      DateTime? time});
 
   $UserModelCopyWith<$Res>? get author;
 }
@@ -70,8 +74,10 @@ class _$GroupModelCopyWithImpl<$Res, $Val extends GroupModel>
     Object? members = freezed,
     Object? avatar = freezed,
     Object? uId = freezed,
+    Object? name = freezed,
     Object? background = freezed,
     Object? type = freezed,
+    Object? time = freezed,
   }) {
     return _then(_value.copyWith(
       author: freezed == author
@@ -94,6 +100,10 @@ class _$GroupModelCopyWithImpl<$Res, $Val extends GroupModel>
           ? _value.uId
           : uId // ignore: cast_nullable_to_non_nullable
               as String?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
       background: freezed == background
           ? _value.background
           : background // ignore: cast_nullable_to_non_nullable
@@ -102,6 +112,10 @@ class _$GroupModelCopyWithImpl<$Res, $Val extends GroupModel>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as GroupType?,
+      time: freezed == time
+          ? _value.time
+          : time // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ) as $Val);
   }
 
@@ -132,8 +146,10 @@ abstract class _$$GroupModelImplCopyWith<$Res>
       List<UserModel>? members,
       String? avatar,
       String? uId,
+      String? name,
       String? background,
-      GroupType? type});
+      GroupType? type,
+      DateTime? time});
 
   @override
   $UserModelCopyWith<$Res>? get author;
@@ -155,8 +171,10 @@ class __$$GroupModelImplCopyWithImpl<$Res>
     Object? members = freezed,
     Object? avatar = freezed,
     Object? uId = freezed,
+    Object? name = freezed,
     Object? background = freezed,
     Object? type = freezed,
+    Object? time = freezed,
   }) {
     return _then(_$GroupModelImpl(
       author: freezed == author
@@ -179,6 +197,10 @@ class __$$GroupModelImplCopyWithImpl<$Res>
           ? _value.uId
           : uId // ignore: cast_nullable_to_non_nullable
               as String?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
       background: freezed == background
           ? _value.background
           : background // ignore: cast_nullable_to_non_nullable
@@ -187,12 +209,17 @@ class __$$GroupModelImplCopyWithImpl<$Res>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as GroupType?,
+      time: freezed == time
+          ? _value.time
+          : time // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$GroupModelImpl implements _GroupModel {
   const _$GroupModelImpl(
       {this.author,
@@ -200,8 +227,10 @@ class _$GroupModelImpl implements _GroupModel {
       final List<UserModel>? members,
       this.avatar,
       this.uId,
+      this.name,
       this.background,
-      this.type})
+      this.type,
+      this.time})
       : _admins = admins,
         _members = members;
 
@@ -235,13 +264,17 @@ class _$GroupModelImpl implements _GroupModel {
   @override
   final String? uId;
   @override
+  final String? name;
+  @override
   final String? background;
   @override
   final GroupType? type;
+  @override
+  final DateTime? time;
 
   @override
   String toString() {
-    return 'GroupModel(author: $author, admins: $admins, members: $members, avatar: $avatar, uId: $uId, background: $background, type: $type)';
+    return 'GroupModel(author: $author, admins: $admins, members: $members, avatar: $avatar, uId: $uId, name: $name, background: $background, type: $type, time: $time)';
   }
 
   @override
@@ -254,9 +287,11 @@ class _$GroupModelImpl implements _GroupModel {
             const DeepCollectionEquality().equals(other._members, _members) &&
             (identical(other.avatar, avatar) || other.avatar == avatar) &&
             (identical(other.uId, uId) || other.uId == uId) &&
+            (identical(other.name, name) || other.name == name) &&
             (identical(other.background, background) ||
                 other.background == background) &&
-            (identical(other.type, type) || other.type == type));
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.time, time) || other.time == time));
   }
 
   @JsonKey(ignore: true)
@@ -268,8 +303,10 @@ class _$GroupModelImpl implements _GroupModel {
       const DeepCollectionEquality().hash(_members),
       avatar,
       uId,
+      name,
       background,
-      type);
+      type,
+      time);
 
   @JsonKey(ignore: true)
   @override
@@ -292,8 +329,10 @@ abstract class _GroupModel implements GroupModel {
       final List<UserModel>? members,
       final String? avatar,
       final String? uId,
+      final String? name,
       final String? background,
-      final GroupType? type}) = _$GroupModelImpl;
+      final GroupType? type,
+      final DateTime? time}) = _$GroupModelImpl;
 
   factory _GroupModel.fromJson(Map<String, dynamic> json) =
       _$GroupModelImpl.fromJson;
@@ -309,9 +348,13 @@ abstract class _GroupModel implements GroupModel {
   @override
   String? get uId;
   @override
+  String? get name;
+  @override
   String? get background;
   @override
   GroupType? get type;
+  @override
+  DateTime? get time;
   @override
   @JsonKey(ignore: true)
   _$$GroupModelImplCopyWith<_$GroupModelImpl> get copyWith =>

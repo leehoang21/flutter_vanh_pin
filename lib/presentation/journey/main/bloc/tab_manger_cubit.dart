@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter_pin/presentation/bloc/base_bloc/base_bloc.dart';
-import 'package:flutter_pin/presentation/routers/app_router.dart';
+import 'package:pinpin/presentation/bloc/base_bloc/base_bloc.dart';
+import 'package:pinpin/presentation/routers/app_router.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
@@ -23,7 +23,7 @@ class TabMangerCubit extends BaseBloc<int> {
       const HomeRoute(),
       const GroupRoute(),
       const NotificationRoute(),
-      const MyPageRoute(),
+      MyPageRoute(user: null),
     ];
   }
 }

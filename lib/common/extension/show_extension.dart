@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_pin/common/constants/layout_constants.dart';
-import 'package:flutter_pin/common/extension/string_extension.dart';
+import 'package:pinpin/common/constants/layout_constants.dart';
+import 'package:pinpin/common/extension/string_extension.dart';
 import '../../presentation/widgets/snackbar_widget/snackbar_widget.dart';
 
 extension ShowExtensionContext on BuildContext {

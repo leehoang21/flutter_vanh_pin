@@ -1,5 +1,5 @@
 import 'dart:ui';
-import 'package:flutter_pin/common/configs/local_storage/local_storage.dart';
+import 'package:pinpin/common/configs/local_storage/local_storage.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:injectable/injectable.dart';
 

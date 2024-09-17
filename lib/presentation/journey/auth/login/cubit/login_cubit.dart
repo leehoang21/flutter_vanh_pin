@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter_pin/common/exception/app_error.dart';
-import 'package:flutter_pin/common/extension/bloc_extension.dart';
+import 'package:pinpin/common/exception/app_error.dart';
+import 'package:pinpin/common/extension/bloc_extension.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../../common/enums/login_type.dart';

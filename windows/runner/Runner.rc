@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "vn.vanh" "\0"
-            VALUE "FileDescription", "flutter_pin" "\0"
+            VALUE "FileDescription", "pinpin" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "flutter_pin" "\0"
+            VALUE "InternalName", "pinpin" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2024 vn.vanh. All rights reserved." "\0"
-            VALUE "OriginalFilename", "flutter_pin.exe" "\0"
-            VALUE "ProductName", "flutter_pin" "\0"
+            VALUE "OriginalFilename", "pinpin.exe" "\0"
+            VALUE "ProductName", "pinpin" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END
