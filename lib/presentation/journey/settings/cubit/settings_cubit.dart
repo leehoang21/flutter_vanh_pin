@@ -8,18 +8,18 @@ import 'package:injectable/injectable.dart';
 import '../../../../domain/use_cases/post_use_case.dart';
 import '../../../bloc/base_bloc/base_bloc.dart';
 
-part 'my_page_cubit.freezed.dart';
+part 'settings_cubit.freezed.dart';
 part 'settings_state.dart';
 
 @injectable
-class MyPageCubit extends BaseBloc<MyPageState> {
+class SettingsCubit extends BaseBloc<SettingsState> {
   final PostUseCase postUseCase;
-  MyPageCubit(this.postUseCase) : super(const MyPageState(UserModel(), []));
+  SettingsCubit(this.postUseCase) : super(const SettingsState(UserModel(), []));
   late final UserModel user;
   StreamSubscription _postSubscription = const Stream.empty().listen((_) {});
 
   initState(UserModel user) {
-    emit(MyPageState(user, []));
+    emit(SettingsState(user, []));
     init();
   }
 

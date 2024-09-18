@@ -15,20 +15,20 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$MyPageState {
+mixin _$SettingsState {
   UserModel get user => throw _privateConstructorUsedError;
   List<PostModel> get posts => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $MyPageStateCopyWith<MyPageState> get copyWith =>
+  $SettingsStateCopyWith<SettingsState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $MyPageStateCopyWith<$Res> {
-  factory $MyPageStateCopyWith(
-          MyPageState value, $Res Function(MyPageState) then) =
-      _$MyPageStateCopyWithImpl<$Res, MyPageState>;
+abstract class $SettingsStateCopyWith<$Res> {
+  factory $SettingsStateCopyWith(
+          SettingsState value, $Res Function(SettingsState) then) =
+      _$SettingsStateCopyWithImpl<$Res, SettingsState>;
   @useResult
   $Res call({UserModel user, List<PostModel> posts});
 
@@ -36,9 +36,9 @@ abstract class $MyPageStateCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$MyPageStateCopyWithImpl<$Res, $Val extends MyPageState>
-    implements $MyPageStateCopyWith<$Res> {
-  _$MyPageStateCopyWithImpl(this._value, this._then);
+class _$SettingsStateCopyWithImpl<$Res, $Val extends SettingsState>
+    implements $SettingsStateCopyWith<$Res> {
+  _$SettingsStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -74,7 +74,7 @@ class _$MyPageStateCopyWithImpl<$Res, $Val extends MyPageState>
 
 /// @nodoc
 abstract class _$$LoadingImplCopyWith<$Res>
-    implements $MyPageStateCopyWith<$Res> {
+    implements $SettingsStateCopyWith<$Res> {
   factory _$$LoadingImplCopyWith(
           _$LoadingImpl value, $Res Function(_$LoadingImpl) then) =
       __$$LoadingImplCopyWithImpl<$Res>;
@@ -88,7 +88,7 @@ abstract class _$$LoadingImplCopyWith<$Res>
 
 /// @nodoc
 class __$$LoadingImplCopyWithImpl<$Res>
-    extends _$MyPageStateCopyWithImpl<$Res, _$LoadingImpl>
+    extends _$SettingsStateCopyWithImpl<$Res, _$LoadingImpl>
     implements _$$LoadingImplCopyWith<$Res> {
   __$$LoadingImplCopyWithImpl(
       _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
@@ -130,7 +130,7 @@ class _$LoadingImpl implements _Loading {
 
   @override
   String toString() {
-    return 'MyPageState(user: $user, posts: $posts)';
+    return 'SettingsState(user: $user, posts: $posts)';
   }
 
   @override
@@ -153,7 +153,7 @@ class _$LoadingImpl implements _Loading {
       __$$LoadingImplCopyWithImpl<_$LoadingImpl>(this, _$identity);
 }
 
-abstract class _Loading implements MyPageState {
+abstract class _Loading implements SettingsState {
   const factory _Loading(final UserModel user, final List<PostModel> posts) =
       _$LoadingImpl;
 

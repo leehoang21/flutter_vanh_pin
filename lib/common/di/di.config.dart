@@ -119,8 +119,8 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i449.HomeCubit>(() => _i449.HomeCubit(gh<_i652.PostUseCase>()));
     gh.factory<_i487.MyPageCubit>(
         () => _i487.MyPageCubit(gh<_i652.PostUseCase>()));
-    gh.factory<_i121.MyPageCubit>(
-        () => _i121.MyPageCubit(gh<_i652.PostUseCase>()));
+    gh.factory<_i121.SettingsCubit>(
+        () => _i121.SettingsCubit(gh<_i652.PostUseCase>()));
     gh.factory<_i708.GroupRepository>(() => _i654.GroupRepositoryImpl(
           gh<_i585.FirebaseConfig>(),
           gh<_i307.AppService>(),

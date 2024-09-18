@@ -16,6 +16,7 @@ import '../journey/home/home_screen_provider.dart';
 import '../journey/main/main_screen_provider.dart';
 import '../journey/my_page/my_page_screen_provider.dart';
 import '../journey/notification/notification_screen_provider.dart';
+import '../journey/settings/settings_screen_provider.dart';
 import '../journey/splash/splash_screen.dart';
 part 'app_router.gr.dart';
 //flutter pub run build_runner build --delete-conflicting-outputs
@@ -76,6 +77,10 @@ class AppRouter extends _$AppRouter {
         ),
         AutoRoute(
           page: ChatDetailRoute.page,
+        ),
+        //setting
+        AutoRoute(
+          page: SettingsRoute.page,
         ),
       ];
 }

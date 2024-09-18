@@ -1,8 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinpin/common/extension/date_time_extension.dart';
 import 'package:pinpin/presentation/journey/my_page/my_page_constants.dart';
+import 'package:pinpin/presentation/routers/app_router.dart';
 import 'package:pinpin/presentation/themes/themes.dart';
 import 'package:pinpin/presentation/widgets/button_widget/text_button_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -201,6 +203,15 @@ class _WallPaperAndAvatarWidget extends StatelessWidget {
             child: AvatarWidget(
               path: context.watch<MyPageCubit>().state.user.avatar,
             ),
+          ),
+          Positioned(
+            bottom: 10.h,
+            right: 40.w,
+            child: IconButton(
+                onPressed: () {
+                  context.pushRoute(const SettingsRoute());
+                },
+                icon: const Icon(Icons.settings)),
           ),
         ],
       ),
