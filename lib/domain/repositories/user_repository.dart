@@ -6,4 +6,6 @@ abstract class UserRepository {
   Future<AppError?> update(UserModel data);
   Future<UserModel?> get();
   Future<bool> exits();
+
+  Future<List<UserModel>> getAll();
 }

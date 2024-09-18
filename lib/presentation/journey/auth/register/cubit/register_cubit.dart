@@ -59,7 +59,7 @@ class RegisterCubit extends BaseBloc<RegisterState> {
       required String password}) async {
     showLoading();
     //login
-
+    UserModel user = state.userModel;
     File? avatar = state.avatar;
     const String storagePath = DefaultEnvironment.avatar;
     if (avatar != null) {
@@ -69,18 +69,23 @@ class RegisterCubit extends BaseBloc<RegisterState> {
       );
 
       result.fold((url) {
-        emit(
-          state.copyWith(
-            userModel: state.userModel.copyWith(
-              avatar: url,
-              email: email,
-              userName: userName,
-              phoneNumber: phoneNumber,
-            ),
-          ),
+        user = user.copyWith(
+          avatar: url,
         );
+        emit(state.copyWith(userModel: user));
       }, (error) => showSnackbar(translationKey: error.toString()));
     }
+
+    user = user.copyWith(
+      email: email,
+      userName: userName,
+      phoneNumber: phoneNumber,
+    );
+    emit(
+      state.copyWith(
+        userModel: user,
+      ),
+    );
 
     final error = await authUseCase.register(
       user: state.userModel,
@@ -88,6 +93,7 @@ class RegisterCubit extends BaseBloc<RegisterState> {
     );
     if (error != null) {
       showSnackbar(translationKey: error.message);
+      return;
     }
     hideLoading();
     replace(

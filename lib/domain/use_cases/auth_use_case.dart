@@ -1,3 +1,4 @@
+import 'package:either_dart/either.dart';
 import 'package:pinpin/common/service/app_service.dart';
 import 'package:injectable/injectable.dart';
 
@@ -76,7 +77,8 @@ class AuthUseCase {
         return result;
       }
       await userRepository.create(user);
-      appService.user = user;
+      login(
+          loginType: LoginType.password, email: user.email, password: password);
       return null;
     } else {
       return AppError(message: StringConstants.msgErrorUnknown);
@@ -96,5 +98,22 @@ class AuthUseCase {
       oldPass: oldPass,
     );
     return result;
+  }
+
+  Future<Either<UserModel, AppError>> loginWithToken(String token) async {
+    final result = await repository.loginWithToken(token);
+    return await result.fold(
+      (user) async {
+        final user = await userRepository.get();
+        if (user != null) {
+          appService.user = user;
+          return Left(user);
+        }
+        return Right(AppError(message: StringConstants.userNotExists));
+      },
+      (error) {
+        return Right(error);
+      },
+    );
   }
 }

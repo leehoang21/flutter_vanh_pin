@@ -74,12 +74,18 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
               ),
             ),
             const Spacer(),
-            TextButtonWidget(
-              onPressed: () {
-                context.read<CreateGroupCubit>().createGroup(
-                    _nameController.text, _groupType ?? GroupType.public);
-              },
-              title: CreateGroupConstants.create.tr,
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.w),
+              child: TextButtonWidget(
+                onPressed: () {
+                  context.read<CreateGroupCubit>().createGroup(
+                      _nameController.text, _groupType ?? GroupType.public);
+                },
+                title: CreateGroupConstants.create.tr,
+              ),
+            ),
+            SizedBox(
+              height: 20.h,
             ),
           ],
         ),

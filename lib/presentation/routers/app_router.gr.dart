@@ -15,6 +15,29 @@ abstract class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
+    ChatDetailRoute.name: (routeData) {
+      final args = routeData.argsAs<ChatDetailRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: ChatDetailScreenProvider(
+          key: args.key,
+          model: args.model,
+          members: args.members,
+        ),
+      );
+    },
+    ChatRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const ChatScreenProvider(),
+      );
+    },
+    CreateChatRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const CreateChatScreenProvider(),
+      );
+    },
     CreateGroupRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -95,6 +118,77 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
   };
+}
+
+/// generated route for
+/// [ChatDetailScreenProvider]
+class ChatDetailRoute extends PageRouteInfo<ChatDetailRouteArgs> {
+  ChatDetailRoute({
+    Key? key,
+    required ChatModel model,
+    required List<UserModel> members,
+    List<PageRouteInfo>? children,
+  }) : super(
+          ChatDetailRoute.name,
+          args: ChatDetailRouteArgs(
+            key: key,
+            model: model,
+            members: members,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'ChatDetailRoute';
+
+  static const PageInfo<ChatDetailRouteArgs> page =
+      PageInfo<ChatDetailRouteArgs>(name);
+}
+
+class ChatDetailRouteArgs {
+  const ChatDetailRouteArgs({
+    this.key,
+    required this.model,
+    required this.members,
+  });
+
+  final Key? key;
+
+  final ChatModel model;
+
+  final List<UserModel> members;
+
+  @override
+  String toString() {
+    return 'ChatDetailRouteArgs{key: $key, model: $model, members: $members}';
+  }
+}
+
+/// generated route for
+/// [ChatScreenProvider]
+class ChatRoute extends PageRouteInfo<void> {
+  const ChatRoute({List<PageRouteInfo>? children})
+      : super(
+          ChatRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ChatRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [CreateChatScreenProvider]
+class CreateChatRoute extends PageRouteInfo<void> {
+  const CreateChatRoute({List<PageRouteInfo>? children})
+      : super(
+          CreateChatRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'CreateChatRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for

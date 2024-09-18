@@ -1,9 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:crypton/crypton.dart';
 import 'package:either_dart/either.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:pinpin/common/configs/default_environment.dart';
+import 'package:pinpin/common/enums/app_enums.dart';
+import 'package:pinpin/common/service/app_service.dart';
 import 'package:pinpin/data/models/user_model.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
 import '../../common/configs/firebase_config.dart';
+import '../../common/configs/dio/dio_config.dart';
 import '../../common/constants/string_constants.dart';
 import '../../common/exception/app_error.dart';
 import '../../domain/repositories/auth_repository.dart';
@@ -13,8 +19,13 @@ import '../mapper/auth_mapper.dart';
 @Injectable(as: AuthRepository)
 class AuthRepositoryImpl extends AuthRepository {
   final FirebaseConfig config;
+  final DioApiClient dioApiClient;
+  final AppService appService;
+
   AuthRepositoryImpl(
     this.config,
+    this.dioApiClient,
+    this.appService,
   );
 
   @override
@@ -116,5 +127,55 @@ class AuthRepositoryImpl extends AuthRepository {
       return AppError(message: e.toString());
     }
     return null;
+  }
+
+  @override
+  Future<Either<UserModel, AppError>> loginWithToken(String token) async {
+    try {
+      final user = await config.auth.signInWithCustomToken(token);
+      return Left(AuthMapper.convertUserCredentialToUserModel(user.user!));
+    } on FirebaseException catch (e) {
+      return Right(AppError(message: e.message ?? e.code));
+    } catch (e) {
+      return Right(AppError(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<bool> checkGoogleAuthenticator(String token) async {
+    try {
+      final key = (await config.userDoc
+                  .collection(appService.user?.uId ?? '1')
+                  .doc(DefaultEnvironment.key)
+                  .get())
+              .data()?['privateKey'] ??
+          's';
+      final response = await dioApiClient.request(
+          method: NetworkMethod.get,
+          url: StringConstants.urlCheckAuthenticator + key);
+
+      final data = response.data;
+
+      return data as bool;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  @override
+  Future<String> createGoogleAuthenticator() async {
+    DocumentReference<Map<String, dynamic>> doc = config.userDoc
+        .collection(appService.user?.uId ?? '1')
+        .doc(DefaultEnvironment.key);
+
+    RSAKeypair rsaKeypair = RSAKeypair.fromRandom();
+    rsaKeypair.privateKey;
+    final url = StringConstants.urlCreateAuthenticator +
+        rsaKeypair.privateKey.toString();
+    await doc.set({
+      'privateKey': rsaKeypair.privateKey.toString(),
+      'publicKey': rsaKeypair.publicKey.toString(),
+    });
+    return url;
   }
 }

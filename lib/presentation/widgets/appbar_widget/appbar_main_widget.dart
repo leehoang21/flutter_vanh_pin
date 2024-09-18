@@ -9,12 +9,14 @@ import 'appbar_constants.dart';
 class AppBarMainWidget extends StatelessWidget implements PreferredSize {
   final String? title;
   final VoidCallback? onSearch;
+  final Widget? traiiling;
   final VoidCallback? onCreate;
   const AppBarMainWidget({
     Key? key,
     this.title,
     this.onSearch,
     this.onCreate,
+    this.traiiling,
   }) : super(key: key);
 
   @override
@@ -39,12 +41,14 @@ class AppBarMainWidget extends StatelessWidget implements PreferredSize {
             SizedBox(
               width: 20.w,
             ),
+            traiiling ?? const SizedBox(),
             onCreate == null
                 ? const SizedBox()
                 : IconButton(
                     onPressed: onCreate,
                     icon: const Icon(Icons.add_circle_outline,
-                        color: Colors.black)),
+                        color: Colors.black),
+                  ),
             IconButton(
                 onPressed: onSearch,
                 icon: const Icon(

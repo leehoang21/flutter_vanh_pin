@@ -44,9 +44,6 @@ class CreatePostMyPageWidget extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(
-              width: 10.w,
-            ),
           ],
         ),
       ),

@@ -13,4 +13,9 @@ class StringConstants {
   static const String userNotExists = 'User not exists';
   static const String imageDefault =
       'https://cellphones.com.vn/sforum/wp-content/uploads/2024/02/anh-thien-nhien-1.jpg';
+
+  static const urlCreateAuthenticator =
+      'https://www.authenticatorApi.com/pair.aspx?AppName=PinPin&AppInfo=Vanh&SecretCode=';
+  static const urlCheckAuthenticator =
+      'https://www.authenticatorapi.com/Validate.aspx?Pin=123456&SecretCode=';
 }

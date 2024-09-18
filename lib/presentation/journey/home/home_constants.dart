@@ -1,3 +1,3 @@
 class HomeConstants {
-  static const createPostTitle = 'What are you thinking?';
+  static const createPostTitle = 'Do you want to write something?';
 }

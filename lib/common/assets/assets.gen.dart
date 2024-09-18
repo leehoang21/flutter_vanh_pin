@@ -102,6 +102,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/logout.png
   AssetGenImage get logout => const AssetGenImage('assets/icons/logout.png');
 
+  /// File path: assets/icons/message.svg
+  SvgGenImage get message => const SvgGenImage('assets/icons/message.svg');
+
   /// File path: assets/icons/notification.svg
   SvgGenImage get notification =>
       const SvgGenImage('assets/icons/notification.svg');
@@ -143,6 +146,7 @@ class $AssetsIconsGen {
         language,
         logIn,
         logout,
+        message,
         notification,
         password,
         rateme,

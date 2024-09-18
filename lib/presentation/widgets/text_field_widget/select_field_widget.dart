@@ -97,12 +97,11 @@ class _SelectFieldWidgetState<T> extends State<SelectFieldWidget<T>> {
               width: 1.sw,
               padding: EdgeInsets.only(left: 14.w, right: 14.w),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(14.r),
-                border: Border.all(
-                  color: Colors.black26,
-                ),
-                color: AppColor.fieldColor,
-              ),
+                  borderRadius: BorderRadius.circular(14.r),
+                  border: Border.all(
+                    color: AppColor.iron,
+                  ),
+                  color: AppColor.iron),
               elevation: 2,
             ),
             iconStyleData: IconStyleData(

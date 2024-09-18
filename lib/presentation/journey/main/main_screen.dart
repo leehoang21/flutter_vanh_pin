@@ -1,6 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pinpin/common/assets/assets.gen.dart';
+import 'package:pinpin/presentation/routers/app_router.dart';
 import '../../themes/themes.dart';
 import 'bloc/tab_manger_cubit.dart';
 import 'main_constants.dart';
@@ -26,13 +29,11 @@ class MainScreen extends StatelessWidget {
         floatingActionButton: FloatingActionButton(
           backgroundColor: AppColor.black,
           onPressed: () async {
-            // context.pushRoute(CreateTransactionRoute());
+            context.pushRoute(const ChatRoute());
           },
           shape: const CircleBorder(),
-          child: Icon(
-            Icons.add_rounded,
-            size: MainConstants.floatingActionButtonIconSize,
-          ),
+          child: Assets.icons.message
+              .svg(color: AppColor.white, height: 30.sp, width: 30.sp),
         ),
         bottomNavigationBar: const _BuildBottomNavigationBar(),
       ),

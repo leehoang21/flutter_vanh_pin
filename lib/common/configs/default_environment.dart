@@ -10,6 +10,9 @@ class DefaultEnvironment {
   static const String post = 'post';
   static const String images = 'images';
   static const String group = 'group';
+  static const String chat = 'chats';
+  static const String message = 'messages';
+  static const String key = 'key';
 
   //local
   static const String lang = 'lang';

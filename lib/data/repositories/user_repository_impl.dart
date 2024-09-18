@@ -24,6 +24,9 @@ class UserRepositoryImpl extends UserRepository {
       .collection(config.auth.currentUser?.uid ?? '')
       .doc(DefaultEnvironment.user);
 
+  CollectionReference<Map<String, dynamic>> get _users =>
+      config.userDoc.collection(DefaultEnvironment.user);
+
   @override
   Future<AppError?> create(UserModel data) async {
     if (config.auth.currentUser == null) return null;
@@ -33,6 +36,14 @@ class UserRepositoryImpl extends UserRepository {
         return AppError(message: StringConstants.userAlreadyExists);
       } else {
         await _doc.set(data.toJson());
+        //
+        final user = UserModel(
+          avatar: data.avatar,
+          userName: data.userName,
+          uId: config.auth.currentUser?.uid,
+          background: data.background,
+        );
+        await _users.doc(config.auth.currentUser?.uid).set(user.toJson());
       }
       return null;
     } catch (e) {
@@ -83,6 +94,17 @@ class UserRepositoryImpl extends UserRepository {
       return user;
     } catch (e) {
       return null;
+    }
+  }
+
+  @override
+  Future<List<UserModel>> getAll() async {
+    try {
+      final result = await _users.get();
+      final users = result.docs.map((e) => UserModel.fromDocument(e)).toList();
+      return users;
+    } catch (e) {
+      return [];
     }
   }
 }
