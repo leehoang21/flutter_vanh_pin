@@ -6,4 +6,6 @@ abstract class BaseBloc<T> extends Cubit<T> {
   }
 
   dynamic onInit() {}
+
+  initState(List<dynamic> params) async {}
 }

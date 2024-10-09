@@ -35,7 +35,7 @@ class CreateChatCubit extends BaseBloc<CreateChatState> {
   void getUsers() async {
     final users = await userUseCase.getAll();
     _users = users;
-    _users.removeWhere((element) => element.uId == appService.user!.uId);
+    _users.removeWhere((element) => element.uId == appService.state.user!.uId);
     emit(state.copyWith(users: _users));
   }
 

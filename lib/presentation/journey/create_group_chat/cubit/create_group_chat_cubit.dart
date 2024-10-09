@@ -48,6 +48,7 @@ class CreateGroupChatCubit extends BaseBloc<String> {
     final model = ChatModel(
       createdAt: DateTime.now(),
       members: [],
+      memberIds: [],
       updatedAt: DateTime.now(),
       chatAvatar: avatarUrl,
       chatContent: '',
@@ -55,11 +56,12 @@ class CreateGroupChatCubit extends BaseBloc<String> {
       chatType: ChatType.group,
     );
     final error = await usecase.createOrUpdate(data: model);
-    if (error != null) {
-      showSnackbar(translationKey: error.toString());
-    } else {
-      pop('');
-    }
+    error.fold(
+      (value) {
+        pop('');
+      },
+      (error) => showSnackbar(translationKey: error.toString()),
+    );
     hideLoading();
   }
 }

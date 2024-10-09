@@ -56,6 +56,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/clock.svg
   SvgGenImage get clock => const SvgGenImage('assets/icons/clock.svg');
 
+  /// File path: assets/icons/comment.svg
+  SvgGenImage get comment => const SvgGenImage('assets/icons/comment.svg');
+
   /// File path: assets/icons/filter.svg
   SvgGenImage get filter => const SvgGenImage('assets/icons/filter.svg');
 
@@ -84,26 +87,37 @@ class $AssetsIconsGen {
   /// File path: assets/icons/ic_wallet.svg
   SvgGenImage get icWallet => const SvgGenImage('assets/icons/ic_wallet.svg');
 
+  /// File path: assets/icons/icon_add_user.svg
+  SvgGenImage get iconAddUser =>
+      const SvgGenImage('assets/icons/icon_add_user.svg');
+
   /// File path: assets/icons/icons8-debt-96.svg
   SvgGenImage get icons8Debt96 =>
       const SvgGenImage('assets/icons/icons8-debt-96.svg');
 
-  /// File path: assets/icons/icons8-test-account-90.svg
-  SvgGenImage get icons8TestAccount90 =>
-      const SvgGenImage('assets/icons/icons8-test-account-90.svg');
+  /// File path: assets/icons/info-circle.svg
+  SvgGenImage get infoCircle =>
+      const SvgGenImage('assets/icons/info-circle.svg');
 
   /// File path: assets/icons/language.png
   AssetGenImage get language =>
       const AssetGenImage('assets/icons/language.png');
 
+  /// File path: assets/icons/like-icon.svg
+  SvgGenImage get likeIcon => const SvgGenImage('assets/icons/like-icon.svg');
+
   /// File path: assets/icons/log-in.svg
   SvgGenImage get logIn => const SvgGenImage('assets/icons/log-in.svg');
 
-  /// File path: assets/icons/logout.png
-  AssetGenImage get logout => const AssetGenImage('assets/icons/logout.png');
+  /// File path: assets/icons/logout.svg
+  SvgGenImage get logout => const SvgGenImage('assets/icons/logout.svg');
 
   /// File path: assets/icons/message.svg
   SvgGenImage get message => const SvgGenImage('assets/icons/message.svg');
+
+  /// File path: assets/icons/navbar_trailing_icon.svg
+  SvgGenImage get navbarTrailingIcon =>
+      const SvgGenImage('assets/icons/navbar_trailing_icon.svg');
 
   /// File path: assets/icons/notification.svg
   SvgGenImage get notification =>
@@ -112,8 +126,14 @@ class $AssetsIconsGen {
   /// File path: assets/icons/password.svg
   SvgGenImage get password => const SvgGenImage('assets/icons/password.svg');
 
+  /// File path: assets/icons/profile.svg
+  SvgGenImage get profile => const SvgGenImage('assets/icons/profile.svg');
+
   /// File path: assets/icons/rateme.png
   AssetGenImage get rateme => const AssetGenImage('assets/icons/rateme.png');
+
+  /// File path: assets/icons/share.svg
+  SvgGenImage get share => const SvgGenImage('assets/icons/share.svg');
 
   /// File path: assets/icons/snackbar_failed.svg
   SvgGenImage get snackbarFailed =>
@@ -121,6 +141,9 @@ class $AssetsIconsGen {
 
   /// File path: assets/icons/success.svg
   SvgGenImage get success => const SvgGenImage('assets/icons/success.svg');
+
+  /// File path: assets/icons/trash.svg
+  SvgGenImage get trash => const SvgGenImage('assets/icons/trash.svg');
 
   /// List of all assets
   List<dynamic> get values => [
@@ -132,6 +155,7 @@ class $AssetsIconsGen {
         categories,
         check,
         clock,
+        comment,
         filter,
         groups,
         help,
@@ -141,17 +165,23 @@ class $AssetsIconsGen {
         icGoogle,
         icMoney,
         icWallet,
+        iconAddUser,
         icons8Debt96,
-        icons8TestAccount90,
+        infoCircle,
         language,
+        likeIcon,
         logIn,
         logout,
         message,
+        navbarTrailingIcon,
         notification,
         password,
+        profile,
         rateme,
+        share,
         snackbarFailed,
-        success
+        success,
+        trash
       ];
 }
 
@@ -161,10 +191,6 @@ class $AssetsImagesGen {
   /// File path: assets/images/black_camera.png
   AssetGenImage get blackCamera =>
       const AssetGenImage('assets/images/black_camera.png');
-
-  /// File path: assets/images/bottom_bar_my_page.png
-  AssetGenImage get bottomBarMyPage =>
-      const AssetGenImage('assets/images/bottom_bar_my_page.png');
 
   /// File path: assets/images/color_camera.png
   AssetGenImage get colorCamera =>
@@ -180,7 +206,7 @@ class $AssetsImagesGen {
 
   /// List of all assets
   List<AssetGenImage> get values =>
-      [blackCamera, bottomBarMyPage, colorCamera, defaultAvatar, logoSplash];
+      [blackCamera, colorCamera, defaultAvatar, logoSplash];
 }
 
 class Assets {

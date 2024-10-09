@@ -16,9 +16,10 @@ class AppValidator {
 
   static String? validatePhoneNumber(String? phoneNumber) {
     phoneNumber = phoneNumber?.replaceAll(' ', '');
-    if (phoneNumber == null ||
-        phoneNumber.isEmpty ||
-        !expPhoneNumber.hasMatch(phoneNumber)) {
+    if (phoneNumber == null || phoneNumber.isEmpty) {
+      return null;
+    }
+    if (!expPhoneNumber.hasMatch(phoneNumber)) {
       return 'invalid_phone'.tr;
     }
     return null;

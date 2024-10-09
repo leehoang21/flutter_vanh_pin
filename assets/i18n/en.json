@@ -51,5 +51,8 @@
   "Education": "Education",
   "Job": "Job",
   "Birthday": "Birthday",
-  "Log out": "Log out"
+  "Log out": "Log out",
+  "invalid_phone": "Invalid phone",
+  "invalid_email": "Invalid email",
+  "user_empty": "User name is empty"
 }

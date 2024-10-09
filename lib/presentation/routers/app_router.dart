@@ -3,19 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:pinpin/presentation/journey/group/group_screen_provider.dart';
 import '../../data/models/chat_model.dart';
 import '../../data/models/group_model.dart';
+import '../../data/models/post_model.dart';
 import '../../data/models/user_model.dart';
 import '../journey/auth/login/login_screen_provider.dart';
 import '../journey/auth/register/register_screen_provider.dart';
 import '../journey/chat/chat_screen_provider.dart';
 import '../journey/chat_detail/chat_detail_screen_provider.dart';
+import '../journey/comment/comment_screen_provider.dart';
 import '../journey/create_chat/create_chat_screen_provider.dart';
 import '../journey/create_group/create_group_screen_provider.dart';
 import '../journey/create_post/create_post_screen_provider.dart';
+import '../journey/edit_profile/edit_profile_screen_provider.dart';
 import '../journey/group_detail/group_detail_screen_provider.dart';
 import '../journey/home/home_screen_provider.dart';
 import '../journey/main/main_screen_provider.dart';
 import '../journey/my_page/my_page_screen_provider.dart';
 import '../journey/notification/notification_screen_provider.dart';
+import '../journey/profile_third/profile_third_screen_provider.dart';
 import '../journey/settings/settings_screen_provider.dart';
 import '../journey/splash/splash_screen.dart';
 part 'app_router.gr.dart';
@@ -81,6 +85,13 @@ class AppRouter extends _$AppRouter {
         //setting
         AutoRoute(
           page: SettingsRoute.page,
+        ),
+        //profile
+        AutoRoute(
+          page: EditProfileRoute.page,
+        ),
+        AutoRoute(
+          page: ProfileThirdRoute.page,
         ),
       ];
 }

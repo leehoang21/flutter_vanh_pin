@@ -15,6 +15,7 @@ class GroupModel with _$GroupModel {
     UserModel? author,
     List<UserModel>? admins,
     List<UserModel>? members,
+    @Default([]) List<String>? memberIds,
     String? avatar,
     String? uId,
     String? name,

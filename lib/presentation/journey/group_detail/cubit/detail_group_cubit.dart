@@ -18,8 +18,9 @@ class GroupDetailCubit extends BaseBloc<GroupDetailState> {
   StreamSubscription _postSubscription = const Stream.empty().listen((_) {});
   late final GroupModel data;
 
-  initState(GroupModel data) {
-    this.data = data;
+  @override
+  initState(List params) {
+    data = params[0] as GroupModel;
     init();
   }
 

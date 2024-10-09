@@ -1,6 +1,7 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:pinpin/common/extension/string_extension.dart';
+import 'package:pinpin/common/utils/app_utils.dart';
 import 'package:pinpin/presentation/themes/themes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -37,7 +38,8 @@ class _SelectFieldWidgetState<T> extends State<SelectFieldWidget<T>> {
 
   @override
   void initState() {
-    selectedValue = widget.selectedValue;
+    selectedValue =
+        isNullEmpty(widget.selectedValue) ? null : widget.selectedValue;
     super.initState();
   }
 
@@ -86,11 +88,12 @@ class _SelectFieldWidgetState<T> extends State<SelectFieldWidget<T>> {
                       ),
                     ))
                 .toList(),
-            value: widget.selectedValue,
+            value: selectedValue,
             onChanged: (value) {
               setState(() {
                 selectedValue = value;
               });
+              widget.onChanged == null ? null : widget.onChanged!(value);
             },
             buttonStyleData: ButtonStyleData(
               height: 50.h,

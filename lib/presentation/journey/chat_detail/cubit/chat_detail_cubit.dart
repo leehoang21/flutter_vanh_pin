@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:chatview/chatview.dart';
+
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -15,6 +15,7 @@ import 'package:pinpin/domain/use_cases/storage_use_case.dart';
 
 import '../../../../common/configs/default_environment.dart';
 import '../../../bloc/base_bloc/base_bloc.dart';
+import '../../../widgets/chat_view/chatview.dart';
 
 part 'chat_detail_cubit.freezed.dart';
 part 'chat_detail_state.dart';
@@ -32,19 +33,19 @@ class ChatDetailCubit extends BaseBloc<ChatDetailState> {
   final AppService appService;
   final ChatUseCase chatUseCase;
   StreamSubscription? _subscription;
+  StreamSubscription? _chatSubscription;
   final StorageUseCase storageUseCase;
 
-  initState(ChatModel model, List<UserModel> members) {
-    data = model;
-    this.members = members;
+  @override
+  initState(List<dynamic> params) {
+    data = params[0] as ChatModel;
+    members = params[1] as List<UserModel>;
     chatController = ChatController(
       initialMessageList: [],
       scrollController: ScrollController(),
-      currentUser: ChatMapper.convertUser(appService.user!),
-      otherUsers: model.members.map((e) => ChatMapper.convertUser(e)).toList(),
+      currentUser: ChatMapper.convertUser(appService.state.user!),
+      otherUsers: data.members.map((e) => ChatMapper.convertUser(e)).toList(),
     );
-
-    init();
   }
 
   void onSendTap(
@@ -64,11 +65,21 @@ class ChatDetailCubit extends BaseBloc<ChatDetailState> {
     await send(data);
   }
 
+  @override
+  close() async {
+    super.close();
+    _subscription?.cancel();
+    _chatSubscription?.cancel();
+  }
+
+  onRely(Message message) {}
+
   Future send(Message message) async {
-    if (message.messageType != MessageType.text) {
+    if (message.messageType == MessageType.image) {
       File? avatar = File(message.message);
       String storagePath =
           '${DefaultEnvironment.chat}/${DateTime.now().toIso8601String()}';
+
       final result = await storageUseCase.put(
         imageToUpload: avatar,
         imagePathStorage: storagePath,
@@ -80,7 +91,20 @@ class ChatDetailCubit extends BaseBloc<ChatDetailState> {
         );
       }, (error) => showSnackbar(translationKey: error.toString()));
     }
-    if (isNullEmpty(data.uId)) await createChat();
+    if (isNullEmpty(data.uId)) {
+      final result = await chatUseCase.createOrUpdate(data: data);
+      result.fold(
+        (value) {
+          data = value;
+        },
+        (error) {
+          showSnackbar(translationKey: error.message);
+        },
+      );
+    }
+    message = message.copyWith(
+      status: MessageStatus.read,
+    );
     final result = await chatUseCase.sendOrUpdateMessage(
         data: message, chatId: data.uId ?? '');
     if (result != null) {
@@ -88,12 +112,16 @@ class ChatDetailCubit extends BaseBloc<ChatDetailState> {
     }
   }
 
-  createChat() async {
-    await chatUseCase.createOrUpdate(data: data);
-  }
+  Future delete(String id) async {
+    final result =
+        await chatUseCase.deleteMessage(id: id, chatId: data.uId ?? '');
+    chatController.initialMessageList.removeWhere(
+      (element) => element.id == id,
+    );
 
-  init() {
-    get();
+    if (result != null) {
+      showSnackbar(translationKey: result.message);
+    }
   }
 
   get() async {
@@ -109,16 +137,24 @@ class ChatDetailCubit extends BaseBloc<ChatDetailState> {
     )
         .listen((event) {
       event.fold(
-        (value) {
+        (value) async {
+          if (chatController.initialMessageList.isEmpty) {
+            for (final i in value) {
+              i.setStatus = MessageStatus.read;
+            }
+            chatController.loadMoreData(value);
+            return;
+          }
           //lọc dữ liệu chưa có để thêm vào
           final list = value.where((element) {
-            return !chatController.initialMessageList
-                .any((e) => e.id == element.id);
+            return !chatController.initialMessageList.any(
+              (e) => (e.id == element.id),
+            );
           }).toList();
+          chatController.initialMessageList
+              .removeWhere((element) => element.status != MessageStatus.read);
+          if (list.isEmpty) return;
           chatController.loadMoreData(list);
-          for (var element in chatController.initialMessageList) {
-            element.setStatus = MessageStatus.delivered;
-          }
         },
         (error) {
           showSnackbar(translationKey: error.message);

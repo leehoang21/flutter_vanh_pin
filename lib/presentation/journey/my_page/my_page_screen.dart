@@ -1,19 +1,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinpin/common/extension/date_time_extension.dart';
 import 'package:pinpin/presentation/journey/my_page/my_page_constants.dart';
 import 'package:pinpin/presentation/routers/app_router.dart';
 import 'package:pinpin/presentation/themes/themes.dart';
-import 'package:pinpin/presentation/widgets/button_widget/text_button_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pinpin/presentation/widgets/card_widget/card_custom.dart';
 import 'package:pinpin/presentation/widgets/card_widget/post_card.dart';
 import 'package:pinpin/presentation/widgets/image_app_widget/avatar_widget.dart';
 import '../../widgets/image_app_widget/image_app.dart';
 import 'cubit/my_page_cubit.dart';
-import 'widget/create_post_my_page_widget.dart';
 
 class MyPageScreen extends StatefulWidget {
   const MyPageScreen({Key? key}) : super(key: key);
@@ -25,63 +22,55 @@ class MyPageScreen extends StatefulWidget {
 class _MyPageScreenState extends State<MyPageScreen> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle.light.copyWith(
-            statusBarColor: Theme.of(context).appBarTheme.backgroundColor),
-        child: Scaffold(
-          body: RefreshIndicator(
-            onRefresh: () async {
-              context.read<MyPageCubit>().init();
-            },
-            child: ListView(
+    return RefreshIndicator(
+      onRefresh: () async {
+        context.read<MyPageCubit>().onInit();
+      },
+      child: ListView(
+        children: [
+          CardCustom(
+            padding: EdgeInsets.zero,
+            child: Column(
               children: [
-                CardCustom(
-                  padding: EdgeInsets.zero,
-                  child: Column(
-                    children: [
-                      const _WallPaperAndAvatarWidget(),
-                      SizedBox(
-                        height: 10.h,
-                      ),
-                      const _Info(),
-                      SizedBox(
-                        height: 10.h,
-                      ),
-                      SizedBox(
-                        height: 8.h,
-                      ),
-                    ],
-                  ),
+                const _WallPaperAndAvatarWidget(),
+                SizedBox(
+                  height: 10.h,
+                ),
+                const _Info(),
+                SizedBox(
+                  height: 10.h,
                 ),
                 SizedBox(
-                  height: 20.h,
+                  height: 8.h,
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 20.w,
-                  ),
-                  child: CardCustom(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        const CreatePostMyPageWidget(),
-                        SizedBox(
-                          height: 12.h,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 12.h,
-                ),
-                for (var item in context.watch<MyPageCubit>().state.posts)
-                  PostCard(model: item),
               ],
             ),
           ),
-        ),
+          SizedBox(
+            height: 20.h,
+          ),
+          // Padding(
+          //   padding: EdgeInsets.symmetric(
+          //     horizontal: 20.w,
+          //   ),
+          //   child: CardCustom(
+          //     child: Column(
+          //       mainAxisAlignment: MainAxisAlignment.end,
+          //       children: [
+          //         const CreatePostMyPageWidget(),
+          //         SizedBox(
+          //           height: 12.h,
+          //         ),
+          //       ],
+          //     ),
+          //   ),
+          // ),
+          SizedBox(
+            height: 12.h,
+          ),
+          for (var item in context.watch<MyPageCubit>().state.posts)
+            PostCard(model: item),
+        ],
       ),
     );
   }
@@ -97,19 +86,9 @@ class _Info extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                context.watch<MyPageCubit>().state.user.userName ?? '',
-                style: ThemeText.body2,
-              ),
-              TextButtonWidget(
-                onPressed: () {},
-                title: MyPageConstants.edit,
-                width: 100.w,
-              ),
-            ],
+          Text(
+            context.watch<MyPageCubit>().state.user.userName ?? '',
+            style: ThemeText.body2,
           ),
           SizedBox(
             height: 10.h,
@@ -176,7 +155,8 @@ class _ItemInfo extends StatelessWidget {
   }
 }
 
-class _WallPaperAndAvatarWidget extends StatelessWidget {
+class _WallPaperAndAvatarWidget extends StatelessWidget
+    implements PreferredSize {
   const _WallPaperAndAvatarWidget();
 
   @override
@@ -208,8 +188,9 @@ class _WallPaperAndAvatarWidget extends StatelessWidget {
             bottom: 10.h,
             right: 40.w,
             child: IconButton(
-                onPressed: () {
-                  context.pushRoute(const SettingsRoute());
+                onPressed: () async {
+                  await context.pushRoute(const SettingsRoute());
+                  context.read<MyPageCubit>().onInit();
                 },
                 icon: const Icon(Icons.settings)),
           ),
@@ -217,4 +198,13 @@ class _WallPaperAndAvatarWidget extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  Widget get child => Container();
+
+  @override
+  Size get preferredSize => Size(
+        1.sw,
+        (160 + (80.sp / 2)).h,
+      );
 }

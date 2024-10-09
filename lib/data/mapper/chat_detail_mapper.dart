@@ -1,5 +1,6 @@
-import 'package:chatview/chatview.dart';
 import 'package:pinpin/data/models/user_model.dart';
+
+import '../../presentation/widgets/chat_view/chatview.dart';
 
 class ChatMapper {
   static ChatUser convertUser(UserModel user) {

@@ -28,6 +28,13 @@ class HomeCubit extends BaseBloc<HomeState> {
     return super.close();
   }
 
+  share(
+    PostModel post,
+    String content,
+  ) {
+    postUseCase.create(content: content, images: [], share: post);
+  }
+
   void getPosts() async {
     _postSubscription.cancel();
     _postSubscription = postUseCase.get().listen((event) {

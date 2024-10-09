@@ -20,7 +20,7 @@ class MainConstants {
       "label": 'Notifications',
     },
     {
-      "iconPath": Assets.images.bottomBarMyPage.path,
+      "iconPath": Assets.icons.profile.path,
       "label": 'My page',
     },
   ];

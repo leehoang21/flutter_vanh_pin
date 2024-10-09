@@ -1,9 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinpin/common/extension/string_extension.dart';
+import 'package:pinpin/common/service/app_service.dart';
 import 'package:pinpin/presentation/journey/home/home_constants.dart';
 import 'package:pinpin/presentation/themes/themes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pinpin/presentation/widgets/image_app_widget/avatar_widget.dart';
 
 import '../../../routers/app_router.dart';
 
@@ -20,10 +23,8 @@ class CreatePostWidget extends StatelessWidget {
         },
         child: Row(
           children: [
-            const CircleAvatar(
-              backgroundImage: NetworkImage(
-                  'https://cellphones.com.vn/sforum/wp-content/uploads/2024/02/anh-thien-nhien-1.jpg'),
-            ),
+            AvatarWidget(
+                path: context.watch<AppService>().state.user?.avatar ?? ""),
             SizedBox(
               width: 10.w,
             ),

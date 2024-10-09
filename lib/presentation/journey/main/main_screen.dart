@@ -33,6 +33,7 @@ class MainScreen extends StatelessWidget {
           },
           shape: const CircleBorder(),
           child: Assets.icons.message
+              // ignore: deprecated_member_use_from_same_package
               .svg(color: AppColor.white, height: 30.sp, width: 30.sp),
         ),
         bottomNavigationBar: const _BuildBottomNavigationBar(),

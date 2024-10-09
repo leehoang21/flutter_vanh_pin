@@ -17,6 +17,10 @@ _$GroupModelImpl _$$GroupModelImplFromJson(Map<String, dynamic> json) =>
       members: (json['members'] as List<dynamic>?)
           ?.map((e) => UserModel.fromJson(e as Map<String, dynamic>))
           .toList(),
+      memberIds: (json['memberIds'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
       avatar: json['avatar'] as String?,
       uId: json['uId'] as String?,
       name: json['name'] as String?,
@@ -31,6 +35,7 @@ Map<String, dynamic> _$$GroupModelImplToJson(_$GroupModelImpl instance) =>
       'author': instance.author?.toJson(),
       'admins': instance.admins?.map((e) => e.toJson()).toList(),
       'members': instance.members?.map((e) => e.toJson()).toList(),
+      'memberIds': instance.memberIds,
       'avatar': instance.avatar,
       'uId': instance.uId,
       'name': instance.name,

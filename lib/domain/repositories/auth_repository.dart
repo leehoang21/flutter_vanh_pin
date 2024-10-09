@@ -23,4 +23,5 @@ abstract class AuthRepository {
   Future<Either<UserModel, AppError>> loginWithToken(String token);
   Future<bool> checkGoogleAuthenticator(String token);
   Future<String> createGoogleAuthenticator();
+  Future<void> logout();
 }

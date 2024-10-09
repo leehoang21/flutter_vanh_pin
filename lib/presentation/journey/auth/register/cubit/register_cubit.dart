@@ -29,11 +29,12 @@ class RegisterCubit extends BaseBloc<RegisterState> {
           ),
         );
 
-  void initState(String phoneNumber) async {
+  @override
+  void initState(List<dynamic> params) async {
     emit(
       state.copyWith(
         userModel: UserModel(
-          phoneNumber: phoneNumber,
+          phoneNumber: params[0] as String?,
           uId: null,
         ),
       ),

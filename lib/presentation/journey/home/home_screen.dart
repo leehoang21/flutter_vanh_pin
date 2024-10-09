@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinpin/common/constants/string_constants.dart';
 import 'package:pinpin/common/extension/string_extension.dart';
@@ -20,43 +19,37 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle.light.copyWith(
-            statusBarColor: Theme.of(context).appBarTheme.backgroundColor),
-        child: Scaffold(
-          appBar: AppBarMainWidget(
-            title: StringConstants.appTitle.tr,
-            onSearch: () {},
-          ),
-          body: RefreshIndicator(
-            onRefresh: () async {
-              context.read<HomeCubit>().onInit();
-            },
-            child: ListView(
-              children: [
-                SizedBox(
-                  height: 8.h,
-                ),
-                const CreatePostWidget(),
-                SizedBox(
-                  height: 12.h,
-                ),
-                BlocBuilder<HomeCubit, HomeState>(
-                  builder: (context, state) {
-                    return Column(
-                        children: convertMaptoListAndSoft(state.posts)
-                            .map(
-                              (e) => PostCard(
-                                model: e,
-                              ),
-                            )
-                            .toList());
-                  },
-                )
-              ],
+    return Scaffold(
+      appBar: AppBarMainWidget(
+        title: StringConstants.appTitle.tr,
+        onSearch: () {},
+      ),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          context.read<HomeCubit>().onInit();
+        },
+        child: ListView(
+          children: [
+            SizedBox(
+              height: 8.h,
             ),
-          ),
+            const CreatePostWidget(),
+            SizedBox(
+              height: 12.h,
+            ),
+            BlocBuilder<HomeCubit, HomeState>(
+              builder: (context, state) {
+                return Column(
+                    children: convertMaptoListAndSoft(state.posts)
+                        .map(
+                          (e) => PostCard(
+                            model: e,
+                          ),
+                        )
+                        .toList());
+              },
+            )
+          ],
         ),
       ),
     );

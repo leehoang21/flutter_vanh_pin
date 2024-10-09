@@ -1,9 +1,9 @@
-import 'dart:async';
 import 'package:pinpin/common/extension/bloc_extension.dart';
-import 'package:pinpin/data/models/post_model.dart';
-import 'package:pinpin/data/models/user_model.dart';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:pinpin/domain/use_cases/auth_use_case.dart';
+import 'package:pinpin/presentation/routers/app_router.dart';
 
 import '../../../../domain/use_cases/post_use_case.dart';
 import '../../../bloc/base_bloc/base_bloc.dart';
@@ -14,31 +14,12 @@ part 'settings_state.dart';
 @injectable
 class SettingsCubit extends BaseBloc<SettingsState> {
   final PostUseCase postUseCase;
-  SettingsCubit(this.postUseCase) : super(const SettingsState(UserModel(), []));
-  late final UserModel user;
-  StreamSubscription _postSubscription = const Stream.empty().listen((_) {});
+  final AuthUseCase authUseCase;
+  SettingsCubit(this.postUseCase, this.authUseCase)
+      : super(const SettingsState());
 
-  initState(UserModel user) {
-    emit(SettingsState(user, []));
-    init();
-  }
-
-  init() {
-    getPosts();
-  }
-
-  void getPosts() async {
-    _postSubscription.cancel();
-    _postSubscription =
-        postUseCase.getToUser(state.user.uId ?? '').listen((event) {
-      event.fold(
-        (posts) {
-          emit(state.copyWith(posts: posts));
-        },
-        (error) {
-          showSnackbar(translationKey: error.toString());
-        },
-      );
-    });
+  void logout() async {
+    await authUseCase.signOut();
+    pushAndRemoveUntil(const LoginRoute(), predicate: (route) => false);
   }
 }

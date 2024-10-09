@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$CreatePostState {
-  List<File> get images => throw _privateConstructorUsedError;
+  List<String> get images => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $CreatePostStateCopyWith<CreatePostState> get copyWith =>
@@ -29,7 +29,7 @@ abstract class $CreatePostStateCopyWith<$Res> {
           CreatePostState value, $Res Function(CreatePostState) then) =
       _$CreatePostStateCopyWithImpl<$Res, CreatePostState>;
   @useResult
-  $Res call({List<File> images});
+  $Res call({List<String> images});
 }
 
 /// @nodoc
@@ -51,7 +51,7 @@ class _$CreatePostStateCopyWithImpl<$Res, $Val extends CreatePostState>
       images: null == images
           ? _value.images
           : images // ignore: cast_nullable_to_non_nullable
-              as List<File>,
+              as List<String>,
     ) as $Val);
   }
 }
@@ -64,7 +64,7 @@ abstract class _$$CreatePostStateImplCopyWith<$Res>
       __$$CreatePostStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<File> images});
+  $Res call({List<String> images});
 }
 
 /// @nodoc
@@ -84,7 +84,7 @@ class __$$CreatePostStateImplCopyWithImpl<$Res>
       null == images
           ? _value._images
           : images // ignore: cast_nullable_to_non_nullable
-              as List<File>,
+              as List<String>,
     ));
   }
 }
@@ -92,11 +92,11 @@ class __$$CreatePostStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$CreatePostStateImpl implements _CreatePostState {
-  _$CreatePostStateImpl(final List<File> images) : _images = images;
+  _$CreatePostStateImpl(final List<String> images) : _images = images;
 
-  final List<File> _images;
+  final List<String> _images;
   @override
-  List<File> get images {
+  List<String> get images {
     if (_images is EqualUnmodifiableListView) return _images;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_images);
@@ -128,10 +128,10 @@ class _$CreatePostStateImpl implements _CreatePostState {
 }
 
 abstract class _CreatePostState implements CreatePostState {
-  factory _CreatePostState(final List<File> images) = _$CreatePostStateImpl;
+  factory _CreatePostState(final List<String> images) = _$CreatePostStateImpl;
 
   @override
-  List<File> get images;
+  List<String> get images;
   @override
   @JsonKey(ignore: true)
   _$$CreatePostStateImplCopyWith<_$CreatePostStateImpl> get copyWith =>

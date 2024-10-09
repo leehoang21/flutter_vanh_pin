@@ -21,6 +21,7 @@ ChatModel _$ChatModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$ChatModel {
   List<UserModel> get members => throw _privateConstructorUsedError;
+  List<String> get memberIds => throw _privateConstructorUsedError;
   String? get status => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
@@ -43,6 +44,7 @@ abstract class $ChatModelCopyWith<$Res> {
   @useResult
   $Res call(
       {List<UserModel> members,
+      List<String> memberIds,
       String? status,
       DateTime? updatedAt,
       DateTime? createdAt,
@@ -67,6 +69,7 @@ class _$ChatModelCopyWithImpl<$Res, $Val extends ChatModel>
   @override
   $Res call({
     Object? members = null,
+    Object? memberIds = null,
     Object? status = freezed,
     Object? updatedAt = freezed,
     Object? createdAt = freezed,
@@ -81,6 +84,10 @@ class _$ChatModelCopyWithImpl<$Res, $Val extends ChatModel>
           ? _value.members
           : members // ignore: cast_nullable_to_non_nullable
               as List<UserModel>,
+      memberIds: null == memberIds
+          ? _value.memberIds
+          : memberIds // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -127,6 +134,7 @@ abstract class _$$ChatModelImplCopyWith<$Res>
   @useResult
   $Res call(
       {List<UserModel> members,
+      List<String> memberIds,
       String? status,
       DateTime? updatedAt,
       DateTime? createdAt,
@@ -149,6 +157,7 @@ class __$$ChatModelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? members = null,
+    Object? memberIds = null,
     Object? status = freezed,
     Object? updatedAt = freezed,
     Object? createdAt = freezed,
@@ -163,6 +172,10 @@ class __$$ChatModelImplCopyWithImpl<$Res>
           ? _value._members
           : members // ignore: cast_nullable_to_non_nullable
               as List<UserModel>,
+      memberIds: null == memberIds
+          ? _value._memberIds
+          : memberIds // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -205,6 +218,7 @@ class __$$ChatModelImplCopyWithImpl<$Res>
 class _$ChatModelImpl implements _ChatModel {
   const _$ChatModelImpl(
       {final List<UserModel> members = const [],
+      final List<String> memberIds = const [],
       this.status,
       this.updatedAt,
       this.createdAt,
@@ -213,7 +227,8 @@ class _$ChatModelImpl implements _ChatModel {
       this.chatAvatar,
       this.chatContent,
       this.uId})
-      : _members = members;
+      : _members = members,
+        _memberIds = memberIds;
 
   factory _$ChatModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$ChatModelImplFromJson(json);
@@ -225,6 +240,15 @@ class _$ChatModelImpl implements _ChatModel {
     if (_members is EqualUnmodifiableListView) return _members;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_members);
+  }
+
+  final List<String> _memberIds;
+  @override
+  @JsonKey()
+  List<String> get memberIds {
+    if (_memberIds is EqualUnmodifiableListView) return _memberIds;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_memberIds);
   }
 
   @override
@@ -246,7 +270,7 @@ class _$ChatModelImpl implements _ChatModel {
 
   @override
   String toString() {
-    return 'ChatModel(members: $members, status: $status, updatedAt: $updatedAt, createdAt: $createdAt, chatType: $chatType, chatName: $chatName, chatAvatar: $chatAvatar, chatContent: $chatContent, uId: $uId)';
+    return 'ChatModel(members: $members, memberIds: $memberIds, status: $status, updatedAt: $updatedAt, createdAt: $createdAt, chatType: $chatType, chatName: $chatName, chatAvatar: $chatAvatar, chatContent: $chatContent, uId: $uId)';
   }
 
   @override
@@ -255,6 +279,8 @@ class _$ChatModelImpl implements _ChatModel {
         (other.runtimeType == runtimeType &&
             other is _$ChatModelImpl &&
             const DeepCollectionEquality().equals(other._members, _members) &&
+            const DeepCollectionEquality()
+                .equals(other._memberIds, _memberIds) &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt) &&
@@ -276,6 +302,7 @@ class _$ChatModelImpl implements _ChatModel {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(_members),
+      const DeepCollectionEquality().hash(_memberIds),
       status,
       updatedAt,
       createdAt,
@@ -302,6 +329,7 @@ class _$ChatModelImpl implements _ChatModel {
 abstract class _ChatModel implements ChatModel {
   const factory _ChatModel(
       {final List<UserModel> members,
+      final List<String> memberIds,
       final String? status,
       final DateTime? updatedAt,
       final DateTime? createdAt,
@@ -316,6 +344,8 @@ abstract class _ChatModel implements ChatModel {
 
   @override
   List<UserModel> get members;
+  @override
+  List<String> get memberIds;
   @override
   String? get status;
   @override

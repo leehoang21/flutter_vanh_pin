@@ -41,15 +41,22 @@ dependencies:
   google_sign_in: ^6.1.6
   crypto: ^3.0.3
   flutter_facebook_auth: ^6.0.3
-  url_launcher: ^6.2.2
+  url_launcher: ^6.3.0
   flutter_translate: ^4.1.0
   flutter_i18n: ^0.36.2
   flutter_secure_storage: ^9.2.2
   timeago: ^3.7.0
   dropdown_button2: ^2.3.9
   rxdart: ^0.28.0
-  chatview: ^2.2.0
+  # chatview: ^2.2.0
   crypton: ^2.2.1
+  emoji_picker_flutter: ^2.2.0
+  any_link_preview: ^3.0.2
+  audio_waveforms: ^1.0.5
+  firebase_messaging: ^14.9.4
+  flutter_keychain: ^2.5.0
+  diffie_hellman: ^1.1.5
+  flutter_slidable: ^3.1.1
 
 dev_dependencies:
   flutter_test:

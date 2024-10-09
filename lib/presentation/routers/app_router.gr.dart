@@ -32,6 +32,16 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const ChatScreenProvider(),
       );
     },
+    CommentRoute.name: (routeData) {
+      final args = routeData.argsAs<CommentRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: CommentScreenProvider(
+          key: args.key,
+          post: args.post,
+        ),
+      );
+    },
     CreateChatRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -52,7 +62,14 @@ abstract class _$AppRouter extends RootStackRouter {
         child: CreatePostScreenProvider(
           key: args.key,
           group: args.group,
+          post: args.post,
         ),
+      );
+    },
+    EditProfileRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const EditProfileScreenProvider(),
       );
     },
     GroupDetailRoute.name: (routeData) {
@@ -90,19 +107,25 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     MyPageRoute.name: (routeData) {
-      final args = routeData.argsAs<MyPageRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: MyPageScreenProvider(
-          key: args.key,
-          user: args.user,
-        ),
+        child: const MyPageScreenProvider(),
       );
     },
     NotificationRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const NotificationScreenProvider(),
+      );
+    },
+    ProfileThirdRoute.name: (routeData) {
+      final args = routeData.argsAs<ProfileThirdRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: ProfileThirdScreenProvider(
+          key: args.key,
+          user: args.user,
+        ),
       );
     },
     RegisterRoute.name: (routeData) {
@@ -184,6 +207,44 @@ class ChatRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [CommentScreenProvider]
+class CommentRoute extends PageRouteInfo<CommentRouteArgs> {
+  CommentRoute({
+    Key? key,
+    required PostModel post,
+    List<PageRouteInfo>? children,
+  }) : super(
+          CommentRoute.name,
+          args: CommentRouteArgs(
+            key: key,
+            post: post,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'CommentRoute';
+
+  static const PageInfo<CommentRouteArgs> page =
+      PageInfo<CommentRouteArgs>(name);
+}
+
+class CommentRouteArgs {
+  const CommentRouteArgs({
+    this.key,
+    required this.post,
+  });
+
+  final Key? key;
+
+  final PostModel post;
+
+  @override
+  String toString() {
+    return 'CommentRouteArgs{key: $key, post: $post}';
+  }
+}
+
+/// generated route for
 /// [CreateChatScreenProvider]
 class CreateChatRoute extends PageRouteInfo<void> {
   const CreateChatRoute({List<PageRouteInfo>? children})
@@ -217,12 +278,14 @@ class CreatePostRoute extends PageRouteInfo<CreatePostRouteArgs> {
   CreatePostRoute({
     Key? key,
     GroupModel? group,
+    PostModel? post,
     List<PageRouteInfo>? children,
   }) : super(
           CreatePostRoute.name,
           args: CreatePostRouteArgs(
             key: key,
             group: group,
+            post: post,
           ),
           initialChildren: children,
         );
@@ -237,16 +300,33 @@ class CreatePostRouteArgs {
   const CreatePostRouteArgs({
     this.key,
     this.group,
+    this.post,
   });
 
   final Key? key;
 
   final GroupModel? group;
 
+  final PostModel? post;
+
   @override
   String toString() {
-    return 'CreatePostRouteArgs{key: $key, group: $group}';
+    return 'CreatePostRouteArgs{key: $key, group: $group, post: $post}';
   }
+}
+
+/// generated route for
+/// [EditProfileScreenProvider]
+class EditProfileRoute extends PageRouteInfo<void> {
+  const EditProfileRoute({List<PageRouteInfo>? children})
+      : super(
+          EditProfileRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'EditProfileRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
@@ -345,39 +425,16 @@ class MainRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [MyPageScreenProvider]
-class MyPageRoute extends PageRouteInfo<MyPageRouteArgs> {
-  MyPageRoute({
-    Key? key,
-    required UserModel? user,
-    List<PageRouteInfo>? children,
-  }) : super(
+class MyPageRoute extends PageRouteInfo<void> {
+  const MyPageRoute({List<PageRouteInfo>? children})
+      : super(
           MyPageRoute.name,
-          args: MyPageRouteArgs(
-            key: key,
-            user: user,
-          ),
           initialChildren: children,
         );
 
   static const String name = 'MyPageRoute';
 
-  static const PageInfo<MyPageRouteArgs> page = PageInfo<MyPageRouteArgs>(name);
-}
-
-class MyPageRouteArgs {
-  const MyPageRouteArgs({
-    this.key,
-    required this.user,
-  });
-
-  final Key? key;
-
-  final UserModel? user;
-
-  @override
-  String toString() {
-    return 'MyPageRouteArgs{key: $key, user: $user}';
-  }
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
@@ -392,6 +449,44 @@ class NotificationRoute extends PageRouteInfo<void> {
   static const String name = 'NotificationRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [ProfileThirdScreenProvider]
+class ProfileThirdRoute extends PageRouteInfo<ProfileThirdRouteArgs> {
+  ProfileThirdRoute({
+    Key? key,
+    required UserModel? user,
+    List<PageRouteInfo>? children,
+  }) : super(
+          ProfileThirdRoute.name,
+          args: ProfileThirdRouteArgs(
+            key: key,
+            user: user,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'ProfileThirdRoute';
+
+  static const PageInfo<ProfileThirdRouteArgs> page =
+      PageInfo<ProfileThirdRouteArgs>(name);
+}
+
+class ProfileThirdRouteArgs {
+  const ProfileThirdRouteArgs({
+    this.key,
+    required this.user,
+  });
+
+  final Key? key;
+
+  final UserModel? user;
+
+  @override
+  String toString() {
+    return 'ProfileThirdRouteArgs{key: $key, user: $user}';
+  }
 }
 
 /// generated route for

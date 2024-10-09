@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinpin/common/constants/layout_constants.dart';
 import 'package:pinpin/common/constants/string_constants.dart';
+import 'package:pinpin/common/service/app_service.dart';
 import 'package:pinpin/presentation/routers/app_router.dart';
 import 'package:pinpin/presentation/themes/themes.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -50,7 +51,9 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   @override
   void dispose() {
     try {
-      getIt.get<FirebaseConfig>().auth.signOut();
+      getIt.getAsync<FirebaseConfig>().then((config) {
+        config.auth.signOut();
+      });
     } catch (e) {
       logger(e.toString());
     }
@@ -75,6 +78,9 @@ class _AppState extends State<App> with WidgetsBindingObserver {
                 providers: [
                   BlocProvider(
                     create: (_) => getIt.get<LoadingBloc>(),
+                  ),
+                  BlocProvider(
+                    create: (_) => getIt.get<AppService>(),
                   ),
                 ],
                 child: MaterialApp.router(

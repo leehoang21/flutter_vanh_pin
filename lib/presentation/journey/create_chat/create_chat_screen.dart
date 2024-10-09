@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pinpin/common/di/di.dart';
 import 'package:pinpin/common/service/app_service.dart';
 import 'package:pinpin/data/models/chat_model.dart';
 import 'package:pinpin/data/models/user_model.dart';
@@ -77,7 +76,7 @@ class _ItemChatState extends State<_ItemChat> {
       onTap: () {
         final members = [
           widget.data,
-          getIt.get<AppService>().user!,
+          context.read<AppService>().state.user!,
         ];
         context.pushRoute(
           ChatDetailRoute(
@@ -86,6 +85,7 @@ class _ItemChatState extends State<_ItemChat> {
               chatName: widget.data.userName,
               chatType: ChatType.single,
               members: members,
+              memberIds: members.map((e) => e.uId ?? '').toList(),
             ),
             members: members,
           ),

@@ -1,10 +1,15 @@
-import 'package:chatview/chatview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pinpin/common/assets/assets.gen.dart';
+import 'package:pinpin/common/extension/string_extension.dart';
 import 'package:pinpin/common/utils/app_utils.dart';
 import 'package:pinpin/data/models/chat_model.dart';
+import 'package:pinpin/presentation/journey/chat_detail/chat_detail_constants.dart';
 import 'package:pinpin/presentation/journey/chat_detail/cubit/chat_detail_cubit.dart';
 
+import '../../widgets/button_widget/icon_button_widget.dart';
+import '../../widgets/chat_view/chatview.dart';
 import 'common/theme.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -54,6 +59,15 @@ class _ChatScreenState extends State<ChatScreen> {
           flashingCircleDarkColor: theme.flashingCircleDarkColor,
         ),
         appBar: ChatViewAppBar(
+          actions: [
+            IconButtonWidget(
+              onPressed: () {},
+              icon: (Assets.icons.navbarTrailingIcon.svg(
+                width: 30.sp,
+                height: 30.sp,
+              )),
+            ),
+          ],
           elevation: theme.elevation,
           backGroundColor: theme.appBarColor,
           profilePicture: isNullEmpty(widget.model.chatAvatar)
@@ -133,6 +147,10 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
         ),
         replyPopupConfig: ReplyPopupConfiguration(
+          onUnsendTap: (message) async {
+            await context.read<ChatDetailCubit>().delete(message.id);
+            setState(() {});
+          },
           backgroundColor: theme.replyPopupColor,
           buttonTextStyle: TextStyle(color: theme.replyPopupButtonColor),
           topBorderColor: theme.replyPopupTopBorderColor,
@@ -219,6 +237,51 @@ class _ChatScreenState extends State<ChatScreen> {
               .onSendTap(item.text, const ReplyMessage(), MessageType.text),
         ),
       ),
+    );
+  }
+}
+
+class MoreWidget extends StatelessWidget {
+  const MoreWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        IconButtonWidget(
+          onPressed: () {},
+          icon: Assets.icons.profile.svg(
+            width: 30.sp,
+            height: 30.sp,
+          ),
+          title: ChatDetailConstants.members.tr,
+        ),
+        IconButtonWidget(
+          onPressed: () {},
+          icon: Assets.icons.trash.svg(
+            width: 30.sp,
+            height: 30.sp,
+          ),
+          title: ChatDetailConstants.deleteChat.tr,
+        ),
+        IconButtonWidget(
+          onPressed: () {},
+          icon: Assets.icons.infoCircle.svg(
+            width: 30.sp,
+            height: 30.sp,
+          ),
+          title: ChatDetailConstants.info.tr,
+        ),
+        IconButtonWidget(
+          onPressed: () {},
+          icon: Assets.icons.logout.svg(
+            width: 30.sp,
+            height: 30.sp,
+          ),
+          title: ChatDetailConstants.leaveGroup.tr,
+        ),
+      ],
     );
   }
 }

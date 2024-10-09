@@ -1,23 +1,31 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pinpin/common/constants/string_constants.dart';
+import 'package:pinpin/common/service/app_service.dart';
+import 'package:pinpin/common/utils/app_utils.dart';
 import 'package:pinpin/data/mapper/auth_mapper.dart';
 
 import 'package:injectable/injectable.dart';
 import '../../common/configs/default_environment.dart';
 import '../../common/configs/firebase_config.dart';
 import '../../common/exception/app_error.dart';
+import '../../domain/repositories/friend_repository.dart';
 import '../../domain/repositories/storage_repository.dart';
 import '../../domain/repositories/user_repository.dart';
+import '../models/friend_model.dart';
 import '../models/user_model.dart';
 
 @Injectable(as: UserRepository)
 class UserRepositoryImpl extends UserRepository {
   final FirebaseConfig config;
+  final AppService appService;
+  final FriendRepository friendRepository;
 
   final StorageRepository storageRepository;
   UserRepositoryImpl(
     this.config,
     this.storageRepository,
+    this.appService,
+    this.friendRepository,
   ) : super();
 
   DocumentReference<Map<String, dynamic>> get _doc => config.userDoc
@@ -57,7 +65,26 @@ class UserRepositoryImpl extends UserRepository {
     try {
       final bool exists = await exits();
       if (exists) {
-        await _doc.update(data.toJson());
+        final param = {
+          'phoneNumber': data.phoneNumber,
+          'userName': data.userName,
+          'address': data.address,
+          'education': data.education,
+          'job': data.job,
+        };
+        if (isNullEmpty(data.avatar)) {
+          param['avatar'] = data.avatar;
+        }
+
+        await _doc.update(param);
+        appService.setUser(appService.state.user!.copyWith(
+          phoneNumber: data.phoneNumber,
+          userName: data.userName,
+          avatar: isNullEmpty(data.avatar) ? null : data.avatar,
+          address: data.address,
+          education: data.education,
+          job: data.job,
+        ));
       } else {
         return AppError(message: StringConstants.userNotExists);
       }
@@ -78,8 +105,18 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   @override
-  Future<UserModel?> get() async {
+  Future<UserModel?> get({
+    String? id,
+  }) async {
     try {
+      if (!isNullEmpty(id)) {
+        final d = config.userDoc.collection(id!).doc(DefaultEnvironment.user);
+        final result = await d.get();
+        if (result.exists) {
+          return UserModel.fromDocument(result);
+        }
+        return null;
+      }
       if (config.auth.currentUser == null) return null;
       final bool exists = await exits();
       if (!exists) {
@@ -91,7 +128,9 @@ class UserRepositoryImpl extends UserRepository {
       final user = UserModel.fromDocument(
         result,
       );
-      return user;
+      final friends = await friendRepository.get(FriendStatus.all);
+
+      return user.copyWith(friends: friends);
     } catch (e) {
       return null;
     }

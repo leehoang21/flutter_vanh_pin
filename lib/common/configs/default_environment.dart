@@ -12,7 +12,13 @@ class DefaultEnvironment {
   static const String group = 'group';
   static const String chat = 'chats';
   static const String message = 'messages';
+  static const String friend = 'friend';
+  static const String comment = 'comment';
+  static const String tokens = 'tokens';
+  static const String notification = 'notification';
+
   static const String key = 'key';
+  static const String token = 'token';
 
   //local
   static const String lang = 'lang';

@@ -4,7 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pinpin/presentation/themes/themes.dart';
 
 import '../../../common/assets/assets.gen.dart';
+import '../../../common/di/di.dart';
 import '../../routers/app_router.dart';
+import 'splash_controller.dart';
 
 @RoutePage()
 class SplashScreenProvider extends StatefulWidget {
@@ -17,10 +19,19 @@ class SplashScreenProvider extends StatefulWidget {
 class _SplashScreenProviderState extends State<SplashScreenProvider> {
   @override
   void initState() {
-    Future.delayed(const Duration(seconds: 2), () {
-      AutoRouter.of(context).replace(const LoginRoute());
-    });
+    init();
     super.initState();
+  }
+
+  init() async {
+    SplashController controller = await getIt.getAsync<SplashController>();
+    controller.login().then((value) {
+      if (value) {
+        AutoRouter.of(context).replace(const HomeRoute());
+      } else {
+        AutoRouter.of(context).replace(const LoginRoute());
+      }
+    });
   }
 
   @override

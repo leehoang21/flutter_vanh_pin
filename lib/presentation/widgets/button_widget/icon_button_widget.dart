@@ -73,22 +73,28 @@ class IconPostButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        IconButton(
-          onPressed: onPressed,
-          icon: icon,
-          iconSize: 15.sp,
-        ),
-        if (title != null)
-          Text(
-            title!,
-            style: ThemeText.body2.copyWith(
-              fontSize: 10.sp,
-            ),
-          )
-      ],
+    return RawMaterialButton(
+      onPressed: onPressed,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            width: 24.sp,
+            height: 24.sp,
+            child: icon,
+          ),
+          SizedBox(
+            width: 2.w,
+          ),
+          if (title != null)
+            Text(
+              title!,
+              style: ThemeText.body2.copyWith(
+                fontSize: 10.sp,
+              ),
+            )
+        ],
+      ),
     );
   }
 }

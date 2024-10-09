@@ -77,14 +77,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
               inputFormatter: [MaskedInputFormatter('#### ### ###')],
               controller: _phoneController,
               keyboardType: TextInputType.phone,
-              hintText: RegisterScreenContant.hintPhone,
+              hintText: RegisterScreenContant.hintPhone.tr,
             ),
             SizedBox(
               height: AppDimens.height_12,
             ),
             TextFieldWidget(
               controller: _userNameController,
-              hintText: RegisterScreenContant.hintUserName,
+              hintText: RegisterScreenContant.hintUserName.tr,
               validate: AppValidator.validateUseName,
             ),
             SizedBox(
@@ -92,7 +92,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
             TextFieldWidget(
               controller: _emailController,
-              hintText: RegisterScreenContant.hintEmail,
+              hintText: RegisterScreenContant.hintEmail.tr,
               validate: AppValidator.validateEmail,
               keyboardType: TextInputType.emailAddress,
             ),
@@ -101,7 +101,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
             SecurityTextFieldWidget(
               controller: _passwordController,
-              hintText: RegisterScreenContant.hintPassword,
+              hintText: RegisterScreenContant.hintPassword.tr,
               validate: AppValidator.validatePassword,
             ),
             SizedBox(
@@ -109,7 +109,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
             SecurityTextFieldWidget(
               controller: _passwordConfirmController,
-              hintText: RegisterScreenContant.hintConfirmPassword,
+              hintText: RegisterScreenContant.hintConfirmPassword.tr,
               validate: (value) {
                 if (value != _passwordController.text) {
                   return RegisterScreenContant.passwordInCorrect.tr;
@@ -126,7 +126,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   await registerOnPressed(context);
                 }
               },
-              title: RegisterScreenContant.title,
+              title: RegisterScreenContant.title.tr,
             ),
             SizedBox(
               height: RegisterScreenContant.distanceButtonToField,
@@ -137,7 +137,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 padding: EdgeInsets.only(right: AppDimens.width_12),
                 child: RichText(
                     text: TextSpan(
-                  text: '${RegisterScreenContant.haveAccount} ',
+                  text: '${RegisterScreenContant.haveAccount.tr} ',
                   style: ThemeText.caption,
                   children: [
                     TextSpan(

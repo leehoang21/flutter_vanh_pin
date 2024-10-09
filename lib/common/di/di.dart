@@ -11,8 +11,9 @@ final GetIt getIt = GetIt.instance;
   preferRelativeImports: true, // default
   asExtension: true, // default
 )
-void configureDependencies() {
+Future configureDependencies() async {
   getIt.registerLazySingleton(() => AppRouter());
   getIt.registerLazySingleton(() => BaseOptions());
+
   getIt.init();
 }

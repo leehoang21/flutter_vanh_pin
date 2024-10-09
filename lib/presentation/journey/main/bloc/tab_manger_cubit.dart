@@ -23,7 +23,7 @@ class TabMangerCubit extends BaseBloc<int> {
       const HomeRoute(),
       const GroupRoute(),
       const NotificationRoute(),
-      MyPageRoute(user: null),
+      const MyPageRoute(),
     ];
   }
 }

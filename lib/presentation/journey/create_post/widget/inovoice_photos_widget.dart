@@ -85,7 +85,12 @@ class _InvoicePhotosWidgetState extends State<InvoicePhotosWidget> {
 
   void _addPhoto(BuildContext context) {
     PickImageWidget(
-      onPressed: (images) {
+      onPressed: (files) {
+        final List<String> images = (files as List<File>)
+            .map(
+              (e) => e.path,
+            )
+            .toList();
         context.read<CreatePostCubit>().pickImage(images);
       },
     ).show(context);
@@ -97,7 +102,7 @@ class _Photo extends StatelessWidget {
     required this.photo,
   });
 
-  final File photo;
+  final String photo;
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +113,7 @@ class _Photo extends StatelessWidget {
           Radius.circular(LayoutConstants.roundedRadius),
         ),
         child: AppImageWidget(
-          path: photo.path,
+          path: photo,
           width: 1.sw / 3 - 20.w,
           height: 200.h,
           fit: BoxFit.cover,

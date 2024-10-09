@@ -18,4 +18,6 @@ class StringConstants {
       'https://www.authenticatorApi.com/pair.aspx?AppName=PinPin&AppInfo=Vanh&SecretCode=';
   static const urlCheckAuthenticator =
       'https://www.authenticatorapi.com/Validate.aspx?Pin=123456&SecretCode=';
+  static const urlNotificationAdmin =
+      'https://fcm.googleapis.com/v1/projects/learning-english-6441b/messages:send';
 }

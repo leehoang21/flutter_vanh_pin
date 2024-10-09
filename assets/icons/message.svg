@@ -1,10 +1,5 @@
-<svg width="15" height="16" viewBox="0 0 15 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g id="vuesax/linear/message">
-<g id="message">
-<path id="Vector" d="M5.24688 12.3581H4.94427C2.52342 12.3581 1.31299 11.7529 1.31299 8.72682V5.70074C1.31299 3.27989 2.52342 2.06946 4.94427 2.06946H9.78599C12.2068 2.06946 13.4173 3.27989 13.4173 5.70074V8.72682C13.4173 11.1477 12.2068 12.3581 9.78599 12.3581H9.48338C9.29577 12.3581 9.1142 12.4489 8.99921 12.6002L8.09139 13.8106C7.69195 14.3432 7.03832 14.3432 6.63888 13.8106L5.73105 12.6002C5.63422 12.467 5.41029 12.3581 5.24688 12.3581Z" stroke="#292D32" stroke-width="0.907822" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="Vector_2" d="M9.7839 7.51635H9.78934" stroke="#292D32" stroke-width="1.21043" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="Vector_3" d="M7.36227 7.51635H7.36771" stroke="#292D32" stroke-width="1.21043" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="Vector_4" d="M4.94088 7.51635H4.94632" stroke="#292D32" stroke-width="1.21043" stroke-linecap="round" stroke-linejoin="round"/>
-</g>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="majesticons:chat-line">
+<path id="Vector" d="M12.0001 21C13.997 20.9997 15.9371 20.3353 17.515 19.1114C19.0929 17.8874 20.2189 16.1735 20.7157 14.2394C21.2126 12.3053 21.0521 10.2608 20.2596 8.42794C19.467 6.59504 18.0874 5.07779 16.3379 4.11504C14.5883 3.15229 12.5683 2.79873 10.5958 3.11002C8.62332 3.42131 6.81037 4.37977 5.44237 5.8345C4.07437 7.28923 3.22904 9.15762 3.03945 11.1455C2.84985 13.1334 3.32677 15.1279 4.39512 16.815L3.00012 21L7.18512 19.605C8.62465 20.5188 10.2951 21.0027 12.0001 21Z" stroke="#666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </g>
 </svg>

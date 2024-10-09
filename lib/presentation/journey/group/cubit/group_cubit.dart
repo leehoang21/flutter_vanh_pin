@@ -43,7 +43,7 @@ class GroupCubit extends BaseBloc<GroupState> {
 
   Future<void> getAllGroup() async {
     _unsubscribeGroupSubscription.cancel();
-    final result = _repository.getUnsubscribe(_appService.user!.uId!);
+    final result = _repository.getUnsubscribe(_appService.state.user!.uId!);
     _unsubscribeGroupSubscription = result.listen((event) {
       event.fold(
         (groups) {
@@ -58,7 +58,7 @@ class GroupCubit extends BaseBloc<GroupState> {
 
   Future<void> getGroup() async {
     _myGroupSubscription.cancel();
-    final result = _repository.get(_appService.user!.uId!);
+    final result = _repository.get(_appService.state.user!.uId!);
     _myGroupSubscription = result.listen((event) {
       event.fold(
         (groups) {
@@ -73,7 +73,8 @@ class GroupCubit extends BaseBloc<GroupState> {
 
   Future<void> getPostToGroup() async {
     _postSubscription.cancel();
-    final result = _postRepository.getToGroup(_appService.user?.groupIds ?? []);
+    final result =
+        _postRepository.getToGroup(_appService.state.user?.groupIds ?? []);
     _postSubscription = result.listen((event) {
       event.fold(
         (posts) {

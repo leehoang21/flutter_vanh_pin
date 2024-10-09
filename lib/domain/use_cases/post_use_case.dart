@@ -18,8 +18,10 @@ class PostUseCase {
     required String content,
     required List<String> images,
     GroupModel? group,
+    PostModel? share,
   }) {
-    return repository.create(content: content, images: images, group: group);
+    return repository.create(
+        content: content, images: images, group: group, share: share);
   }
 
   Stream<Either<Map<int, List<PostModel>>, AppError>> get() {
@@ -34,5 +36,29 @@ class PostUseCase {
 
   Stream<Either<List<PostModel>, AppError>> getToUser(String userId) {
     return repository.getToUser(userId);
+  }
+
+  Future<AppError?> update({
+    required PostModel model,
+  }) {
+    return repository.update(model: model);
+  }
+
+  Future<AppError?> updateShareCount(String postId) {
+    return repository.updateShareCount(postId);
+  }
+
+  Future<AppError?> delete({
+    required String postId,
+  }) {
+    return repository.delete(postId: postId);
+  }
+
+  Future<AppError?> like({
+    required String emoji,
+    required String postId,
+    required bool isLike,
+  }) {
+    return repository.like(emoji: emoji, postId: postId, isLike: isLike);
   }
 }

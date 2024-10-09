@@ -14,9 +14,12 @@ enum ChatType {
 @freezed
 class ChatModel with _$ChatModel {
   // ignore: invalid_annotation_target
-  @JsonSerializable(explicitToJson: true)
+  @JsonSerializable(
+    explicitToJson: true,
+  )
   const factory ChatModel({
     @Default([]) List<UserModel> members,
+    @Default([]) List<String> memberIds,
     String? status,
     DateTime? updatedAt,
     DateTime? createdAt,

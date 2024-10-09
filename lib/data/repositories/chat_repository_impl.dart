@@ -1,18 +1,20 @@
-import 'package:chatview/chatview.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:either_dart/either.dart';
+import 'package:injectable/injectable.dart';
 import 'package:pinpin/common/utils/app_utils.dart';
 import 'package:pinpin/data/models/chat_model.dart';
 import 'package:pinpin/data/models/user_model.dart';
-import 'package:injectable/injectable.dart';
+
 import '../../common/configs/default_environment.dart';
 import '../../common/configs/firebase_config.dart';
 import '../../common/exception/app_error.dart';
 import '../../domain/repositories/chat_reposotory.dart';
+import '../../presentation/widgets/chat_view/chatview.dart';
 
 @Injectable(as: ChatRepository)
 class ChatRepositoryImpl extends ChatRepository {
   final FirebaseConfig config;
+
   ChatRepositoryImpl(
     this.config,
   );
@@ -21,35 +23,26 @@ class ChatRepositoryImpl extends ChatRepository {
       config.userDoc.collection(DefaultEnvironment.chat);
 
   @override
-  Future<AppError?> createOrUpdate({
+  Future<Either<ChatModel, AppError>> createOrUpdate({
     required ChatModel data,
     String? chatId,
   }) async {
-    if (config.auth.currentUser == null) return null;
+    if (config.auth.currentUser == null) {
+      return Right(AppError(message: 'User is null'));
+    }
     try {
       if (!isNullEmpty(chatId)) {
         await _doc.doc(chatId).update(data.toJson());
+        return Left(data);
       } else {
         final param = data.toJson();
         final result = await _doc.add(param);
         await _doc.doc(result.id).update({'uId': result.id});
-        sendOrUpdateMessage(
-          data: Message(
-            message: data.chatContent ?? '',
-            id: '',
-            messageType: MessageType.text,
-            status: MessageStatus.delivered,
-            createdAt: DateTime.now(),
-            sentBy: config.auth.currentUser!.uid,
-          ),
-          chatId: chatId ?? '',
-          id: null,
-        );
+        return Left(data.copyWith(uId: result.id));
       }
     } catch (e) {
-      return AppError(message: e.toString());
+      return Right(AppError(message: e.toString()));
     }
-    return null;
   }
 
   @override
@@ -84,7 +77,8 @@ class ChatRepositoryImpl extends ChatRepository {
   @override
   Stream<Either<List<ChatModel>, AppError>> get() {
     final result = _doc
-        .orderBy('updatedAt', descending: true)
+        .where('memberIds', arrayContains: config.auth.currentUser!.uid)
+        .orderBy('updatedAt', descending: false)
         .snapshots()
         .map<Either<List<ChatModel>, AppError>>((event) {
       try {
@@ -126,6 +120,10 @@ class ChatRepositoryImpl extends ChatRepository {
             .collection(DefaultEnvironment.message)
             .doc(id)
             .update(data.toJson());
+        await _doc.doc(chatId).update({
+          'chatContent': data.message,
+          'updatedAt': data.createdAt.toIso8601String(),
+        });
       } else {
         final param = data.toJson();
         final result = await _doc
@@ -137,6 +135,11 @@ class ChatRepositoryImpl extends ChatRepository {
             .collection(DefaultEnvironment.message)
             .doc(result.id)
             .update({'uId': result.id});
+        await _doc.doc(chatId).update({
+          'chatContent': data.message,
+          'updatedAt': data.createdAt.toIso8601String(),
+          'createdAt': data.createdAt.toIso8601String(),
+        });
       }
     } catch (e) {
       return AppError(message: e.toString());
@@ -170,8 +173,11 @@ class ChatRepositoryImpl extends ChatRepository {
           .snapshots()
           .map<Either<List<Message>, AppError>>((event) {
         try {
-          final list =
-              event.docs.map((e) => Message.fromJson(e.data())).toList();
+          final list = event.docs.map((e) {
+            final Map<String, dynamic> data = e.data();
+            data['id'] = data['uId'];
+            return Message.fromJson(data);
+          }).toList();
           return Left(list);
         } catch (e) {
           return Right(AppError(message: e.toString()));

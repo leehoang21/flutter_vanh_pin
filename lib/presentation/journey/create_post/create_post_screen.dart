@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinpin/common/extension/string_extension.dart';
+import 'package:pinpin/data/models/post_model.dart';
 
 import 'package:pinpin/presentation/journey/create_post/widget/inovoice_photos_widget.dart';
 import 'package:pinpin/presentation/widgets/button_widget/text_button_widget.dart';
@@ -12,14 +13,23 @@ import 'create_post_constants.dart';
 import 'cubit/create_post_cubit.dart';
 
 class CreatePostScreen extends StatefulWidget {
-  const CreatePostScreen({Key? key}) : super(key: key);
+  const CreatePostScreen({Key? key, required this.model}) : super(key: key);
+  final PostModel? model;
 
   @override
   State<CreatePostScreen> createState() => _CreatePostScreenState();
 }
 
 class _CreatePostScreenState extends State<CreatePostScreen> {
-  final _contentController = TextEditingController();
+  late final TextEditingController _contentController;
+
+  @override
+  void initState() {
+    _contentController = TextEditingController();
+    _contentController.text = widget.model?.content ?? "";
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ScaffoldWidget(

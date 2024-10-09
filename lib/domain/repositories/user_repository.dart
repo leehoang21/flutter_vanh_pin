@@ -4,8 +4,9 @@ import '../../data/models/user_model.dart';
 abstract class UserRepository {
   Future<AppError?> create(UserModel data);
   Future<AppError?> update(UserModel data);
-  Future<UserModel?> get();
+  Future<UserModel?> get({
+    String? id,
+  });
   Future<bool> exits();
-
   Future<List<UserModel>> getAll();
 }

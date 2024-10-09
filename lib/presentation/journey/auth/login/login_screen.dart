@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinpin/common/enums/login_type.dart';
+
 import '../../../../common/assets/assets.gen.dart';
 import '../../../../common/constants/app_dimens.dart';
 import '../../../../common/utils/validator.dart';
@@ -15,14 +16,13 @@ import 'cubit/login_cubit.dart';
 import 'login_constants.dart';
 
 class LoginScreen extends StatelessWidget {
-  LoginScreen({Key? key}) : super(key: key);
-
-  final TextEditingController controller = TextEditingController();
-  final TextEditingController controllerPassword = TextEditingController();
-  final formKey = GlobalKey<FormState>();
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController controller = TextEditingController();
+    final TextEditingController controllerPassword = TextEditingController();
+    final formKey = GlobalKey<FormState>();
     return AuthScaffold(
       body: Form(
         key: formKey,
@@ -64,6 +64,20 @@ class LoginScreen extends StatelessWidget {
                     hintText: LoginConstants.yourPassword,
                     textStyle: ThemeText.style14Medium
                         .copyWith(fontWeight: FontWeight.normal),
+                    onEditingComplete: () {
+                      final currentFocus = FocusScope.of(context);
+                      if (!currentFocus.hasPrimaryFocus &&
+                          currentFocus.focusedChild != null) {
+                        FocusManager.instance.primaryFocus!.unfocus();
+                      }
+                      if (formKey.currentState!.validate()) {
+                        context.read<LoginCubit>().login(
+                              LoginType.password,
+                              email: controller.text,
+                              password: controllerPassword.text,
+                            );
+                      }
+                    },
                   ),
                 ),
                 Padding(

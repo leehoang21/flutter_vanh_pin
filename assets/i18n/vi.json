@@ -50,5 +50,8 @@
   "Education": "Học vấn",
   "Job": "Nghề nghiệp",
   "Birthday": "Ngày sinh",
-  "Log out": "Đăng xuất"
+  "Log out": "Đăng xuất",
+  "invalid_phone": "Số điện thoại không hợp lệ",
+  "invalid_email": "Email không hợp lệ",
+  "user_empty": "Tên người dùng không được để trống"
 }

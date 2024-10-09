@@ -12,6 +12,10 @@ _$ChatModelImpl _$$ChatModelImplFromJson(Map<String, dynamic> json) =>
               ?.map((e) => UserModel.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
+      memberIds: (json['memberIds'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
       status: json['status'] as String?,
       updatedAt: json['updatedAt'] == null
           ? null
@@ -29,6 +33,7 @@ _$ChatModelImpl _$$ChatModelImplFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$ChatModelImplToJson(_$ChatModelImpl instance) =>
     <String, dynamic>{
       'members': instance.members.map((e) => e.toJson()).toList(),
+      'memberIds': instance.memberIds,
       'status': instance.status,
       'updatedAt': instance.updatedAt?.toIso8601String(),
       'createdAt': instance.createdAt?.toIso8601String(),

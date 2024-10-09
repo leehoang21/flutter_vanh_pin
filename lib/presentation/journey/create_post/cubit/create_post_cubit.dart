@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:pinpin/common/exception/app_error.dart';
 import 'package:pinpin/common/extension/bloc_extension.dart';
 import 'package:pinpin/data/models/group_model.dart';
+import 'package:pinpin/data/models/post_model.dart';
 import 'package:pinpin/domain/use_cases/post_use_case.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -19,10 +21,17 @@ class CreatePostCubit extends BaseBloc<CreatePostState> {
       : super(CreatePostState([]));
   final StorageUseCase storageUseCase;
   final PostUseCase usecase;
+  late final PostModel? post;
   GroupModel? group;
 
-  initState(GroupModel? group) {
-    this.group = group;
+  @override
+  initState(List params) {
+    group = params[0] as GroupModel;
+    post = params[1] as PostModel;
+
+    emit(state.copyWith(
+      images: post?.images ?? [],
+    ));
   }
 
   @override
@@ -30,7 +39,7 @@ class CreatePostCubit extends BaseBloc<CreatePostState> {
     super.onInit();
   }
 
-  void pickImage(List<File> images) {
+  void pickImage(List<String> images) {
     emit(state.copyWith(images: state.images + images));
   }
 
@@ -38,10 +47,14 @@ class CreatePostCubit extends BaseBloc<CreatePostState> {
     showLoading();
     final List<String> imagePaths = [];
     for (final image in state.images) {
+      if (image.startsWith('http')) {
+        imagePaths.add(image);
+        continue;
+      }
       final String storagePath =
           '${DefaultEnvironment.images}/${DateTime.now().millisecondsSinceEpoch}.jpeg';
       final result = await storageUseCase.put(
-        imageToUpload: image,
+        imageToUpload: File(image),
         imagePathStorage: storagePath,
       );
       result.fold(
@@ -49,11 +62,22 @@ class CreatePostCubit extends BaseBloc<CreatePostState> {
         (error) => showSnackbar(translationKey: error.toString()),
       );
     }
-    final error = await usecase.create(
-      content: content,
-      images: imagePaths,
-      group: group,
-    );
+    late final AppError? error;
+    if (post != null) {
+      error = await usecase.update(
+        model: post!.copyWith(
+          content: content,
+          images: imagePaths,
+        ),
+      );
+    } else {
+      error = await usecase.create(
+        content: content,
+        images: imagePaths,
+        group: group,
+      );
+    }
+
     if (error != null) {
       showSnackbar(translationKey: error.toString());
     }

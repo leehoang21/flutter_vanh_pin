@@ -1,24 +1,17 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../../common/di/di.dart';
+import 'package:pinpin/presentation/journey/auth/login/login_screen.dart';
+import '../../../widgets/provider/provider_widget.dart';
 import 'cubit/login_cubit.dart';
-import 'login_screen.dart';
 
 @RoutePage()
-class LoginScreenProvider extends StatefulWidget {
-  const LoginScreenProvider({super.key});
+class LoginScreenProvider extends StatelessWidget {
+  const LoginScreenProvider({super.key}) : super();
 
-  @override
-  State<LoginScreenProvider> createState() => _LoginScreenProviderState();
-}
-
-class _LoginScreenProviderState extends State<LoginScreenProvider> {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => getIt.get<LoginCubit>(),
+    return const ProviderWidget<LoginCubit>(
+      params: [],
       child: LoginScreen(),
     );
   }

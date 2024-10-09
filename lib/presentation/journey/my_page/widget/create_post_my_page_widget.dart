@@ -19,7 +19,7 @@ class CreatePostMyPageWidget extends StatelessWidget {
       child: InkWell(
         onTap: () async {
           await context.pushRoute(CreatePostRoute());
-          context.read<MyPageCubit>().init();
+          context.read<MyPageCubit>().onInit();
         },
         child: Row(
           children: [

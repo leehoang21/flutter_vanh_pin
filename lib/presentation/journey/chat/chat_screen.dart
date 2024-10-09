@@ -52,7 +52,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 IconButton(
                   onPressed: () {
                     context.showBottomSheet(
-                      child: const CreateGroupChatScreen(),
+                      child: const CreateGroupChatScreenProvider(),
                     );
                   },
                   icon: const Icon(

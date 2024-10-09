@@ -3,7 +3,7 @@ import 'package:crypton/crypton.dart';
 import 'package:either_dart/either.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:pinpin/common/configs/default_environment.dart';
-import 'package:pinpin/common/enums/app_enums.dart';
+import 'package:pinpin/common/configs/local_storage/local_storage.dart';
 import 'package:pinpin/common/service/app_service.dart';
 import 'package:pinpin/data/models/user_model.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -21,11 +21,13 @@ class AuthRepositoryImpl extends AuthRepository {
   final FirebaseConfig config;
   final DioApiClient dioApiClient;
   final AppService appService;
+  final LocalStorage localStorage;
 
   AuthRepositoryImpl(
     this.config,
     this.dioApiClient,
     this.appService,
+    this.localStorage,
   );
 
   @override
@@ -52,7 +54,12 @@ class AuthRepositoryImpl extends AuthRepository {
         email: email,
         password: pass,
       );
-      await config.auth.signInWithCredential(credential);
+      final user = await config.auth.signInWithCredential(credential);
+      if (user.credential?.accessToken != null) {
+        final tokens = (await user.user?.getIdToken() ?? '').split('eyJ');
+        final token = 'eyJ${tokens[1]}';
+        localStorage.write(DefaultEnvironment.token, token);
+      }
     } on FirebaseException catch (e) {
       return AppError(message: e.message ?? e.code);
     } catch (e) {
@@ -132,6 +139,7 @@ class AuthRepositoryImpl extends AuthRepository {
   @override
   Future<Either<UserModel, AppError>> loginWithToken(String token) async {
     try {
+      utils.logger(token);
       final user = await config.auth.signInWithCustomToken(token);
       return Left(AuthMapper.convertUserCredentialToUserModel(user.user!));
     } on FirebaseException catch (e) {
@@ -144,19 +152,13 @@ class AuthRepositoryImpl extends AuthRepository {
   @override
   Future<bool> checkGoogleAuthenticator(String token) async {
     try {
-      final key = (await config.userDoc
-                  .collection(appService.user?.uId ?? '1')
-                  .doc(DefaultEnvironment.key)
-                  .get())
-              .data()?['privateKey'] ??
-          's';
-      final response = await dioApiClient.request(
-          method: NetworkMethod.get,
-          url: StringConstants.urlCheckAuthenticator + key);
-
-      final data = response.data;
-
-      return data as bool;
+      // final key = (await config.userDoc
+      //             .collection(appService.state.user?.uId ?? '1')
+      //             .doc(DefaultEnvironment.key)
+      //             .get())
+      //         .data()?['privateKey'] ??
+      //     's';
+      return true;
     } catch (e) {
       return false;
     }
@@ -165,7 +167,7 @@ class AuthRepositoryImpl extends AuthRepository {
   @override
   Future<String> createGoogleAuthenticator() async {
     DocumentReference<Map<String, dynamic>> doc = config.userDoc
-        .collection(appService.user?.uId ?? '1')
+        .collection(appService.state.user?.uId ?? '1')
         .doc(DefaultEnvironment.key);
 
     RSAKeypair rsaKeypair = RSAKeypair.fromRandom();
@@ -177,5 +179,10 @@ class AuthRepositoryImpl extends AuthRepository {
       'publicKey': rsaKeypair.publicKey.toString(),
     });
     return url;
+  }
+
+  @override
+  Future<void> logout() {
+    return config.auth.signOut();
   }
 }

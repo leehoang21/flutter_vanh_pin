@@ -1,7 +1,10 @@
 import 'package:either_dart/either.dart';
+import 'package:pinpin/common/configs/default_environment.dart';
+import 'package:pinpin/common/configs/local_storage/local_storage.dart';
 import 'package:pinpin/common/service/app_service.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../common/configs/notification_config/notification_config.dart';
 import '../../common/constants/string_constants.dart';
 import '../../common/enums/login_type.dart';
 import '../../common/exception/app_error.dart';
@@ -15,14 +18,18 @@ class AuthUseCase {
   final AuthRepository repository;
   final UserRepository userRepository;
   final AppService appService;
-  AuthUseCase({
+  final LocalStorage localStorage;
+  final NotificationConfig notificationConfig;
+  AuthUseCase(
+    this.notificationConfig, {
     required this.repository,
     required this.userRepository,
     required this.appService,
+    required this.localStorage,
   });
 
   Future<AppError?> signOut() async {
-    appService.user = null;
+    appService.setUser(null);
     return repository.signOut();
   }
 
@@ -58,9 +65,11 @@ class AuthUseCase {
     }
     final user = await userRepository.get();
     if (user != null) {
-      appService.user = user;
+      appService.setUser(user);
+      notificationConfig.sendToken();
       return null;
     }
+
     return AppError(message: StringConstants.userNotExists);
   }
 
@@ -106,7 +115,9 @@ class AuthUseCase {
       (user) async {
         final user = await userRepository.get();
         if (user != null) {
-          appService.user = user;
+          appService.setUser(user);
+
+          notificationConfig.sendToken();
           return Left(user);
         }
         return Right(AppError(message: StringConstants.userNotExists));
@@ -115,5 +126,11 @@ class AuthUseCase {
         return Right(error);
       },
     );
+  }
+
+  Future<void> logout() async {
+    await repository.logout();
+    localStorage.delete(DefaultEnvironment.token);
+    return Future.value();
   }
 }

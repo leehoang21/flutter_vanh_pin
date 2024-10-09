@@ -23,6 +23,7 @@ mixin _$GroupModel {
   UserModel? get author => throw _privateConstructorUsedError;
   List<UserModel>? get admins => throw _privateConstructorUsedError;
   List<UserModel>? get members => throw _privateConstructorUsedError;
+  List<String>? get memberIds => throw _privateConstructorUsedError;
   String? get avatar => throw _privateConstructorUsedError;
   String? get uId => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
@@ -46,6 +47,7 @@ abstract class $GroupModelCopyWith<$Res> {
       {UserModel? author,
       List<UserModel>? admins,
       List<UserModel>? members,
+      List<String>? memberIds,
       String? avatar,
       String? uId,
       String? name,
@@ -72,6 +74,7 @@ class _$GroupModelCopyWithImpl<$Res, $Val extends GroupModel>
     Object? author = freezed,
     Object? admins = freezed,
     Object? members = freezed,
+    Object? memberIds = freezed,
     Object? avatar = freezed,
     Object? uId = freezed,
     Object? name = freezed,
@@ -92,6 +95,10 @@ class _$GroupModelCopyWithImpl<$Res, $Val extends GroupModel>
           ? _value.members
           : members // ignore: cast_nullable_to_non_nullable
               as List<UserModel>?,
+      memberIds: freezed == memberIds
+          ? _value.memberIds
+          : memberIds // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
       avatar: freezed == avatar
           ? _value.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
@@ -144,6 +151,7 @@ abstract class _$$GroupModelImplCopyWith<$Res>
       {UserModel? author,
       List<UserModel>? admins,
       List<UserModel>? members,
+      List<String>? memberIds,
       String? avatar,
       String? uId,
       String? name,
@@ -169,6 +177,7 @@ class __$$GroupModelImplCopyWithImpl<$Res>
     Object? author = freezed,
     Object? admins = freezed,
     Object? members = freezed,
+    Object? memberIds = freezed,
     Object? avatar = freezed,
     Object? uId = freezed,
     Object? name = freezed,
@@ -189,6 +198,10 @@ class __$$GroupModelImplCopyWithImpl<$Res>
           ? _value._members
           : members // ignore: cast_nullable_to_non_nullable
               as List<UserModel>?,
+      memberIds: freezed == memberIds
+          ? _value._memberIds
+          : memberIds // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
       avatar: freezed == avatar
           ? _value.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
@@ -225,6 +238,7 @@ class _$GroupModelImpl implements _GroupModel {
       {this.author,
       final List<UserModel>? admins,
       final List<UserModel>? members,
+      final List<String>? memberIds = const [],
       this.avatar,
       this.uId,
       this.name,
@@ -232,7 +246,8 @@ class _$GroupModelImpl implements _GroupModel {
       this.type,
       this.time})
       : _admins = admins,
-        _members = members;
+        _members = members,
+        _memberIds = memberIds;
 
   factory _$GroupModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$GroupModelImplFromJson(json);
@@ -259,6 +274,17 @@ class _$GroupModelImpl implements _GroupModel {
     return EqualUnmodifiableListView(value);
   }
 
+  final List<String>? _memberIds;
+  @override
+  @JsonKey()
+  List<String>? get memberIds {
+    final value = _memberIds;
+    if (value == null) return null;
+    if (_memberIds is EqualUnmodifiableListView) return _memberIds;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   final String? avatar;
   @override
@@ -274,7 +300,7 @@ class _$GroupModelImpl implements _GroupModel {
 
   @override
   String toString() {
-    return 'GroupModel(author: $author, admins: $admins, members: $members, avatar: $avatar, uId: $uId, name: $name, background: $background, type: $type, time: $time)';
+    return 'GroupModel(author: $author, admins: $admins, members: $members, memberIds: $memberIds, avatar: $avatar, uId: $uId, name: $name, background: $background, type: $type, time: $time)';
   }
 
   @override
@@ -285,6 +311,8 @@ class _$GroupModelImpl implements _GroupModel {
             (identical(other.author, author) || other.author == author) &&
             const DeepCollectionEquality().equals(other._admins, _admins) &&
             const DeepCollectionEquality().equals(other._members, _members) &&
+            const DeepCollectionEquality()
+                .equals(other._memberIds, _memberIds) &&
             (identical(other.avatar, avatar) || other.avatar == avatar) &&
             (identical(other.uId, uId) || other.uId == uId) &&
             (identical(other.name, name) || other.name == name) &&
@@ -301,6 +329,7 @@ class _$GroupModelImpl implements _GroupModel {
       author,
       const DeepCollectionEquality().hash(_admins),
       const DeepCollectionEquality().hash(_members),
+      const DeepCollectionEquality().hash(_memberIds),
       avatar,
       uId,
       name,
@@ -327,6 +356,7 @@ abstract class _GroupModel implements GroupModel {
       {final UserModel? author,
       final List<UserModel>? admins,
       final List<UserModel>? members,
+      final List<String>? memberIds,
       final String? avatar,
       final String? uId,
       final String? name,
@@ -343,6 +373,8 @@ abstract class _GroupModel implements GroupModel {
   List<UserModel>? get admins;
   @override
   List<UserModel>? get members;
+  @override
+  List<String>? get memberIds;
   @override
   String? get avatar;
   @override

@@ -108,7 +108,7 @@ class TextFieldWidget extends StatelessWidget {
         hintText: hintText,
         hintStyle: textStyle ??
             ThemeText.caption
-                .copyWith(color: AppColor.tuna, fontWeight: FontWeight.w400),
+                .copyWith(color: AppColor.grey, fontWeight: FontWeight.w200),
         prefixIcon: prefixIcon,
         suffixIcon: suffixIcon,
         fillColor: AppColor.fieldColor,
