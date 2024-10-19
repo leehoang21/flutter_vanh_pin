@@ -86,7 +86,6 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/i18n/
-    - assets/service_account.json
   
   fonts:
     - family: QS
