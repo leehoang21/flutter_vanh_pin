@@ -266,26 +266,41 @@ class _AuthorCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _avatar(context),
-        SizedBox(
-          width: 10.w,
-        ),
-        _content(),
-        const Spacer(),
-        if (model.author.uId == context.read<AppService>().state.user?.uId &&
-            isMore)
-          IconButton(
-            icon: const Icon(Icons.more_horiz),
-            onPressed: () {
-              context.showBottomSheet(
-                child: MorePost(model: model),
-              );
-            },
+    return GestureDetector(
+      onTap: () {
+        if (model.group != null) {
+          context.pushRoute(GroupDetailRoute(groupModel: model.group!));
+        } else {
+          if (model.author.uId == context.read<AppService>().state.user?.uId) {
+            context.pushRoute(const MyPageRoute());
+          } else {
+            context.pushRoute(ProfileThirdRoute(
+              user: model.author,
+            ));
+          }
+        }
+      },
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _avatar(context),
+          SizedBox(
+            width: 10.w,
           ),
-      ],
+          _content(),
+          const Spacer(),
+          if (model.author.uId == context.read<AppService>().state.user?.uId &&
+              isMore)
+            IconButton(
+              icon: const Icon(Icons.more_horiz),
+              onPressed: () {
+                context.showBottomSheet(
+                  child: MorePost(model: model),
+                );
+              },
+            ),
+        ],
+      ),
     );
   }
 
@@ -339,69 +354,54 @@ class _AuthorCard extends StatelessWidget {
   }
 
   Widget _avatar(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        if (model.group != null) {
-          context.pushRoute(GroupDetailRoute(groupModel: model.group!));
-        } else {
-          if (model.author.uId == context.read<AppService>().state.user?.uId) {
-            context.pushRoute(const MyPageRoute());
-          } else {
-            context.pushRoute(ProfileThirdRoute(
-              user: model.author,
-            ));
-          }
-        }
-      },
-      child: model.group != null
-          ? SizedBox(
-              width: 38.sp,
-              height: 38.sp,
-              child: Stack(
-                children: [
-                  Container(
-                    width: 35.sp,
-                    height: 35.sp,
+    return model.group != null
+        ? SizedBox(
+            width: 38.sp,
+            height: 38.sp,
+            child: Stack(
+              children: [
+                Container(
+                  width: 35.sp,
+                  height: 35.sp,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.sp),
+                    image: DecorationImage(
+                      image:
+                          CachedNetworkImageProvider(model.group?.avatar ?? ''),
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                ),
+                Positioned(
+                  bottom: 0,
+                  right: 0,
+                  child: Container(
+                    width: 15.sp,
+                    height: 15.sp,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.sp),
+                      shape: BoxShape.circle,
                       image: DecorationImage(
                         image: CachedNetworkImageProvider(
-                            model.group?.avatar ?? ''),
+                            model.author.avatar ?? ''),
                         fit: BoxFit.fill,
                       ),
                     ),
                   ),
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: Container(
-                      width: 15.sp,
-                      height: 15.sp,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                          image: CachedNetworkImageProvider(
-                              model.author.avatar ?? ''),
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            )
-          : Container(
-              width: 40.sp,
-              height: 40.sp,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  image: CachedNetworkImageProvider(model.author.avatar ?? ''),
-                  fit: BoxFit.fill,
                 ),
+              ],
+            ),
+          )
+        : Container(
+            width: 40.sp,
+            height: 40.sp,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              image: DecorationImage(
+                image: CachedNetworkImageProvider(model.author.avatar ?? ''),
+                fit: BoxFit.fill,
               ),
             ),
-    );
+          );
   }
 }
 

@@ -1,10 +1,10 @@
 import 'package:either_dart/either.dart';
 import 'package:pinpin/common/configs/default_environment.dart';
 import 'package:pinpin/common/configs/local_storage/local_storage.dart';
+import 'package:pinpin/common/configs/notification_config/notification_config.dart';
 import 'package:pinpin/common/service/app_service.dart';
 import 'package:injectable/injectable.dart';
-
-import '../../common/configs/notification_config/notification_config.dart';
+import 'package:pinpin/domain/repositories/notification_repository.dart';
 import '../../common/constants/string_constants.dart';
 import '../../common/enums/login_type.dart';
 import '../../common/exception/app_error.dart';
@@ -19,8 +19,10 @@ class AuthUseCase {
   final UserRepository userRepository;
   final AppService appService;
   final LocalStorage localStorage;
+  final NotificationRepository notificationRepository;
   final NotificationConfig notificationConfig;
   AuthUseCase(
+    this.notificationRepository,
     this.notificationConfig, {
     required this.repository,
     required this.userRepository,
@@ -65,11 +67,10 @@ class AuthUseCase {
     }
     final user = await userRepository.get();
     if (user != null) {
-      appService.setUser(user);
       notificationConfig.sendToken();
+      appService.setUser(user);
       return null;
     }
-
     return AppError(message: StringConstants.userNotExists);
   }
 
@@ -86,7 +87,13 @@ class AuthUseCase {
         return result;
       }
       await userRepository.create(user);
-      login(
+      //save token
+      final token = await repository.getJWT();
+      if (token != null) {
+        localStorage.write(DefaultEnvironment.token, token);
+      }
+      //
+      await login(
           loginType: LoginType.password, email: user.email, password: password);
       return null;
     } else {
@@ -133,4 +140,6 @@ class AuthUseCase {
     localStorage.delete(DefaultEnvironment.token);
     return Future.value();
   }
+
+  Future<String?> getJWT() => repository.getJWT();
 }

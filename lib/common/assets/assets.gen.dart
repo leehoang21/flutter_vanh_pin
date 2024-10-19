@@ -215,6 +215,10 @@ class Assets {
   static const $AssetsI18nGen i18n = $AssetsI18nGen();
   static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
+  static const String serviceAccount = 'assets/service_account.json';
+
+  /// List of all assets
+  static List<String> get values => [serviceAccount];
 }
 
 class AssetGenImage {

@@ -1,6 +1,14 @@
 part of 'chat_cubit.dart';
 
-@freezed
-class ChatState with _$ChatState {
-  const factory ChatState(List<ChatModel> datas) = _Loaded;
+class ChatState extends Equatable {
+  final List<ChatModel> datas;
+
+  const ChatState({required this.datas});
+
+  ChatState copyWith({List<ChatModel>? datas}) {
+    return ChatState(datas: datas ?? this.datas);
+  }
+
+  @override
+  List<Object?> get props => datas;
 }

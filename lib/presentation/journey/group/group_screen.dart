@@ -11,7 +11,6 @@ import 'package:pinpin/presentation/widgets/appbar_widget/appbar_main_widget.dar
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../data/models/group_model.dart';
 import '../../themes/themes.dart';
-import '../../widgets/card_widget/post_card.dart';
 import '../../widgets/scaffold_wdiget/scaffold_widget.dart';
 import 'cubit/group_cubit.dart';
 import 'group_constants.dart';
@@ -51,7 +50,6 @@ class _GroupScreenState extends State<GroupScreen> {
             ),
             const Expanded(
               child: TabBarView(children: [
-                _PostWidget(),
                 _GroupWidget(),
                 _DiscoveryWidget(),
               ]),
@@ -59,28 +57,6 @@ class _GroupScreenState extends State<GroupScreen> {
           ],
         ),
       ),
-    );
-  }
-}
-
-class _PostWidget extends StatelessWidget {
-  const _PostWidget();
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView(
-      padding: EdgeInsets.only(top: 20.h),
-      children: context
-          .watch<GroupCubit>()
-          .state
-          .posts
-          .map(
-            (e) => PostCard(
-              model: e,
-              padding: EdgeInsets.zero,
-            ),
-          )
-          .toList(),
     );
   }
 }

@@ -50,7 +50,7 @@ class _CreateChatScreenState extends State<CreateChatScreen> {
           SizedBox(
             height: 15.h,
           ),
-          for (final item in context.watch<CreateChatCubit>().state.users ?? [])
+          for (final item in context.watch<CreateChatCubit>().state.users)
             _ItemChat(data: item),
           SizedBox(
             height: 20.h,

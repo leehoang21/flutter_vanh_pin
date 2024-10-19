@@ -72,6 +72,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const EditProfileScreenProvider(),
       );
     },
+    FriendRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const FriendScreenProvider(),
+      );
+    },
     GroupDetailRoute.name: (routeData) {
       final args = routeData.argsAs<GroupDetailRouteArgs>();
       return AutoRoutePage<dynamic>(
@@ -325,6 +331,20 @@ class EditProfileRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'EditProfileRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [FriendScreenProvider]
+class FriendRoute extends PageRouteInfo<void> {
+  const FriendRoute({List<PageRouteInfo>? children})
+      : super(
+          FriendRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'FriendRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

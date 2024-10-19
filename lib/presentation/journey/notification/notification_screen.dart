@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:pinpin/common/extension/string_extension.dart';
-import 'package:pinpin/common/service/app_service.dart';
 import 'package:pinpin/common/utils/app_utils.dart';
 import 'package:pinpin/data/models/notification_model.dart';
 import 'package:pinpin/presentation/journey/notification/cubit/notification_cubit.dart';
@@ -39,60 +36,13 @@ class _NotificationScreenState extends State<NotificationScreen> {
             height: 10.h,
           ),
           for (int i = 0;
-              i < context.watch<AppService>().state.notifications.length;
+              i < context.watch<NotificationCubit>().state.notifications.length;
               i++)
             _ItemNotification(
               index: i,
             )
         ],
       ),
-    );
-  }
-}
-
-class NotificationTitile extends StatelessWidget {
-  const NotificationTitile({super.key, required this.index});
-  final int index;
-
-  @override
-  Widget build(BuildContext context) {
-    return Slidable(
-      startActionPane: ActionPane(
-        motion: const ScrollMotion(),
-        children: [
-          SlidableAction(
-            // An action can be bigger than the others.
-            flex: 2,
-            onPressed: (_) {
-              context.read<AppService>().deleteNotification(
-                  context.read<AppService>().state.notifications[index]);
-            },
-            backgroundColor: const Color(0xFFFE4A49),
-            foregroundColor: Colors.white,
-            icon: Icons.delete,
-            label: 'Delete'.tr,
-          ),
-        ],
-      ),
-      key: const ValueKey(0),
-      endActionPane: ActionPane(
-        motion: const ScrollMotion(),
-        children: [
-          SlidableAction(
-            // An action can be bigger than the others.
-            flex: 2,
-            onPressed: (_) {
-              context.read<AppService>().deleteNotification(
-                  context.read<AppService>().state.notifications[index]);
-            },
-            backgroundColor: const Color(0xFFFE4A49),
-            foregroundColor: Colors.white,
-            icon: Icons.delete,
-            label: 'Delete'.tr,
-          ),
-        ],
-      ),
-      child: _ItemNotification(index: index),
     );
   }
 }
@@ -108,10 +58,13 @@ class _ItemNotification extends StatefulWidget {
 class _ItemNotificationState extends State<_ItemNotification> {
   @override
   Widget build(BuildContext context) {
-    final data = context.watch<AppService>().state.notifications[widget.index];
+    final data =
+        context.watch<NotificationCubit>().state.notifications[widget.index];
     return GestureDetector(
       onTap: () {
-        context.read<AppService>().read(data);
+        if (data.type!.checkRead) {
+          context.read<NotificationCubit>().read(data.id);
+        }
         setState(() {});
       },
       child: Container(
@@ -134,14 +87,10 @@ class _ItemNotificationState extends State<_ItemNotification> {
             SizedBox(
               width: 10.w,
             ),
-            !isNullEmpty(data.type?.titleAction)
+            (!isNullEmpty(data.type?.titleAction) && !data.isRead)
                 ? TextButtonWidget2(
                     onPressed: () {
-                      if (data.type == NotificationType.addFriend) {
-                        context
-                            .read<NotificationCubit>()
-                            .acceptAddFriend(data.author);
-                      }
+                      context.read<NotificationCubit>().action(data);
                     },
                     title: data.type?.titleAction ?? '')
                 : const SizedBox(),
@@ -155,20 +104,14 @@ class _ItemNotificationState extends State<_ItemNotification> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        RichText(
-          text: TextSpan(
-            text: data.type?.title ?? '',
-            style: ThemeText.style14Medium,
-            children: [
-              TextSpan(
-                text: ' ${data.notification}',
-                style: ThemeText.caption,
-              ),
-            ],
+        Text(
+          ' ${data.notification}',
+          style: ThemeText.style12Regular.copyWith(
+            fontWeight: FontWeight.w600,
           ),
         ),
         Text(
-          timeago.format(data.time ?? DateTime.now(), locale: 'en_short'),
+          timeago.format(data.createdAt ?? DateTime.now(), locale: 'en_short'),
           style: ThemeText.style12Regular.copyWith(
             color: AppColor.grey,
           ),

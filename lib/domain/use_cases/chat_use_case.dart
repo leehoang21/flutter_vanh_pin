@@ -48,8 +48,10 @@ class ChatUseCase {
   Future<AppError?> sendOrUpdateMessage({
     required Message data,
     required String chatId,
+    required String idKey,
   }) {
-    return repository.sendOrUpdateMessage(data: data, chatId: chatId);
+    return repository.sendOrUpdateMessage(
+        data: data, chatId: chatId, idKey: idKey);
   }
 
   Stream<Either<List<ChatModel>, AppError>> get() {

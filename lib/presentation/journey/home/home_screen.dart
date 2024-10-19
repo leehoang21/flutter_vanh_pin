@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinpin/common/constants/string_constants.dart';
 import 'package:pinpin/common/extension/string_extension.dart';
+import 'package:pinpin/presentation/themes/themes.dart';
 import 'package:pinpin/presentation/widgets/card_widget/post_card.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../data/models/post_model.dart';
 import '../../widgets/appbar_widget/appbar_main_widget.dart';
+import '../../widgets/card_widget/user_card.dart';
 import 'cubit/home_cubit.dart';
 import 'widget/create_post_widget.dart';
 
@@ -36,6 +38,43 @@ class _HomeScreenState extends State<HomeScreen> {
             const CreatePostWidget(),
             SizedBox(
               height: 12.h,
+            ),
+            if (context.watch<HomeCubit>().state.users.isNotEmpty)
+              Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: 20.w),
+                    child: Text(
+                      'Suggestion to make friends'.tr,
+                      style: ThemeText.body1,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 5.h,
+                  ),
+                  SizedBox(
+                    height: 150.h,
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: context.watch<HomeCubit>().state.users.map((e) {
+                        return UserCard(model: e);
+                      }).toList(),
+                    ),
+                  )
+                ],
+              ),
+            SizedBox(
+              height: 12.h,
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 20.w),
+              child: Text(
+                'Posts'.tr,
+                style: ThemeText.body1,
+              ),
+            ),
+            SizedBox(
+              height: 5.h,
             ),
             BlocBuilder<HomeCubit, HomeState>(
               builder: (context, state) {

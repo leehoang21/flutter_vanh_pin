@@ -20,6 +20,9 @@ class ChatModel with _$ChatModel {
   const factory ChatModel({
     @Default([]) List<UserModel> members,
     @Default([]) List<String> memberIds,
+    UserModel? author,
+    @Default([]) List<UserModel> admins,
+    @Default([]) List<String> adminIds,
     String? status,
     DateTime? updatedAt,
     DateTime? createdAt,
@@ -28,6 +31,7 @@ class ChatModel with _$ChatModel {
     String? chatAvatar,
     String? chatContent,
     String? uId,
+    String? idKey,
   }) = _ChatModel;
 
   factory ChatModel.fromJson(Map<String, dynamic> json) =>

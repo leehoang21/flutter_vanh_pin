@@ -54,12 +54,7 @@ class AuthRepositoryImpl extends AuthRepository {
         email: email,
         password: pass,
       );
-      final user = await config.auth.signInWithCredential(credential);
-      if (user.credential?.accessToken != null) {
-        final tokens = (await user.user?.getIdToken() ?? '').split('eyJ');
-        final token = 'eyJ${tokens[1]}';
-        localStorage.write(DefaultEnvironment.token, token);
-      }
+      await config.auth.signInWithCredential(credential);
     } on FirebaseException catch (e) {
       return AppError(message: e.message ?? e.code);
     } catch (e) {
@@ -184,5 +179,16 @@ class AuthRepositoryImpl extends AuthRepository {
   @override
   Future<void> logout() {
     return config.auth.signOut();
+  }
+
+  @override
+  Future<String?> getJWT() async {
+    try {
+      return config.authAdnin.createCustomToken(
+        config.auth.currentUser?.uid ?? '',
+      );
+    } catch (e) {
+      return null;
+    }
   }
 }

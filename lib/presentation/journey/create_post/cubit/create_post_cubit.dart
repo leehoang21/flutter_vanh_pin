@@ -26,8 +26,8 @@ class CreatePostCubit extends BaseBloc<CreatePostState> {
 
   @override
   initState(List params) {
-    group = params[0] as GroupModel;
-    post = params[1] as PostModel;
+    group = params[0] as GroupModel?;
+    post = params[1] as PostModel?;
 
     emit(state.copyWith(
       images: post?.images ?? [],

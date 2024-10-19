@@ -2,7 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pinpin/common/enums/login_type.dart';
+import 'package:pinpin/common/extension/string_extension.dart';
+import 'package:pinpin/presentation/themes/theme_text.dart';
 
 import '../../../../common/assets/assets.gen.dart';
 import '../../../../common/constants/app_dimens.dart';
@@ -23,113 +26,128 @@ class LoginScreen extends StatelessWidget {
     final TextEditingController controller = TextEditingController();
     final TextEditingController controllerPassword = TextEditingController();
     final formKey = GlobalKey<FormState>();
-    return AuthScaffold(
-      body: Form(
-        key: formKey,
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.only(top: LoginConstants.topHeightLogo),
-              child: Assets.images.logoSplash.image(
-                height: LoginConstants.sizeLogo,
-                width: LoginConstants.sizeLogo,
-              ),
+    if (context.watch<LoginCubit>().state.isNewDevice) {
+      return Scaffold(
+        body: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20.w),
+          child: Center(
+            child: Text(
+              'Please go to your old device and click the confirmation sent via notification to continue logging in'
+                  .tr,
+              style: ThemeText.body1,
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  LoginConstants.login,
-                  style: ThemeText.style18Bold,
-                ),
-                Padding(
-                  padding:
-                      EdgeInsets.only(top: LoginConstants.distanceTextToField),
-                  child: TextFieldWidget(
-                    controller: controller,
-                    hintText: LoginConstants.hintEmail,
-                    validate: AppValidator.validateEmail,
-                    keyboardType: TextInputType.emailAddress,
-                    textStyle: ThemeText.style14Medium
-                        .copyWith(fontWeight: FontWeight.normal),
-                  ),
-                ),
-                Padding(
-                  padding:
-                      EdgeInsets.only(top: LoginConstants.distanceTextToField),
-                  child: SecurityTextFieldWidget(
-                    controller: controllerPassword,
-                    keyboardType: TextInputType.text,
-                    validate: AppValidator.validatePassword,
-                    hintText: LoginConstants.yourPassword,
-                    textStyle: ThemeText.style14Medium
-                        .copyWith(fontWeight: FontWeight.normal),
-                    onEditingComplete: () {
-                      final currentFocus = FocusScope.of(context);
-                      if (!currentFocus.hasPrimaryFocus &&
-                          currentFocus.focusedChild != null) {
-                        FocusManager.instance.primaryFocus!.unfocus();
-                      }
-                      if (formKey.currentState!.validate()) {
-                        context.read<LoginCubit>().login(
-                              LoginType.password,
-                              email: controller.text,
-                              password: controllerPassword.text,
-                            );
-                      }
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: LoginConstants.distanceButtonToField,
-                  ),
-                  child: TextButtonWidget(
-                    onPressed: () async {
-                      final currentFocus = FocusScope.of(context);
-                      if (!currentFocus.hasPrimaryFocus &&
-                          currentFocus.focusedChild != null) {
-                        FocusManager.instance.primaryFocus!.unfocus();
-                      }
-                      if (formKey.currentState!.validate()) {
-                        context.read<LoginCubit>().login(
-                              LoginType.password,
-                              email: controller.text,
-                              password: controllerPassword.text,
-                            );
-                      }
-                    },
-                    title: LoginConstants.signIn,
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Padding(
-                    padding: EdgeInsets.only(right: AppDimens.width_12),
-                    child: RichText(
-                        text: TextSpan(
-                      text: '${LoginConstants.notHaveAccount} ',
-                      style: ThemeText.caption,
-                      children: [
-                        TextSpan(
-                          text: LoginConstants.register,
-                          style: ThemeText.caption.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              context.router.replace(const RegisterRoute());
-                            },
-                        ),
-                      ],
-                    )),
-                  ),
-                ),
-              ],
-            )
-          ],
+          ),
         ),
-      ),
-    );
+      );
+    } else {
+      return AuthScaffold(
+        body: Form(
+          key: formKey,
+          child: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(top: LoginConstants.topHeightLogo),
+                child: Assets.images.logoSplash.image(
+                  height: LoginConstants.sizeLogo,
+                  width: LoginConstants.sizeLogo,
+                ),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    LoginConstants.login,
+                    style: ThemeText.style18Bold,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                        top: LoginConstants.distanceTextToField),
+                    child: TextFieldWidget(
+                      controller: controller,
+                      hintText: LoginConstants.hintEmail,
+                      validate: AppValidator.validateEmail,
+                      keyboardType: TextInputType.emailAddress,
+                      textStyle: ThemeText.style14Medium
+                          .copyWith(fontWeight: FontWeight.normal),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                        top: LoginConstants.distanceTextToField),
+                    child: SecurityTextFieldWidget(
+                      controller: controllerPassword,
+                      keyboardType: TextInputType.text,
+                      validate: AppValidator.validatePassword,
+                      hintText: LoginConstants.yourPassword,
+                      textStyle: ThemeText.style14Medium
+                          .copyWith(fontWeight: FontWeight.normal),
+                      onEditingComplete: () {
+                        final currentFocus = FocusScope.of(context);
+                        if (!currentFocus.hasPrimaryFocus &&
+                            currentFocus.focusedChild != null) {
+                          FocusManager.instance.primaryFocus!.unfocus();
+                        }
+                        if (formKey.currentState!.validate()) {
+                          context.read<LoginCubit>().login(
+                                LoginType.password,
+                                email: controller.text,
+                                password: controllerPassword.text,
+                              );
+                        }
+                      },
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      vertical: LoginConstants.distanceButtonToField,
+                    ),
+                    child: TextButtonWidget(
+                      onPressed: () async {
+                        final currentFocus = FocusScope.of(context);
+                        if (!currentFocus.hasPrimaryFocus &&
+                            currentFocus.focusedChild != null) {
+                          FocusManager.instance.primaryFocus!.unfocus();
+                        }
+                        if (formKey.currentState!.validate()) {
+                          context.read<LoginCubit>().login(
+                                LoginType.password,
+                                email: controller.text,
+                                password: controllerPassword.text,
+                              );
+                        }
+                      },
+                      title: LoginConstants.signIn,
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Padding(
+                      padding: EdgeInsets.only(right: AppDimens.width_12),
+                      child: RichText(
+                          text: TextSpan(
+                        text: '${LoginConstants.notHaveAccount} ',
+                        style: ThemeText.caption,
+                        children: [
+                          TextSpan(
+                            text: LoginConstants.register,
+                            style: ThemeText.caption.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                context.router.replace(const RegisterRoute());
+                              },
+                          ),
+                        ],
+                      )),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+      );
+    }
   }
 }

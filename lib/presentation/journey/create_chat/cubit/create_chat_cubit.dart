@@ -1,14 +1,13 @@
 import 'dart:async';
+import 'package:equatable/equatable.dart';
 import 'package:pinpin/common/service/app_service.dart';
 import 'package:pinpin/data/models/user_model.dart';
 import 'package:pinpin/domain/use_cases/chat_use_case.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:pinpin/domain/use_cases/user_use_case.dart';
 import '../../../../domain/use_cases/storage_use_case.dart';
 import '../../../bloc/base_bloc/base_bloc.dart';
 
-part 'create_chat_cubit.freezed.dart';
 part 'create_chat_state.dart';
 
 @injectable
@@ -18,7 +17,7 @@ class CreateChatCubit extends BaseBloc<CreateChatState> {
     this.usecase,
     this.appService,
     this.userUseCase,
-  ) : super(const CreateChatState([]));
+  ) : super(const CreateChatState(users: []));
   final StorageUseCase storageUseCase;
   final ChatUseCase usecase;
   final UserUseCase userUseCase;

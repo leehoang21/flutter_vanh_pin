@@ -14,6 +14,7 @@ import 'package:pinpin/domain/use_cases/chat_use_case.dart';
 import 'package:pinpin/domain/use_cases/storage_use_case.dart';
 
 import '../../../../common/configs/default_environment.dart';
+import '../../../../common/service/key.dart';
 import '../../../bloc/base_bloc/base_bloc.dart';
 import '../../../widgets/chat_view/chatview.dart';
 
@@ -46,6 +47,7 @@ class ChatDetailCubit extends BaseBloc<ChatDetailState> {
       currentUser: ChatMapper.convertUser(appService.state.user!),
       otherUsers: data.members.map((e) => ChatMapper.convertUser(e)).toList(),
     );
+    get();
   }
 
   void onSendTap(
@@ -106,7 +108,7 @@ class ChatDetailCubit extends BaseBloc<ChatDetailState> {
       status: MessageStatus.read,
     );
     final result = await chatUseCase.sendOrUpdateMessage(
-        data: message, chatId: data.uId ?? '');
+        data: message, chatId: data.uId ?? '', idKey: data.idKey!);
     if (result != null) {
       showSnackbar(translationKey: result.message);
     }
@@ -130,6 +132,7 @@ class ChatDetailCubit extends BaseBloc<ChatDetailState> {
       data = data.copyWith(uId: result);
       if (isNullEmpty(result)) return;
     }
+
     _subscription?.cancel();
     _subscription = chatUseCase
         .getMessages(
@@ -138,23 +141,30 @@ class ChatDetailCubit extends BaseBloc<ChatDetailState> {
         .listen((event) {
       event.fold(
         (value) async {
+          //decryp data
+          for (int i = 0; i < value.length; i++) {
+            KeyApp keyApp = KeyApp();
+            final key = await keyApp.getKeyAes(data.idKey!);
+            final message = keyApp.decrypted(
+                value[i].message, key!.$1.base64, key.$2.base64);
+            //
+            value.insert(
+                i,
+                value[i].copyWith(
+                  message: message,
+                ));
+            value.removeAt(i + 1);
+          }
+          //
           if (chatController.initialMessageList.isEmpty) {
             for (final i in value) {
               i.setStatus = MessageStatus.read;
             }
             chatController.loadMoreData(value);
-            return;
+          } else {
+            chatController.initialMessageList.last.setStatus =
+                MessageStatus.read;
           }
-          //lọc dữ liệu chưa có để thêm vào
-          final list = value.where((element) {
-            return !chatController.initialMessageList.any(
-              (e) => (e.id == element.id),
-            );
-          }).toList();
-          chatController.initialMessageList
-              .removeWhere((element) => element.status != MessageStatus.read);
-          if (list.isEmpty) return;
-          chatController.loadMoreData(list);
         },
         (error) {
           showSnackbar(translationKey: error.message);

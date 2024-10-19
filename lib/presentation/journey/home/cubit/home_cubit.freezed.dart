@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$HomeState {
   Map<int, List<PostModel>> get posts => throw _privateConstructorUsedError;
+  List<UserModel> get users => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $HomeStateCopyWith<HomeState> get copyWith =>
@@ -28,7 +29,7 @@ abstract class $HomeStateCopyWith<$Res> {
   factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) then) =
       _$HomeStateCopyWithImpl<$Res, HomeState>;
   @useResult
-  $Res call({Map<int, List<PostModel>> posts});
+  $Res call({Map<int, List<PostModel>> posts, List<UserModel> users});
 }
 
 /// @nodoc
@@ -45,12 +46,17 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
   @override
   $Res call({
     Object? posts = null,
+    Object? users = null,
   }) {
     return _then(_value.copyWith(
       posts: null == posts
           ? _value.posts
           : posts // ignore: cast_nullable_to_non_nullable
               as Map<int, List<PostModel>>,
+      users: null == users
+          ? _value.users
+          : users // ignore: cast_nullable_to_non_nullable
+              as List<UserModel>,
     ) as $Val);
   }
 }
@@ -62,7 +68,7 @@ abstract class _$$LoadedImplCopyWith<$Res> implements $HomeStateCopyWith<$Res> {
       __$$LoadedImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Map<int, List<PostModel>> posts});
+  $Res call({Map<int, List<PostModel>> posts, List<UserModel> users});
 }
 
 /// @nodoc
@@ -77,12 +83,17 @@ class __$$LoadedImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? posts = null,
+    Object? users = null,
   }) {
     return _then(_$LoadedImpl(
       null == posts
           ? _value._posts
           : posts // ignore: cast_nullable_to_non_nullable
               as Map<int, List<PostModel>>,
+      null == users
+          ? _value._users
+          : users // ignore: cast_nullable_to_non_nullable
+              as List<UserModel>,
     ));
   }
 }
@@ -90,7 +101,10 @@ class __$$LoadedImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$LoadedImpl implements _Loaded {
-  const _$LoadedImpl(final Map<int, List<PostModel>> posts) : _posts = posts;
+  const _$LoadedImpl(
+      final Map<int, List<PostModel>> posts, final List<UserModel> users)
+      : _posts = posts,
+        _users = users;
 
   final Map<int, List<PostModel>> _posts;
   @override
@@ -100,9 +114,17 @@ class _$LoadedImpl implements _Loaded {
     return EqualUnmodifiableMapView(_posts);
   }
 
+  final List<UserModel> _users;
+  @override
+  List<UserModel> get users {
+    if (_users is EqualUnmodifiableListView) return _users;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_users);
+  }
+
   @override
   String toString() {
-    return 'HomeState(posts: $posts)';
+    return 'HomeState(posts: $posts, users: $users)';
   }
 
   @override
@@ -110,12 +132,15 @@ class _$LoadedImpl implements _Loaded {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LoadedImpl &&
-            const DeepCollectionEquality().equals(other._posts, _posts));
+            const DeepCollectionEquality().equals(other._posts, _posts) &&
+            const DeepCollectionEquality().equals(other._users, _users));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_posts));
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_posts),
+      const DeepCollectionEquality().hash(_users));
 
   @JsonKey(ignore: true)
   @override
@@ -125,10 +150,14 @@ class _$LoadedImpl implements _Loaded {
 }
 
 abstract class _Loaded implements HomeState {
-  const factory _Loaded(final Map<int, List<PostModel>> posts) = _$LoadedImpl;
+  const factory _Loaded(
+          final Map<int, List<PostModel>> posts, final List<UserModel> users) =
+      _$LoadedImpl;
 
   @override
   Map<int, List<PostModel>> get posts;
+  @override
+  List<UserModel> get users;
   @override
   @JsonKey(ignore: true)
   _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith =>

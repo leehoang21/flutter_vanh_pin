@@ -22,6 +22,9 @@ ChatModel _$ChatModelFromJson(Map<String, dynamic> json) {
 mixin _$ChatModel {
   List<UserModel> get members => throw _privateConstructorUsedError;
   List<String> get memberIds => throw _privateConstructorUsedError;
+  UserModel? get author => throw _privateConstructorUsedError;
+  List<UserModel> get admins => throw _privateConstructorUsedError;
+  List<String> get adminIds => throw _privateConstructorUsedError;
   String? get status => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
@@ -30,6 +33,7 @@ mixin _$ChatModel {
   String? get chatAvatar => throw _privateConstructorUsedError;
   String? get chatContent => throw _privateConstructorUsedError;
   String? get uId => throw _privateConstructorUsedError;
+  String? get idKey => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -45,6 +49,9 @@ abstract class $ChatModelCopyWith<$Res> {
   $Res call(
       {List<UserModel> members,
       List<String> memberIds,
+      UserModel? author,
+      List<UserModel> admins,
+      List<String> adminIds,
       String? status,
       DateTime? updatedAt,
       DateTime? createdAt,
@@ -52,7 +59,10 @@ abstract class $ChatModelCopyWith<$Res> {
       String? chatName,
       String? chatAvatar,
       String? chatContent,
-      String? uId});
+      String? uId,
+      String? idKey});
+
+  $UserModelCopyWith<$Res>? get author;
 }
 
 /// @nodoc
@@ -70,6 +80,9 @@ class _$ChatModelCopyWithImpl<$Res, $Val extends ChatModel>
   $Res call({
     Object? members = null,
     Object? memberIds = null,
+    Object? author = freezed,
+    Object? admins = null,
+    Object? adminIds = null,
     Object? status = freezed,
     Object? updatedAt = freezed,
     Object? createdAt = freezed,
@@ -78,6 +91,7 @@ class _$ChatModelCopyWithImpl<$Res, $Val extends ChatModel>
     Object? chatAvatar = freezed,
     Object? chatContent = freezed,
     Object? uId = freezed,
+    Object? idKey = freezed,
   }) {
     return _then(_value.copyWith(
       members: null == members
@@ -87,6 +101,18 @@ class _$ChatModelCopyWithImpl<$Res, $Val extends ChatModel>
       memberIds: null == memberIds
           ? _value.memberIds
           : memberIds // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      author: freezed == author
+          ? _value.author
+          : author // ignore: cast_nullable_to_non_nullable
+              as UserModel?,
+      admins: null == admins
+          ? _value.admins
+          : admins // ignore: cast_nullable_to_non_nullable
+              as List<UserModel>,
+      adminIds: null == adminIds
+          ? _value.adminIds
+          : adminIds // ignore: cast_nullable_to_non_nullable
               as List<String>,
       status: freezed == status
           ? _value.status
@@ -120,7 +146,23 @@ class _$ChatModelCopyWithImpl<$Res, $Val extends ChatModel>
           ? _value.uId
           : uId // ignore: cast_nullable_to_non_nullable
               as String?,
+      idKey: freezed == idKey
+          ? _value.idKey
+          : idKey // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $UserModelCopyWith<$Res>? get author {
+    if (_value.author == null) {
+      return null;
+    }
+
+    return $UserModelCopyWith<$Res>(_value.author!, (value) {
+      return _then(_value.copyWith(author: value) as $Val);
+    });
   }
 }
 
@@ -135,6 +177,9 @@ abstract class _$$ChatModelImplCopyWith<$Res>
   $Res call(
       {List<UserModel> members,
       List<String> memberIds,
+      UserModel? author,
+      List<UserModel> admins,
+      List<String> adminIds,
       String? status,
       DateTime? updatedAt,
       DateTime? createdAt,
@@ -142,7 +187,11 @@ abstract class _$$ChatModelImplCopyWith<$Res>
       String? chatName,
       String? chatAvatar,
       String? chatContent,
-      String? uId});
+      String? uId,
+      String? idKey});
+
+  @override
+  $UserModelCopyWith<$Res>? get author;
 }
 
 /// @nodoc
@@ -158,6 +207,9 @@ class __$$ChatModelImplCopyWithImpl<$Res>
   $Res call({
     Object? members = null,
     Object? memberIds = null,
+    Object? author = freezed,
+    Object? admins = null,
+    Object? adminIds = null,
     Object? status = freezed,
     Object? updatedAt = freezed,
     Object? createdAt = freezed,
@@ -166,6 +218,7 @@ class __$$ChatModelImplCopyWithImpl<$Res>
     Object? chatAvatar = freezed,
     Object? chatContent = freezed,
     Object? uId = freezed,
+    Object? idKey = freezed,
   }) {
     return _then(_$ChatModelImpl(
       members: null == members
@@ -175,6 +228,18 @@ class __$$ChatModelImplCopyWithImpl<$Res>
       memberIds: null == memberIds
           ? _value._memberIds
           : memberIds // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      author: freezed == author
+          ? _value.author
+          : author // ignore: cast_nullable_to_non_nullable
+              as UserModel?,
+      admins: null == admins
+          ? _value._admins
+          : admins // ignore: cast_nullable_to_non_nullable
+              as List<UserModel>,
+      adminIds: null == adminIds
+          ? _value._adminIds
+          : adminIds // ignore: cast_nullable_to_non_nullable
               as List<String>,
       status: freezed == status
           ? _value.status
@@ -208,6 +273,10 @@ class __$$ChatModelImplCopyWithImpl<$Res>
           ? _value.uId
           : uId // ignore: cast_nullable_to_non_nullable
               as String?,
+      idKey: freezed == idKey
+          ? _value.idKey
+          : idKey // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -219,6 +288,9 @@ class _$ChatModelImpl implements _ChatModel {
   const _$ChatModelImpl(
       {final List<UserModel> members = const [],
       final List<String> memberIds = const [],
+      this.author,
+      final List<UserModel> admins = const [],
+      final List<String> adminIds = const [],
       this.status,
       this.updatedAt,
       this.createdAt,
@@ -226,9 +298,12 @@ class _$ChatModelImpl implements _ChatModel {
       this.chatName,
       this.chatAvatar,
       this.chatContent,
-      this.uId})
+      this.uId,
+      this.idKey})
       : _members = members,
-        _memberIds = memberIds;
+        _memberIds = memberIds,
+        _admins = admins,
+        _adminIds = adminIds;
 
   factory _$ChatModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$ChatModelImplFromJson(json);
@@ -252,6 +327,26 @@ class _$ChatModelImpl implements _ChatModel {
   }
 
   @override
+  final UserModel? author;
+  final List<UserModel> _admins;
+  @override
+  @JsonKey()
+  List<UserModel> get admins {
+    if (_admins is EqualUnmodifiableListView) return _admins;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_admins);
+  }
+
+  final List<String> _adminIds;
+  @override
+  @JsonKey()
+  List<String> get adminIds {
+    if (_adminIds is EqualUnmodifiableListView) return _adminIds;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_adminIds);
+  }
+
+  @override
   final String? status;
   @override
   final DateTime? updatedAt;
@@ -267,10 +362,12 @@ class _$ChatModelImpl implements _ChatModel {
   final String? chatContent;
   @override
   final String? uId;
+  @override
+  final String? idKey;
 
   @override
   String toString() {
-    return 'ChatModel(members: $members, memberIds: $memberIds, status: $status, updatedAt: $updatedAt, createdAt: $createdAt, chatType: $chatType, chatName: $chatName, chatAvatar: $chatAvatar, chatContent: $chatContent, uId: $uId)';
+    return 'ChatModel(members: $members, memberIds: $memberIds, author: $author, admins: $admins, adminIds: $adminIds, status: $status, updatedAt: $updatedAt, createdAt: $createdAt, chatType: $chatType, chatName: $chatName, chatAvatar: $chatAvatar, chatContent: $chatContent, uId: $uId, idKey: $idKey)';
   }
 
   @override
@@ -281,6 +378,9 @@ class _$ChatModelImpl implements _ChatModel {
             const DeepCollectionEquality().equals(other._members, _members) &&
             const DeepCollectionEquality()
                 .equals(other._memberIds, _memberIds) &&
+            (identical(other.author, author) || other.author == author) &&
+            const DeepCollectionEquality().equals(other._admins, _admins) &&
+            const DeepCollectionEquality().equals(other._adminIds, _adminIds) &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt) &&
@@ -294,7 +394,8 @@ class _$ChatModelImpl implements _ChatModel {
                 other.chatAvatar == chatAvatar) &&
             (identical(other.chatContent, chatContent) ||
                 other.chatContent == chatContent) &&
-            (identical(other.uId, uId) || other.uId == uId));
+            (identical(other.uId, uId) || other.uId == uId) &&
+            (identical(other.idKey, idKey) || other.idKey == idKey));
   }
 
   @JsonKey(ignore: true)
@@ -303,6 +404,9 @@ class _$ChatModelImpl implements _ChatModel {
       runtimeType,
       const DeepCollectionEquality().hash(_members),
       const DeepCollectionEquality().hash(_memberIds),
+      author,
+      const DeepCollectionEquality().hash(_admins),
+      const DeepCollectionEquality().hash(_adminIds),
       status,
       updatedAt,
       createdAt,
@@ -310,7 +414,8 @@ class _$ChatModelImpl implements _ChatModel {
       chatName,
       chatAvatar,
       chatContent,
-      uId);
+      uId,
+      idKey);
 
   @JsonKey(ignore: true)
   @override
@@ -330,6 +435,9 @@ abstract class _ChatModel implements ChatModel {
   const factory _ChatModel(
       {final List<UserModel> members,
       final List<String> memberIds,
+      final UserModel? author,
+      final List<UserModel> admins,
+      final List<String> adminIds,
       final String? status,
       final DateTime? updatedAt,
       final DateTime? createdAt,
@@ -337,7 +445,8 @@ abstract class _ChatModel implements ChatModel {
       final String? chatName,
       final String? chatAvatar,
       final String? chatContent,
-      final String? uId}) = _$ChatModelImpl;
+      final String? uId,
+      final String? idKey}) = _$ChatModelImpl;
 
   factory _ChatModel.fromJson(Map<String, dynamic> json) =
       _$ChatModelImpl.fromJson;
@@ -346,6 +455,12 @@ abstract class _ChatModel implements ChatModel {
   List<UserModel> get members;
   @override
   List<String> get memberIds;
+  @override
+  UserModel? get author;
+  @override
+  List<UserModel> get admins;
+  @override
+  List<String> get adminIds;
   @override
   String? get status;
   @override
@@ -362,6 +477,8 @@ abstract class _ChatModel implements ChatModel {
   String? get chatContent;
   @override
   String? get uId;
+  @override
+  String? get idKey;
   @override
   @JsonKey(ignore: true)
   _$$ChatModelImplCopyWith<_$ChatModelImpl> get copyWith =>

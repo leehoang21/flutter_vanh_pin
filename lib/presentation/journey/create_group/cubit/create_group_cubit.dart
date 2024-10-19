@@ -78,6 +78,9 @@ class CreateGroupCubit extends BaseBloc<CreateGroupState> {
     final model = GroupModel(
       time: DateTime.now(),
       author: appService.state.user,
+      members: [],
+      memberIds: [appService.state.user?.uId ?? ''],
+      admins: [],
       name: content,
       type: type,
       avatar: avatar,

@@ -1,26 +1,31 @@
 import 'dart:async';
+import 'package:equatable/equatable.dart';
 import 'package:pinpin/common/extension/bloc_extension.dart';
 import 'package:pinpin/data/models/group_model.dart';
+import 'package:pinpin/data/models/user_model.dart';
+import 'package:pinpin/domain/use_cases/group_use_case.dart';
 import 'package:pinpin/domain/use_cases/post_use_case.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../data/models/post_model.dart';
 import '../../../bloc/base_bloc/base_bloc.dart';
 
-part 'detail_group_cubit.freezed.dart';
 part 'detail_group_state.dart';
 
 @injectable
 class GroupDetailCubit extends BaseBloc<GroupDetailState> {
-  GroupDetailCubit(this.postUseCase) : super(const GroupDetailState([]));
+  GroupDetailCubit(this.postUseCase, this.groupUseCase)
+      : super(const GroupDetailState([], GroupModel()));
   final PostUseCase postUseCase;
+  final GroupUseCase groupUseCase;
   StreamSubscription _postSubscription = const Stream.empty().listen((_) {});
-  late final GroupModel data;
+  StreamSubscription _groupDetailSubscription =
+      const Stream.empty().listen((_) {});
 
   @override
   initState(List params) {
-    data = params[0] as GroupModel;
+    final data = params[0] as GroupModel;
+    emit(state.copyWith(model: data));
     init();
   }
 
@@ -37,7 +42,7 @@ class GroupDetailCubit extends BaseBloc<GroupDetailState> {
   Future<void> getPostToGroup() async {
     _postSubscription.cancel();
 
-    final result = postUseCase.getToGroup([data.uId ?? '']);
+    final result = postUseCase.getToGroup([state.model.uId ?? '']);
     _postSubscription = result.listen((event) {
       event.fold(
         (posts) {
@@ -48,5 +53,26 @@ class GroupDetailCubit extends BaseBloc<GroupDetailState> {
         },
       );
     });
+  }
+
+  getDetail() {
+    _groupDetailSubscription.cancel();
+    final result = groupUseCase.getDetail(state.model.uId ?? '');
+    _groupDetailSubscription = result.listen((event) {
+      event.fold(
+        (model) {
+          emit(state.copyWith(model: model));
+        },
+        (error) {
+          showSnackbar(translationKey: error.message);
+        },
+      );
+    });
+  }
+
+  addMember(List<UserModel> users) async {
+    for (final user in users) {
+      await groupUseCase.addMembers(user, state.model.uId ?? '');
+    }
   }
 }
