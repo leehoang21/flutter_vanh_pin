@@ -9,8 +9,6 @@ import 'package:pinpin/common/service/app_service.dart';
 import 'package:pinpin/common/utils/app_utils.dart';
 import 'package:pinpin/domain/use_cases/notification_use_case.dart';
 import 'package:pinpin/domain/use_cases/user_use_case.dart';
-
-import '../../../../../common/configs/default_environment.dart';
 import '../../../../../common/di/di.dart';
 import '../../../../../common/enums/login_type.dart';
 import '../../../../../common/service/key.dart';
@@ -129,12 +127,6 @@ class LoginCubit extends BaseBloc<LoginState> {
               final KeyApp keyApp = KeyApp();
               keyApp.setKeyAes(key, iv, appService.state.user?.uId ?? "");
               userUseCase.addPublicKey();
-              //save token
-              final token = await authUseCase.getJWT();
-              if (token != null) {
-                localStorage.write(DefaultEnvironment.token, token);
-              }
-              //
               logger(privateKey);
               //
               pushAndRemoveUntil(

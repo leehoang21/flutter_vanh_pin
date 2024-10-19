@@ -51,7 +51,14 @@ class ChatCubit extends BaseBloc<ChatState> {
                     ),
                   );
 
-              value.insert(i, value[i].copyWith(members: [members]));
+              value.insert(
+                i,
+                value[i].copyWith(
+                  members: [members],
+                  chatName: members.userName,
+                  chatAvatar: members.avatar,
+                ),
+              );
               value.removeAt(i + 1);
             }
             //decryp data

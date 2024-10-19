@@ -1,4 +1,5 @@
 import 'package:injectable/injectable.dart';
+import 'package:pinpin/common/configs/default_environment.dart';
 import 'package:pinpin/common/configs/local_storage/local_storage.dart';
 import 'package:pinpin/domain/use_cases/auth_use_case.dart';
 
@@ -17,7 +18,7 @@ class SplashController {
       : _authUseCase = authUseCase;
 
   Future<bool> login() async {
-    final token = await _localStorage.read('token');
+    final token = await _localStorage.read(DefaultEnvironment.token);
     if (token != null) {
       final result = await _authUseCase.loginWithToken(token);
       return result.fold(

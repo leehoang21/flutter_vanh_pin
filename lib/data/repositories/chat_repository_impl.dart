@@ -202,10 +202,10 @@ class ChatRepositoryImpl extends ChatRepository {
       KeyApp keyApp = KeyApp();
 
       final key = await keyApp.getKeyAes(idKey);
-      final message =
-          keyApp.encrypted(data.message, key!.$1.base64, key.$2.base64);
+      final message = data.message;
       //
-      data = data.copyWith(message: message);
+      data = data.copyWith(
+          message: keyApp.encrypted(message, key!.$1.base64, key.$2.base64));
       //
       if (!isNullEmpty(id)) {
         await _doc
@@ -213,18 +213,18 @@ class ChatRepositoryImpl extends ChatRepository {
             .collection(DefaultEnvironment.message)
             .doc(id)
             .update(data.toJson());
-        //
-        if (data.messageType == MessageType.text) {
-          _pushNotification("Message".tr, data.message);
-        }
-        //
+
         await _doc.doc(chatId).update({
           'chatContent': data.message,
           'updatedAt': data.createdAt.toIso8601String(),
         });
       } else {
         final param = data.toJson();
-
+        //
+        if (data.messageType == MessageType.text) {
+          _pushNotification("Message".tr, message);
+        }
+        //
         final result = await _doc
             .doc(chatId)
             .collection(DefaultEnvironment.message)
