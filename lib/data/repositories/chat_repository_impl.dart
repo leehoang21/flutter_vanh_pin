@@ -1,22 +1,40 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:crypton/crypton.dart';
+import 'package:dart_firebase_admin/messaging.dart' as messaging;
 import 'package:either_dart/either.dart';
+import 'package:encrypt/encrypt.dart';
 import 'package:injectable/injectable.dart';
+import 'package:pinpin/common/extension/string_extension.dart';
 import 'package:pinpin/common/utils/app_utils.dart';
 import 'package:pinpin/data/models/chat_model.dart';
 import 'package:pinpin/data/models/user_model.dart';
+import 'package:pinpin/domain/repositories/notification_repository.dart';
+import 'package:pinpin/domain/repositories/user_repository.dart';
 
 import '../../common/configs/default_environment.dart';
 import '../../common/configs/firebase_config.dart';
+import '../../common/configs/notification_config/notification_config.dart';
 import '../../common/exception/app_error.dart';
+import '../../common/service/app_service.dart';
+import '../../common/service/key.dart';
 import '../../domain/repositories/chat_reposotory.dart';
 import '../../presentation/widgets/chat_view/chatview.dart';
+import '../models/notification_model.dart';
 
 @Injectable(as: ChatRepository)
 class ChatRepositoryImpl extends ChatRepository {
   final FirebaseConfig config;
+  final AppService appService;
+  final UserRepository userRepository;
+  final NotificationRepository notificationRepository;
+  final NotificationConfig notificationConfig;
 
   ChatRepositoryImpl(
     this.config,
+    this.appService,
+    this.userRepository,
+    this.notificationRepository,
+    this.notificationConfig,
   );
 
   CollectionReference<Map<String, dynamic>> get _doc =>
@@ -32,16 +50,65 @@ class ChatRepositoryImpl extends ChatRepository {
     }
     try {
       if (!isNullEmpty(chatId)) {
-        await _doc.doc(chatId).update(data.toJson());
+        data = data.copyWith(
+          updatedAt: DateTime.now(),
+        );
+        final params = data.toJson();
+        params.remove('createdAt');
+        await _doc.doc(chatId).update(params);
         return Left(data);
       } else {
+        final KeyApp keyApp = KeyApp();
+        data = data.copyWith(
+          createdAt: DateTime.now(),
+          idKey: keyApp.gennerateKey.$1.base64,
+        );
         final param = data.toJson();
+
+        final key0 = keyApp.gennerateKey;
+        for (final member in data.members) {
+          await _sendKey(member, data.idKey ?? "", key0);
+        }
         final result = await _doc.add(param);
         await _doc.doc(result.id).update({'uId': result.id});
         return Left(data.copyWith(uId: result.id));
       }
     } catch (e) {
       return Right(AppError(message: e.toString()));
+    }
+  }
+
+  _sendKey(UserModel user, String chatId, (Key, IV) key0) async {
+    final publicKeys = await userRepository.getPublicKey(uId: user.uId);
+    final KeyApp keyApp = KeyApp();
+    await keyApp.setKeyAes(
+      key0.$1.base64,
+      key0.$2.base64,
+      chatId,
+    );
+    //
+    for (final keyString in publicKeys) {
+      try {
+        final publicKey = RSAPublicKey.fromString(keyString);
+
+        final content = publicKey.encrypt(
+          '${key0.$1.base64},,,${key0.$2.base64}',
+        );
+        //
+        await notificationRepository.addNotification(
+          NotificationModel(
+            type: NotificationType.keyChat,
+            createdAt: DateTime.now(),
+            author: appService.state.user,
+            user: user,
+            token: keyString,
+            content: content,
+            id: chatId,
+          ),
+        );
+      } catch (e) {
+        logger(e);
+      }
     }
   }
 
@@ -106,26 +173,58 @@ class ChatRepositoryImpl extends ChatRepository {
     return null;
   }
 
+  _pushNotification(String title, String message) async {
+    final tokens =
+        await notificationConfig.getToken(config.auth.currentUser!.uid);
+    for (final token in tokens) {
+      await config.messaging.send(
+        messaging.TokenMessage(
+          token: token,
+          notification: messaging.Notification(
+            title: title,
+            body: message,
+          ),
+        ),
+      );
+    }
+  }
+
   @override
   Future<AppError?> sendOrUpdateMessage({
     required Message data,
     required String chatId,
     String? id,
+    required String idKey,
   }) async {
     if (config.auth.currentUser == null) return null;
     try {
+      //
+      KeyApp keyApp = KeyApp();
+
+      final key = await keyApp.getKeyAes(idKey);
+      final message =
+          keyApp.encrypted(data.message, key!.$1.base64, key.$2.base64);
+      //
+      data = data.copyWith(message: message);
+      //
       if (!isNullEmpty(id)) {
         await _doc
             .doc(chatId)
             .collection(DefaultEnvironment.message)
             .doc(id)
             .update(data.toJson());
+        //
+        if (data.messageType == MessageType.text) {
+          _pushNotification("Message".tr, data.message);
+        }
+        //
         await _doc.doc(chatId).update({
           'chatContent': data.message,
           'updatedAt': data.createdAt.toIso8601String(),
         });
       } else {
         final param = data.toJson();
+
         final result = await _doc
             .doc(chatId)
             .collection(DefaultEnvironment.message)

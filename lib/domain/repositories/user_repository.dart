@@ -7,6 +7,10 @@ abstract class UserRepository {
   Future<UserModel?> get({
     String? id,
   });
+  Future<List<String>> getPublicKey({
+    String? uId,
+  });
+  Future<void> addPublicKey();
   Future<bool> exits();
   Future<List<UserModel>> getAll();
 }

@@ -37,10 +37,17 @@ class ProfileThirdCubit extends BaseBloc<ProfileThirdState> {
     }
   }
 
-  addFriend() async {
-    await friendUseCase.addFriend(FriendModel(
-      user: state.user,
-      status: FriendStatus.pending,
-    ));
+  addFriend(UserModel? user) async {
+    if (user != null) {
+      await friendUseCase.addFriend(FriendModel(
+        user: user,
+        status: FriendStatus.pending,
+      ));
+    } else {
+      await friendUseCase.addFriend(FriendModel(
+        user: state.user,
+        status: FriendStatus.pending,
+      ));
+    }
   }
 }

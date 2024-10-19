@@ -1,8 +1,16 @@
 part of 'create_chat_cubit.dart';
 
-@freezed
-class CreateChatState with _$CreateChatState {
-  const factory CreateChatState(
-    List<UserModel>? users,
-  ) = _CreateChatState;
+class CreateChatState extends Equatable {
+  final List<UserModel> users;
+
+  const CreateChatState({required this.users});
+
+  CreateChatState copyWith({List<UserModel>? users}) {
+    return CreateChatState(
+      users: users ?? this.users,
+    );
+  }
+
+  @override
+  List<Object?> get props => [];
 }

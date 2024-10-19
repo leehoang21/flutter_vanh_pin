@@ -8,10 +8,10 @@ import 'package:injectable/injectable.dart';
 import '../../common/configs/default_environment.dart';
 import '../../common/configs/firebase_config.dart';
 import '../../common/exception/app_error.dart';
+import '../../common/service/key.dart';
 import '../../domain/repositories/friend_repository.dart';
 import '../../domain/repositories/storage_repository.dart';
 import '../../domain/repositories/user_repository.dart';
-import '../models/friend_model.dart';
 import '../models/user_model.dart';
 
 @Injectable(as: UserRepository)
@@ -19,6 +19,7 @@ class UserRepositoryImpl extends UserRepository {
   final FirebaseConfig config;
   final AppService appService;
   final FriendRepository friendRepository;
+  final KeyService keyService;
 
   final StorageRepository storageRepository;
   UserRepositoryImpl(
@@ -26,6 +27,7 @@ class UserRepositoryImpl extends UserRepository {
     this.storageRepository,
     this.appService,
     this.friendRepository,
+    this.keyService,
   ) : super();
 
   DocumentReference<Map<String, dynamic>> get _doc => config.userDoc
@@ -43,6 +45,18 @@ class UserRepositoryImpl extends UserRepository {
       if (exists) {
         return AppError(message: StringConstants.userAlreadyExists);
       } else {
+        //
+        KeyApp keyApp = KeyApp();
+        final key = keyApp.gennerateKey;
+        keyApp.setKeyAes(
+            key.$1.base64, key.$2.base64, config.auth.currentUser!.uid);
+        data = data.copyWith(
+          email:
+              keyApp.encrypted(data.email ?? "", key.$1.base64, key.$2.base64),
+          phoneNumber: keyApp.encrypted(
+              data.phoneNumber ?? "", key.$1.base64, key.$2.base64),
+        );
+        //
         await _doc.set(data.toJson());
         //
         final user = UserModel(
@@ -52,7 +66,10 @@ class UserRepositoryImpl extends UserRepository {
           background: data.background,
         );
         await _users.doc(config.auth.currentUser?.uid).set(user.toJson());
+        //
+        addPublicKey();
       }
+
       return null;
     } catch (e) {
       return AppError(message: e.toString());
@@ -65,8 +82,14 @@ class UserRepositoryImpl extends UserRepository {
     try {
       final bool exists = await exits();
       if (exists) {
+        //
+        KeyApp keyApp = KeyApp();
+        final key = await keyApp.getKeyAes(config.auth.currentUser!.uid);
+        final phone = keyApp.encrypted(
+            data.phoneNumber ?? "", key!.$1.base64, key.$2.base64);
+        //
         final param = {
-          'phoneNumber': data.phoneNumber,
+          'phoneNumber': phone,
           'userName': data.userName,
           'address': data.address,
           'education': data.education,
@@ -128,9 +151,19 @@ class UserRepositoryImpl extends UserRepository {
       final user = UserModel.fromDocument(
         result,
       );
-      final friends = await friendRepository.get(FriendStatus.all);
+      //
 
-      return user.copyWith(friends: friends);
+      KeyApp keyApp = KeyApp();
+      final key = await keyApp.getKeyAes(user.uId!);
+      final phone = keyApp.decrypted(
+          user.phoneNumber ?? "", key!.$1.base64, key.$2.base64);
+      final email =
+          keyApp.decrypted(user.email ?? "", key.$1.base64, key.$2.base64);
+      //
+      return user.copyWith(
+        phoneNumber: phone,
+        email: email,
+      );
     } catch (e) {
       return null;
     }
@@ -142,6 +175,39 @@ class UserRepositoryImpl extends UserRepository {
       final result = await _users.get();
       final users = result.docs.map((e) => UserModel.fromDocument(e)).toList();
       return users;
+    } catch (e) {
+      return [];
+    }
+  }
+
+  @override
+  Future<void> addPublicKey() async {
+    final doc = config.userDoc
+        .collection(DefaultEnvironment.customer)
+        .doc(config.auth.currentUser?.uid)
+        .collection(DefaultEnvironment.key);
+    try {
+      final key = keyService.publicKey.toString();
+      await doc.add({
+        'publicKey': key,
+      });
+    } catch (e) {
+      logger(e);
+    }
+  }
+
+  @override
+  Future<List<String>> getPublicKey({String? uId}) async {
+    final doc = config.userDoc
+        .collection(DefaultEnvironment.customer)
+        .doc(uId ?? config.auth.currentUser?.uid)
+        .collection(DefaultEnvironment.key);
+    try {
+      final result = await doc.get();
+      final keys = result.docs
+          .map((e) => (e.data()['publicKey'] as String?) ?? "")
+          .toList();
+      return keys;
     } catch (e) {
       return [];
     }

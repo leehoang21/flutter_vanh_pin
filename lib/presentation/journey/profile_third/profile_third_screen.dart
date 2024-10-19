@@ -61,7 +61,7 @@ class _Info extends StatelessWidget {
               const Spacer(),
               TextButtonWidget2(
                 onPressed: () {
-                  context.read<ProfileThirdCubit>().addFriend();
+                  context.read<ProfileThirdCubit>().addFriend(null);
                 },
                 title: ProfileThirdConstants.addFriend.tr,
               ),
@@ -97,11 +97,11 @@ class _Info extends StatelessWidget {
           ),
           const _ItemInfo(
             title: ProfileThirdConstants.email,
-            value: '*************',
+            value: '********',
           ),
           const _ItemInfo(
             title: ProfileThirdConstants.phoneNumber,
-            value: '*************',
+            value: '********',
           ),
           context.watch<ProfileThirdCubit>().state.user.birthday == null
               ? const SizedBox()

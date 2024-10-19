@@ -22,11 +22,13 @@ NotificationModel _$NotificationModelFromJson(Map<String, dynamic> json) {
 mixin _$NotificationModel {
   UserModel? get author => throw _privateConstructorUsedError;
   NotificationType? get type => throw _privateConstructorUsedError;
+  UserModel? get user => throw _privateConstructorUsedError;
   String? get content => throw _privateConstructorUsedError;
   String? get token => throw _privateConstructorUsedError;
-  DateTime? get time => throw _privateConstructorUsedError;
   bool get isRead => throw _privateConstructorUsedError;
+  DateTime? get createdAt => throw _privateConstructorUsedError;
   Map<String, dynamic>? get data => throw _privateConstructorUsedError;
+  String? get id => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -43,13 +45,16 @@ abstract class $NotificationModelCopyWith<$Res> {
   $Res call(
       {UserModel? author,
       NotificationType? type,
+      UserModel? user,
       String? content,
       String? token,
-      DateTime? time,
       bool isRead,
-      Map<String, dynamic>? data});
+      DateTime? createdAt,
+      Map<String, dynamic>? data,
+      String? id});
 
   $UserModelCopyWith<$Res>? get author;
+  $UserModelCopyWith<$Res>? get user;
 }
 
 /// @nodoc
@@ -67,11 +72,13 @@ class _$NotificationModelCopyWithImpl<$Res, $Val extends NotificationModel>
   $Res call({
     Object? author = freezed,
     Object? type = freezed,
+    Object? user = freezed,
     Object? content = freezed,
     Object? token = freezed,
-    Object? time = freezed,
     Object? isRead = null,
+    Object? createdAt = freezed,
     Object? data = freezed,
+    Object? id = freezed,
   }) {
     return _then(_value.copyWith(
       author: freezed == author
@@ -82,6 +89,10 @@ class _$NotificationModelCopyWithImpl<$Res, $Val extends NotificationModel>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as NotificationType?,
+      user: freezed == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as UserModel?,
       content: freezed == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
@@ -90,18 +101,22 @@ class _$NotificationModelCopyWithImpl<$Res, $Val extends NotificationModel>
           ? _value.token
           : token // ignore: cast_nullable_to_non_nullable
               as String?,
-      time: freezed == time
-          ? _value.time
-          : time // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
       isRead: null == isRead
           ? _value.isRead
           : isRead // ignore: cast_nullable_to_non_nullable
               as bool,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       data: freezed == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>?,
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 
@@ -114,6 +129,18 @@ class _$NotificationModelCopyWithImpl<$Res, $Val extends NotificationModel>
 
     return $UserModelCopyWith<$Res>(_value.author!, (value) {
       return _then(_value.copyWith(author: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $UserModelCopyWith<$Res>? get user {
+    if (_value.user == null) {
+      return null;
+    }
+
+    return $UserModelCopyWith<$Res>(_value.user!, (value) {
+      return _then(_value.copyWith(user: value) as $Val);
     });
   }
 }
@@ -129,14 +156,18 @@ abstract class _$$NotificationModelImplCopyWith<$Res>
   $Res call(
       {UserModel? author,
       NotificationType? type,
+      UserModel? user,
       String? content,
       String? token,
-      DateTime? time,
       bool isRead,
-      Map<String, dynamic>? data});
+      DateTime? createdAt,
+      Map<String, dynamic>? data,
+      String? id});
 
   @override
   $UserModelCopyWith<$Res>? get author;
+  @override
+  $UserModelCopyWith<$Res>? get user;
 }
 
 /// @nodoc
@@ -152,11 +183,13 @@ class __$$NotificationModelImplCopyWithImpl<$Res>
   $Res call({
     Object? author = freezed,
     Object? type = freezed,
+    Object? user = freezed,
     Object? content = freezed,
     Object? token = freezed,
-    Object? time = freezed,
     Object? isRead = null,
+    Object? createdAt = freezed,
     Object? data = freezed,
+    Object? id = freezed,
   }) {
     return _then(_$NotificationModelImpl(
       author: freezed == author
@@ -167,6 +200,10 @@ class __$$NotificationModelImplCopyWithImpl<$Res>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as NotificationType?,
+      user: freezed == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as UserModel?,
       content: freezed == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
@@ -175,18 +212,22 @@ class __$$NotificationModelImplCopyWithImpl<$Res>
           ? _value.token
           : token // ignore: cast_nullable_to_non_nullable
               as String?,
-      time: freezed == time
-          ? _value.time
-          : time // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
       isRead: null == isRead
           ? _value.isRead
           : isRead // ignore: cast_nullable_to_non_nullable
               as bool,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       data: freezed == data
           ? _value._data
           : data // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>?,
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -198,11 +239,13 @@ class _$NotificationModelImpl extends _NotificationModel {
   const _$NotificationModelImpl(
       {this.author,
       this.type,
+      this.user,
       this.content,
       this.token,
-      this.time,
       this.isRead = false,
-      final Map<String, dynamic>? data})
+      this.createdAt,
+      final Map<String, dynamic>? data,
+      this.id})
       : _data = data,
         super._();
 
@@ -214,14 +257,16 @@ class _$NotificationModelImpl extends _NotificationModel {
   @override
   final NotificationType? type;
   @override
+  final UserModel? user;
+  @override
   final String? content;
   @override
   final String? token;
   @override
-  final DateTime? time;
-  @override
   @JsonKey()
   final bool isRead;
+  @override
+  final DateTime? createdAt;
   final Map<String, dynamic>? _data;
   @override
   Map<String, dynamic>? get data {
@@ -233,23 +278,29 @@ class _$NotificationModelImpl extends _NotificationModel {
   }
 
   @override
+  final String? id;
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$NotificationModelImpl &&
             (identical(other.author, author) || other.author == author) &&
             (identical(other.type, type) || other.type == type) &&
+            (identical(other.user, user) || other.user == user) &&
             (identical(other.content, content) || other.content == content) &&
             (identical(other.token, token) || other.token == token) &&
-            (identical(other.time, time) || other.time == time) &&
             (identical(other.isRead, isRead) || other.isRead == isRead) &&
-            const DeepCollectionEquality().equals(other._data, _data));
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            const DeepCollectionEquality().equals(other._data, _data) &&
+            (identical(other.id, id) || other.id == id));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, author, type, content, token,
-      time, isRead, const DeepCollectionEquality().hash(_data));
+  int get hashCode => Object.hash(runtimeType, author, type, user, content,
+      token, isRead, createdAt, const DeepCollectionEquality().hash(_data), id);
 
   @JsonKey(ignore: true)
   @override
@@ -270,11 +321,13 @@ abstract class _NotificationModel extends NotificationModel {
   const factory _NotificationModel(
       {final UserModel? author,
       final NotificationType? type,
+      final UserModel? user,
       final String? content,
       final String? token,
-      final DateTime? time,
       final bool isRead,
-      final Map<String, dynamic>? data}) = _$NotificationModelImpl;
+      final DateTime? createdAt,
+      final Map<String, dynamic>? data,
+      final String? id}) = _$NotificationModelImpl;
   const _NotificationModel._() : super._();
 
   factory _NotificationModel.fromJson(Map<String, dynamic> json) =
@@ -285,15 +338,19 @@ abstract class _NotificationModel extends NotificationModel {
   @override
   NotificationType? get type;
   @override
+  UserModel? get user;
+  @override
   String? get content;
   @override
   String? get token;
   @override
-  DateTime? get time;
-  @override
   bool get isRead;
   @override
+  DateTime? get createdAt;
+  @override
   Map<String, dynamic>? get data;
+  @override
+  String? get id;
   @override
   @JsonKey(ignore: true)
   _$$NotificationModelImplCopyWith<_$NotificationModelImpl> get copyWith =>

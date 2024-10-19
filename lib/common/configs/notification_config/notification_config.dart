@@ -1,18 +1,25 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:injectable/injectable.dart';
 import 'package:pinpin/common/configs/default_environment.dart';
 import 'package:pinpin/common/configs/dio/dio_config.dart';
 import 'package:pinpin/common/configs/firebase_config.dart';
 import 'package:pinpin/common/constants/string_constants.dart';
+import 'package:pinpin/common/di/di.dart';
 import 'package:pinpin/common/service/app_service.dart';
 import 'package:pinpin/common/utils/app_utils.dart';
 import 'package:pinpin/data/models/notification_model.dart';
+import 'package:pinpin/presentation/routers/app_router.dart';
+
+import '../../exception/app_error.dart';
 
 @singleton
 class NotificationConfig {
   final FirebaseConfig _firebaseConfig;
   final DioApiClient _dioApiClient;
   final AppService _appService;
+  // final UserRepository userRepository;
 
   NotificationConfig(this._dioApiClient, this._appService,
       {required FirebaseConfig firebaseConfig})
@@ -21,7 +28,9 @@ class NotificationConfig {
   @postConstruct
   Future init() async {
     _firebaseConfig.firebaseMessaging.requestPermission();
-    FirebaseMessaging.onMessage.listen(onListen);
+    FirebaseMessaging.onMessage.listen((mess) {
+      logger(mess.notification?.title.toString());
+    });
   }
 
   void sendToken() async {
@@ -39,6 +48,22 @@ class NotificationConfig {
     }
   }
 
+  Future update(String device) async {
+    if (_firebaseConfig.auth.currentUser == null) return null;
+    try {
+      DocumentReference<Map<String, dynamic>> doc = _firebaseConfig.userDoc
+          .collection(_firebaseConfig.auth.currentUser?.uid ?? '')
+          .doc(DefaultEnvironment.user);
+      await doc.update({
+        'devices': FieldValue.arrayUnion([device]),
+      });
+      _appService.setUser(_appService.state.user!
+          .copyWith(devices: [..._appService.state.user!.devices, device]));
+    } catch (e) {
+      return AppError(message: e.toString());
+    }
+  }
+
   Future<List<String>> getToken(String userId) async {
     try {
       final doc = _firebaseConfig.userDoc
@@ -52,11 +77,21 @@ class NotificationConfig {
     }
   }
 
-  onListen(RemoteMessage message) {
+  onListen(RemoteMessage message) async {
     logger('notification:${message.notification?.title}');
     final model =
         NotificationModel.fromString(((message.data)['data'] as String?) ?? '');
-    _appService.addNotification(model);
+    if (model.type == NotificationType.key) {
+      getIt
+          .get<AppRouter>()
+          .navigatorKey
+          .currentContext!
+          .router
+          .pushAndPopUntil(
+            const MainRoute(),
+            predicate: (route) => false,
+          );
+    }
   }
 
   sendMessenger(NotificationModel model) {

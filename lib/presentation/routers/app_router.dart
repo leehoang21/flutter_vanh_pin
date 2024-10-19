@@ -14,6 +14,7 @@ import '../journey/create_chat/create_chat_screen_provider.dart';
 import '../journey/create_group/create_group_screen_provider.dart';
 import '../journey/create_post/create_post_screen_provider.dart';
 import '../journey/edit_profile/edit_profile_screen_provider.dart';
+import '../journey/friend/friend_screen_provider.dart';
 import '../journey/group_detail/group_detail_screen_provider.dart';
 import '../journey/home/home_screen_provider.dart';
 import '../journey/main/main_screen_provider.dart';
@@ -92,6 +93,10 @@ class AppRouter extends _$AppRouter {
         ),
         AutoRoute(
           page: ProfileThirdRoute.page,
+        ),
+        //friend
+        AutoRoute(
+          page: FriendRoute.page,
         ),
       ];
 }

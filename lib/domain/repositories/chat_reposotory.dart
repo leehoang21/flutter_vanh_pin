@@ -27,6 +27,7 @@ abstract class ChatRepository {
     required Message data,
     required String chatId,
     String? id,
+    required String idKey,
   });
 
   Future<AppError?> deleteMessage({

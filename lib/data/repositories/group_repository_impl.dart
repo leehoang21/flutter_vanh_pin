@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:either_dart/either.dart';
 import 'package:pinpin/common/service/app_service.dart';
 import 'package:pinpin/data/models/group_model.dart';
+import 'package:pinpin/data/models/user_model.dart';
 import 'package:pinpin/domain/repositories/user_repository.dart';
 import 'package:injectable/injectable.dart';
 import '../../common/configs/default_environment.dart';
@@ -75,5 +76,59 @@ class GroupRepositoryImpl extends GroupRepository {
       }
     });
     return result;
+  }
+
+  @override
+  Stream<Either<GroupModel, AppError>> getDetail(String id) {
+    final result = _doc
+        .where('memberIds', arrayContains: id)
+        .snapshots()
+        .map<Either<GroupModel, AppError>>((event) {
+      try {
+        final list =
+            event.docs.map((e) => GroupModel.fromJson(e.data())).toList();
+        if (list.isEmpty) return Right(AppError(message: 'Group not found'));
+        return Left(list.first);
+      } catch (e) {
+        return Right(AppError(message: e.toString()));
+      }
+    });
+    return result;
+  }
+
+  @override
+  Future<AppError?> addMembers(UserModel user, String id) async {
+    try {
+      await _doc.doc(id).update({
+        'members': FieldValue.arrayUnion([user.toJson()]),
+        'memberIds': FieldValue.arrayUnion([user.uId]),
+      });
+      return null;
+    } catch (e) {
+      return AppError(message: e.toString());
+    }
+  }
+
+  @override
+  Future<AppError?> delete(String id) async {
+    try {
+      await _doc.doc(id).delete();
+      return null;
+    } catch (e) {
+      return AppError(message: e.toString());
+    }
+  }
+
+  @override
+  Future<AppError?> leave(UserModel user, String id) async {
+    try {
+      await _doc.doc(id).update({
+        'members': FieldValue.arrayRemove([user.toJson()]),
+        'memberIds': FieldValue.arrayRemove([user.uId]),
+      });
+      return null;
+    } catch (e) {
+      return AppError(message: e.toString());
+    }
   }
 }

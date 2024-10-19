@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:pinpin/common/extension/bloc_extension.dart';
+import 'package:pinpin/common/service/app_service.dart';
 
 import 'package:pinpin/data/models/chat_model.dart';
 
@@ -16,9 +17,11 @@ class CreateGroupChatCubit extends BaseBloc<String> {
   CreateGroupChatCubit(
     this.storageUseCase,
     this.usecase,
+    this.appService,
   ) : super('');
   final StorageUseCase storageUseCase;
   final ChatUseCase usecase;
+  final AppService appService;
 
   createGroup(
     String name,
@@ -47,12 +50,15 @@ class CreateGroupChatCubit extends BaseBloc<String> {
 
     final model = ChatModel(
       createdAt: DateTime.now(),
-      members: [],
-      memberIds: [],
+      members: [appService.state.user!],
+      memberIds: [appService.state.user!.uId!],
       updatedAt: DateTime.now(),
       chatAvatar: avatarUrl,
       chatContent: '',
       chatName: name,
+      adminIds: [],
+      admins: [],
+      author: appService.state.user,
       chatType: ChatType.group,
     );
     final error = await usecase.createOrUpdate(data: model);

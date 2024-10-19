@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pinpin/common/assets/assets.gen.dart';
+import 'package:pinpin/common/extension/show_extension.dart';
 import 'package:pinpin/common/extension/string_extension.dart';
+import 'package:pinpin/common/service/app_service.dart';
 import 'package:pinpin/common/utils/app_utils.dart';
 import 'package:pinpin/data/models/chat_model.dart';
 import 'package:pinpin/presentation/journey/chat_detail/chat_detail_constants.dart';
@@ -60,13 +62,18 @@ class _ChatScreenState extends State<ChatScreen> {
         ),
         appBar: ChatViewAppBar(
           actions: [
-            IconButtonWidget(
-              onPressed: () {},
-              icon: (Assets.icons.navbarTrailingIcon.svg(
-                width: 30.sp,
-                height: 30.sp,
-              )),
-            ),
+            if (widget.model.chatType == ChatType.group)
+              IconButtonWidget(
+                onPressed: () {
+                  context.showBottomSheet(
+                    child: _MoreWidget(widget.model),
+                  );
+                },
+                icon: (Assets.icons.navbarTrailingIcon.svg(
+                  width: 30.sp,
+                  height: 30.sp,
+                )),
+              ),
           ],
           elevation: theme.elevation,
           backGroundColor: theme.appBarColor,
@@ -241,47 +248,43 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 }
 
-class MoreWidget extends StatelessWidget {
-  const MoreWidget({super.key});
+class _MoreWidget extends StatelessWidget {
+  const _MoreWidget(this.model);
+  final ChatModel model;
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        IconButtonWidget(
-          onPressed: () {},
-          icon: Assets.icons.profile.svg(
-            width: 30.sp,
-            height: 30.sp,
-          ),
-          title: ChatDetailConstants.members.tr,
-        ),
-        IconButtonWidget(
-          onPressed: () {},
-          icon: Assets.icons.trash.svg(
-            width: 30.sp,
-            height: 30.sp,
-          ),
-          title: ChatDetailConstants.deleteChat.tr,
-        ),
-        IconButtonWidget(
-          onPressed: () {},
-          icon: Assets.icons.infoCircle.svg(
-            width: 30.sp,
-            height: 30.sp,
-          ),
-          title: ChatDetailConstants.info.tr,
-        ),
-        IconButtonWidget(
-          onPressed: () {},
-          icon: Assets.icons.logout.svg(
-            width: 30.sp,
-            height: 30.sp,
-          ),
-          title: ChatDetailConstants.leaveGroup.tr,
-        ),
-      ],
+    final user = context.read<AppService>().state.user;
+    return Padding(
+      padding: EdgeInsets.only(bottom: 10.h),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          if (model.adminIds.contains(user?.uId) ||
+              model.author?.uId == user?.uId)
+            IconButtonWidget(
+              onPressed: () {},
+              icon: const Icon(Icons.person_add),
+              title: ChatDetailConstants.addMembers.tr,
+            ),
+          if (model.adminIds.contains(user?.uId) ||
+              model.author?.uId == user?.uId)
+            IconButtonWidget(
+              onPressed: () {},
+              icon: const Icon(Icons.person_remove),
+              title: ChatDetailConstants.deleteMembers.tr,
+            ),
+          if (model.author?.uId == user?.uId)
+            IconButtonWidget(
+              onPressed: () {},
+              icon: Assets.icons.trash.svg(
+                height: 30.sp,
+                width: 30.sp,
+              ),
+              title: ChatDetailConstants.delete.tr,
+            ),
+        ],
+      ),
     );
   }
 }

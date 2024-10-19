@@ -1,6 +1,21 @@
 part of 'detail_group_cubit.dart';
 
-@freezed
-class GroupDetailState with _$GroupDetailState {
-  const factory GroupDetailState(List<PostModel> posts) = _Loaded;
+class GroupDetailState extends Equatable {
+  final List<PostModel> posts;
+  final GroupModel model;
+
+  const GroupDetailState(this.posts, this.model);
+
+  GroupDetailState copyWith({
+    List<PostModel>? posts,
+    GroupModel? model,
+  }) {
+    return GroupDetailState(
+      posts ?? this.posts,
+      model ?? this.model,
+    );
+  }
+
+  @override
+  List<Object?> get props => [posts, model];
 }

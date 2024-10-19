@@ -21,6 +21,10 @@ _$UserModelImpl _$$UserModelImplFromJson(Map<String, dynamic> json) =>
       birthday: json['birthday'] == null
           ? null
           : DateTime.parse(json['birthday'] as String),
+      devices: (json['devices'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
       friends: (json['friends'] as List<dynamic>?)
               ?.map((e) => FriendModel.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -44,6 +48,7 @@ Map<String, dynamic> _$$UserModelImplToJson(_$UserModelImpl instance) =>
       'education': instance.education,
       'job': instance.job,
       'birthday': instance.birthday?.toIso8601String(),
+      'devices': instance.devices,
       'friends': instance.friends.map((e) => e.toJson()).toList(),
       'groupIds': instance.groupIds,
     };

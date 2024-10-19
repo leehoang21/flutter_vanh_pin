@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pinpin/common/extension/string_extension.dart';
 import 'package:pinpin/data/models/user_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -14,6 +15,7 @@ enum NotificationType {
   addFriendSuccess,
   addGroupSuccess,
   key,
+  keyChat,
   login,
 }
 
@@ -34,6 +36,8 @@ extension NotificationTypeExtension on NotificationType {
         return 'key';
       case NotificationType.login:
         return 'login';
+      case NotificationType.keyChat:
+        return 'keyChat';
     }
   }
 
@@ -50,9 +54,26 @@ extension NotificationTypeExtension on NotificationType {
       case NotificationType.addGroupSuccess:
         return 'You have been approved by ${author?.userName}';
       case NotificationType.key:
-        return content;
+        return 'Device $content has been granted access to your account!';
       case NotificationType.login:
-        return content;
+        return 'The device $content is logged into your account, is this you?';
+      case NotificationType.keyChat:
+        return '';
+    }
+  }
+
+  bool get checkRead {
+    switch (this) {
+      case NotificationType.addFriend:
+      case NotificationType.login:
+        return true;
+      case NotificationType.message:
+      case NotificationType.comment:
+      case NotificationType.addFriendSuccess:
+      case NotificationType.addGroupSuccess:
+      case NotificationType.key:
+      case NotificationType.keyChat:
+        return false;
     }
   }
 
@@ -66,6 +87,7 @@ extension NotificationTypeExtension on NotificationType {
       case NotificationType.addFriendSuccess:
       case NotificationType.addGroupSuccess:
       case NotificationType.key:
+      case NotificationType.keyChat:
         return '';
     }
   }
@@ -78,14 +100,21 @@ class NotificationModel with _$NotificationModel {
   const factory NotificationModel({
     UserModel? author,
     NotificationType? type,
+    UserModel? user,
     String? content,
     String? token,
-    DateTime? time,
     @Default(false) bool isRead,
+    DateTime? createdAt,
     Map<String, dynamic>? data,
+    String? id,
   }) = _NotificationModel;
 
   const NotificationModel._();
+
+  factory NotificationModel.fromDocument(DocumentSnapshot doc) {
+    final data = doc.data() as Map<String, dynamic>;
+    return NotificationModel.fromJson(data).copyWith(id: doc.id);
+  }
 
   factory NotificationModel.fromJson(Map<String, dynamic> json) =>
       _$NotificationModelFromJson(json);
@@ -108,7 +137,7 @@ class NotificationModel with _$NotificationModel {
         type == model.type &&
         content == model.content &&
         token == model.token &&
-        time == model.time &&
+        createdAt == model.createdAt &&
         isRead == model.isRead &&
         data == model.data;
   }
