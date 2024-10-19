@@ -69,6 +69,13 @@ class AuthUseCase {
     if (user != null) {
       notificationConfig.sendToken();
       appService.setUser(user);
+      await userRepository.create(user);
+      //save token
+      final token = await repository.getJWT();
+      if (token != null) {
+        localStorage.write(DefaultEnvironment.token, token);
+      }
+      //
       return null;
     }
     return AppError(message: StringConstants.userNotExists);
@@ -86,13 +93,7 @@ class AuthUseCase {
       if (result != null) {
         return result;
       }
-      await userRepository.create(user);
-      //save token
-      final token = await repository.getJWT();
-      if (token != null) {
-        localStorage.write(DefaultEnvironment.token, token);
-      }
-      //
+
       await login(
           loginType: LoginType.password, email: user.email, password: password);
       return null;

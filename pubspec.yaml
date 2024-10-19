@@ -59,7 +59,7 @@ dependencies:
   encrypt: ^5.0.3
   device_info_plus: ^10.1.2
   rsa_encrypt: ^2.0.0
-  dart_firebase_admin: 
+  dart_firebase_admin:
     git:
       url: https://github.com/leehoang21/dart_firebase_admin
 
