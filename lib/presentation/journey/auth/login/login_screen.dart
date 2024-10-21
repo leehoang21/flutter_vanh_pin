@@ -26,6 +26,7 @@ class LoginScreen extends StatelessWidget {
     final TextEditingController controller = TextEditingController();
     final TextEditingController controllerPassword = TextEditingController();
     final formKey = GlobalKey<FormState>();
+
     if (context.watch<LoginCubit>().state.isNewDevice) {
       return Scaffold(
         body: Padding(

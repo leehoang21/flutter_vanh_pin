@@ -250,6 +250,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factoryAsync<_i530.EditProfileCubit>(() async => _i530.EditProfileCubit(
           pickImageUseCase: await getAsync<_i967.StorageUseCase>(),
           userUseCase: await getAsync<_i390.UserUseCase>(),
+          appService: gh<_i307.AppService>(),
         ));
     gh.factoryAsync<_i863.RegisterCubit>(() async => _i863.RegisterCubit(
           pickImageUseCase: await getAsync<_i967.StorageUseCase>(),

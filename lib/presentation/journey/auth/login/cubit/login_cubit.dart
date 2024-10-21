@@ -40,6 +40,7 @@ class LoginCubit extends BaseBloc<LoginState> {
   @override
   onInit() async {
     showLoading();
+
     super.onInit();
     hideLoading();
   }
@@ -80,6 +81,8 @@ class LoginCubit extends BaseBloc<LoginState> {
       getIt.registerSingleton<NotificationMessageService>(i);
       //
       if (key != null) {
+        final user = await userUseCase.get();
+        appService.setUser(user);
         pushAndRemoveUntil(
           const MainRoute(),
           predicate: (route) => false,
@@ -127,7 +130,9 @@ class LoginCubit extends BaseBloc<LoginState> {
               final KeyApp keyApp = KeyApp();
               keyApp.setKeyAes(key, iv, appService.state.user?.uId ?? "");
               userUseCase.addPublicKey();
-              logger(privateKey);
+              //
+              final user = await userUseCase.get();
+              appService.setUser(user);
               //
               pushAndRemoveUntil(
                 const MainRoute(),

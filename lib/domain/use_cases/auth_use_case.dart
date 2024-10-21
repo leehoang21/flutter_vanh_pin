@@ -65,11 +65,9 @@ class AuthUseCase {
     if (error != null) {
       return error;
     }
-    final user = await userRepository.get();
-    if (user != null) {
+    final isExit = await userRepository.exits();
+    if (isExit) {
       notificationConfig.sendToken();
-      appService.setUser(user);
-      await userRepository.create(user);
       //save token
       final token = await repository.getJWT();
       if (token != null) {

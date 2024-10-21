@@ -10,6 +10,7 @@ import '../../widgets/appbar_widget/appbar_widget.dart';
 import '../../widgets/button_widget/text_button_widget.dart';
 import '../../widgets/image_app_widget/image_app.dart';
 import '../../widgets/scaffold_wdiget/scaffold_widget.dart';
+import '../../widgets/text_field_widget/select_field_widget.dart';
 import 'create_group_constants.dart';
 import 'cubit/create_group_cubit.dart';
 
@@ -56,19 +57,19 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
                   SizedBox(
                     height: AppDimens.height_12,
                   ),
-                  // SizedBox(
-                  //   height: 50.h,
-                  //   child: SelectFieldWidget(
-                  //     onChanged: (value) {
-                  //       _groupType = value;
-                  //     },
-                  //     hintText: CreateGroupConstants.groupType,
-                  //     items: GroupType.values
-                  //         .map((e) => SelectFieldModel(
-                  //             label: e.name.toTitleCase, value: e))
-                  //         .toList(),
-                  //   ),
-                  // ),
+                  SizedBox(
+                    height: 50.h,
+                    child: SelectFieldWidget(
+                      onChanged: (value) {
+                        _groupType = value;
+                      },
+                      hintText: CreateGroupConstants.groupType,
+                      items: GroupType.values
+                          .map((e) => SelectFieldModel(
+                              label: e.name.toTitleCase, value: e))
+                          .toList(),
+                    ),
+                  ),
                 ],
               ),
             ),
