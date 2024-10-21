@@ -7,6 +7,7 @@ import 'package:pinpin/domain/use_cases/user_use_case.dart';
 import '../../../../../common/configs/default_environment.dart';
 import '../../../../../data/models/user_model.dart';
 import '../../../../../domain/use_cases/storage_use_case.dart';
+import '../../../../common/service/app_service.dart';
 import '../../../bloc/base_bloc/base_bloc.dart';
 
 part 'edit_profile_state.dart';
@@ -15,17 +16,27 @@ part 'edit_profile_state.dart';
 class EditProfileCubit extends BaseBloc<EditProfileState> {
   final StorageUseCase pickImageUseCase;
   final UserUseCase userUseCase;
+  final AppService appService;
 
   EditProfileCubit({
     required this.pickImageUseCase,
     required this.userUseCase,
+    required this.appService,
   }) : super(
           const EditProfileState(),
         );
 
   @override
   initState(List params) {
-    emit(state.copyWith(avatar: params[0] as String?));
+    //emit(state.copyWith(avatar: params[0] as String?));
+  }
+
+  @override
+  onInit() {
+    final user = appService.state.user!;
+    emit(state.copyWith(
+      avatar: user.avatar,
+    ));
   }
 
   Future addAvatar(XFile? image) async {

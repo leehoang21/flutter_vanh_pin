@@ -7,6 +7,7 @@ import 'package:pinpin/common/extension/string_extension.dart';
 import 'package:pinpin/common/service/app_service.dart';
 import 'package:pinpin/data/models/user_model.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pinpin/presentation/widgets/appbar_widget/appbar_widget.dart';
 import 'package:pinpin/presentation/widgets/scaffold_wdiget/scaffold_widget.dart';
 
 import '../../../../common/assets/assets.gen.dart';
@@ -62,6 +63,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return ScaffoldWidget(
+      appbar: AppBarWidget(
+        title: 'Edit profile'.tr,
+      ),
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
