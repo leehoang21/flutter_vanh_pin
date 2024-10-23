@@ -49,12 +49,12 @@ class AuthUseCase {
         );
       case LoginType.google:
         final result = await repository.loginWithGoogle();
-        error = result.fold<AppError?>(
-          (user) {
-            userRepository.create(user);
+        error = await result.fold(
+          (user) async {
+            await userRepository.create(user);
             return null;
           },
-          (error) {
+          (error) async {
             return error;
           },
         );
@@ -71,6 +71,9 @@ class AuthUseCase {
       //save token
       final token = await repository.getJWT();
       if (token != null) {
+        final user = await userRepository.get();
+        appService.setUser(user);
+        //
         localStorage.write(DefaultEnvironment.token, token);
       }
       //

@@ -162,8 +162,8 @@ class ChatDetailCubit extends BaseBloc<ChatDetailState> {
             }
             chatController.loadMoreData(value);
           } else {
-            chatController.initialMessageList.last.setStatus =
-                MessageStatus.read;
+            chatController.initialMessageList.clear();
+            chatController.loadMoreData(value);
           }
         },
         (error) {

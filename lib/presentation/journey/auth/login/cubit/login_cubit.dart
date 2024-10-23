@@ -69,10 +69,7 @@ class LoginCubit extends BaseBloc<LoginState> {
     }
 
     if (result == null) {
-      //
-      final KeyApp keyApp = KeyApp();
-      final key = await keyApp.getKeyAes(appService.state.user!.uId!);
-      //
+      
       final i = NotificationMessageService(
         await getIt.getAsync<NotificationUseCase>(),
         await getIt.getAsync<KeyService>(),
@@ -80,9 +77,10 @@ class LoginCubit extends BaseBloc<LoginState> {
       );
       getIt.registerSingleton<NotificationMessageService>(i);
       //
+      final KeyApp keyApp = KeyApp();
+      final key = await keyApp.getKeyAes(appService.state.user!.uId!);
+    //
       if (key != null) {
-        final user = await userUseCase.get();
-        appService.setUser(user);
         pushAndRemoveUntil(
           const MainRoute(),
           predicate: (route) => false,
