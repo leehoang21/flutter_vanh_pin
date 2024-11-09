@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'package:injectable/injectable.dart';
 import 'package:pinpin/common/service/app_service.dart';
 import 'package:pinpin/common/service/key.dart';
 import '../../domain/use_cases/notification_use_case.dart';
 import '../../presentation/bloc/base_bloc/base_bloc.dart';
 
+@singleton
 class NotificationMessageService extends BaseBloc<int> {
   NotificationMessageService(
       this.notificationUseCase, this.keyService, this.appService)

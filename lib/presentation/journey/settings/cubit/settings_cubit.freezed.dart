@@ -15,13 +15,21 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$SettingsState {}
+mixin _$SettingsState {
+  bool get isRegisterBiometric => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $SettingsStateCopyWith<SettingsState> get copyWith =>
+      throw _privateConstructorUsedError;
+}
 
 /// @nodoc
 abstract class $SettingsStateCopyWith<$Res> {
   factory $SettingsStateCopyWith(
           SettingsState value, $Res Function(SettingsState) then) =
       _$SettingsStateCopyWithImpl<$Res, SettingsState>;
+  @useResult
+  $Res call({bool isRegisterBiometric});
 }
 
 /// @nodoc
@@ -33,13 +41,30 @@ class _$SettingsStateCopyWithImpl<$Res, $Val extends SettingsState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? isRegisterBiometric = null,
+  }) {
+    return _then(_value.copyWith(
+      isRegisterBiometric: null == isRegisterBiometric
+          ? _value.isRegisterBiometric
+          : isRegisterBiometric // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ) as $Val);
+  }
 }
 
 /// @nodoc
-abstract class _$$LoadingImplCopyWith<$Res> {
+abstract class _$$LoadingImplCopyWith<$Res>
+    implements $SettingsStateCopyWith<$Res> {
   factory _$$LoadingImplCopyWith(
           _$LoadingImpl value, $Res Function(_$LoadingImpl) then) =
       __$$LoadingImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({bool isRegisterBiometric});
 }
 
 /// @nodoc
@@ -49,28 +74,61 @@ class __$$LoadingImplCopyWithImpl<$Res>
   __$$LoadingImplCopyWithImpl(
       _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
       : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? isRegisterBiometric = null,
+  }) {
+    return _then(_$LoadingImpl(
+      isRegisterBiometric: null == isRegisterBiometric
+          ? _value.isRegisterBiometric
+          : isRegisterBiometric // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$LoadingImpl implements _Loading {
-  const _$LoadingImpl();
+  const _$LoadingImpl({this.isRegisterBiometric = false});
+
+  @override
+  @JsonKey()
+  final bool isRegisterBiometric;
 
   @override
   String toString() {
-    return 'SettingsState()';
+    return 'SettingsState(isRegisterBiometric: $isRegisterBiometric)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$LoadingImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$LoadingImpl &&
+            (identical(other.isRegisterBiometric, isRegisterBiometric) ||
+                other.isRegisterBiometric == isRegisterBiometric));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, isRegisterBiometric);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$LoadingImplCopyWith<_$LoadingImpl> get copyWith =>
+      __$$LoadingImplCopyWithImpl<_$LoadingImpl>(this, _$identity);
 }
 
 abstract class _Loading implements SettingsState {
-  const factory _Loading() = _$LoadingImpl;
+  const factory _Loading({final bool isRegisterBiometric}) = _$LoadingImpl;
+
+  @override
+  bool get isRegisterBiometric;
+  @override
+  @JsonKey(ignore: true)
+  _$$LoadingImplCopyWith<_$LoadingImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

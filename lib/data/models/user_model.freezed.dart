@@ -31,6 +31,7 @@ mixin _$UserModel {
   String? get education => throw _privateConstructorUsedError;
   String? get job => throw _privateConstructorUsedError;
   DateTime? get birthday => throw _privateConstructorUsedError;
+  bool? get isAuthenticator => throw _privateConstructorUsedError;
   List<String> get devices => throw _privateConstructorUsedError;
   List<FriendModel> get friends => throw _privateConstructorUsedError;
   List<String> get groupIds => throw _privateConstructorUsedError;
@@ -58,6 +59,7 @@ abstract class $UserModelCopyWith<$Res> {
       String? education,
       String? job,
       DateTime? birthday,
+      bool? isAuthenticator,
       List<String> devices,
       List<FriendModel> friends,
       List<String> groupIds});
@@ -87,6 +89,7 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? education = freezed,
     Object? job = freezed,
     Object? birthday = freezed,
+    Object? isAuthenticator = freezed,
     Object? devices = null,
     Object? friends = null,
     Object? groupIds = null,
@@ -136,6 +139,10 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.birthday
           : birthday // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      isAuthenticator: freezed == isAuthenticator
+          ? _value.isAuthenticator
+          : isAuthenticator // ignore: cast_nullable_to_non_nullable
+              as bool?,
       devices: null == devices
           ? _value.devices
           : devices // ignore: cast_nullable_to_non_nullable
@@ -172,6 +179,7 @@ abstract class _$$UserModelImplCopyWith<$Res>
       String? education,
       String? job,
       DateTime? birthday,
+      bool? isAuthenticator,
       List<String> devices,
       List<FriendModel> friends,
       List<String> groupIds});
@@ -199,6 +207,7 @@ class __$$UserModelImplCopyWithImpl<$Res>
     Object? education = freezed,
     Object? job = freezed,
     Object? birthday = freezed,
+    Object? isAuthenticator = freezed,
     Object? devices = null,
     Object? friends = null,
     Object? groupIds = null,
@@ -248,6 +257,10 @@ class __$$UserModelImplCopyWithImpl<$Res>
           ? _value.birthday
           : birthday // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      isAuthenticator: freezed == isAuthenticator
+          ? _value.isAuthenticator
+          : isAuthenticator // ignore: cast_nullable_to_non_nullable
+              as bool?,
       devices: null == devices
           ? _value._devices
           : devices // ignore: cast_nullable_to_non_nullable
@@ -280,6 +293,7 @@ class _$UserModelImpl with DiagnosticableTreeMixin implements _UserModel {
       this.education,
       this.job,
       this.birthday,
+      this.isAuthenticator,
       final List<String> devices = const [],
       final List<FriendModel> friends = const <FriendModel>[],
       final List<String> groupIds = const <String>[]})
@@ -312,6 +326,8 @@ class _$UserModelImpl with DiagnosticableTreeMixin implements _UserModel {
   final String? job;
   @override
   final DateTime? birthday;
+  @override
+  final bool? isAuthenticator;
   final List<String> _devices;
   @override
   @JsonKey()
@@ -341,7 +357,7 @@ class _$UserModelImpl with DiagnosticableTreeMixin implements _UserModel {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'UserModel(phoneNumber: $phoneNumber, userName: $userName, email: $email, avatar: $avatar, uId: $uId, google: $google, background: $background, address: $address, education: $education, job: $job, birthday: $birthday, devices: $devices, friends: $friends, groupIds: $groupIds)';
+    return 'UserModel(phoneNumber: $phoneNumber, userName: $userName, email: $email, avatar: $avatar, uId: $uId, google: $google, background: $background, address: $address, education: $education, job: $job, birthday: $birthday, isAuthenticator: $isAuthenticator, devices: $devices, friends: $friends, groupIds: $groupIds)';
   }
 
   @override
@@ -360,6 +376,7 @@ class _$UserModelImpl with DiagnosticableTreeMixin implements _UserModel {
       ..add(DiagnosticsProperty('education', education))
       ..add(DiagnosticsProperty('job', job))
       ..add(DiagnosticsProperty('birthday', birthday))
+      ..add(DiagnosticsProperty('isAuthenticator', isAuthenticator))
       ..add(DiagnosticsProperty('devices', devices))
       ..add(DiagnosticsProperty('friends', friends))
       ..add(DiagnosticsProperty('groupIds', groupIds));
@@ -386,6 +403,8 @@ class _$UserModelImpl with DiagnosticableTreeMixin implements _UserModel {
             (identical(other.job, job) || other.job == job) &&
             (identical(other.birthday, birthday) ||
                 other.birthday == birthday) &&
+            (identical(other.isAuthenticator, isAuthenticator) ||
+                other.isAuthenticator == isAuthenticator) &&
             const DeepCollectionEquality().equals(other._devices, _devices) &&
             const DeepCollectionEquality().equals(other._friends, _friends) &&
             const DeepCollectionEquality().equals(other._groupIds, _groupIds));
@@ -406,6 +425,7 @@ class _$UserModelImpl with DiagnosticableTreeMixin implements _UserModel {
       education,
       job,
       birthday,
+      isAuthenticator,
       const DeepCollectionEquality().hash(_devices),
       const DeepCollectionEquality().hash(_friends),
       const DeepCollectionEquality().hash(_groupIds));
@@ -437,6 +457,7 @@ abstract class _UserModel implements UserModel {
       final String? education,
       final String? job,
       final DateTime? birthday,
+      final bool? isAuthenticator,
       final List<String> devices,
       final List<FriendModel> friends,
       final List<String> groupIds}) = _$UserModelImpl;
@@ -466,6 +487,8 @@ abstract class _UserModel implements UserModel {
   String? get job;
   @override
   DateTime? get birthday;
+  @override
+  bool? get isAuthenticator;
   @override
   List<String> get devices;
   @override

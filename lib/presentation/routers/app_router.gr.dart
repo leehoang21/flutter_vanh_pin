@@ -78,6 +78,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const FriendScreenProvider(),
       );
     },
+    GoogleAuthenticatorRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const GoogleAuthenticatorScreenProvider(),
+      );
+    },
     GroupDetailRoute.name: (routeData) {
       final args = routeData.argsAs<GroupDetailRouteArgs>();
       return AutoRoutePage<dynamic>(
@@ -345,6 +351,20 @@ class FriendRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'FriendRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [GoogleAuthenticatorScreenProvider]
+class GoogleAuthenticatorRoute extends PageRouteInfo<void> {
+  const GoogleAuthenticatorRoute({List<PageRouteInfo>? children})
+      : super(
+          GoogleAuthenticatorRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'GoogleAuthenticatorRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

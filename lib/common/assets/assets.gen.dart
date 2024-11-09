@@ -188,6 +188,10 @@ class $AssetsIconsGen {
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/biometrics.png
+  AssetGenImage get biometrics =>
+      const AssetGenImage('assets/images/biometrics.png');
+
   /// File path: assets/images/black_camera.png
   AssetGenImage get blackCamera =>
       const AssetGenImage('assets/images/black_camera.png');
@@ -206,7 +210,7 @@ class $AssetsImagesGen {
 
   /// List of all assets
   List<AssetGenImage> get values =>
-      [blackCamera, colorCamera, defaultAvatar, logoSplash];
+      [biometrics, blackCamera, colorCamera, defaultAvatar, logoSplash];
 }
 
 class Assets {
@@ -215,10 +219,6 @@ class Assets {
   static const $AssetsI18nGen i18n = $AssetsI18nGen();
   static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
-  static const String serviceAccount = 'assets/service_account.json';
-
-  /// List of all assets
-  static List<String> get values => [serviceAccount];
 }
 
 class AssetGenImage {
