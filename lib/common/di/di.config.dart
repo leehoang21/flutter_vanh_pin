@@ -48,6 +48,8 @@ import '../../presentation/journey/auth/register/cubit/register_cubit.dart'
 import '../../presentation/journey/chat/cubit/chat_cubit.dart' as _i299;
 import '../../presentation/journey/chat_detail/cubit/chat_detail_cubit.dart'
     as _i1004;
+import '../../presentation/journey/chat_detail/cubit/chat_detail_option_cubit.dart'
+    as _i276;
 import '../../presentation/journey/comment/cubit/comment_cubit.dart' as _i618;
 import '../../presentation/journey/create_chat/cubit/create_chat_cubit.dart'
     as _i290;
@@ -307,6 +309,8 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i307.AppService>(),
           await getAsync<_i390.UserUseCase>(),
         ));
+    gh.factoryAsync<_i276.ChatDetailOptionCubit>(() async =>
+        _i276.ChatDetailOptionCubit(await getAsync<_i140.ChatUseCase>()));
     gh.factoryAsync<_i299.ChatCubit>(() async => _i299.ChatCubit(
           await getAsync<_i140.ChatUseCase>(),
           gh<_i307.AppService>(),

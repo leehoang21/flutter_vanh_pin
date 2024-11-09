@@ -9,10 +9,13 @@ import 'package:pinpin/common/utils/app_utils.dart';
 import 'package:pinpin/data/models/chat_model.dart';
 import 'package:pinpin/presentation/journey/chat_detail/chat_detail_constants.dart';
 import 'package:pinpin/presentation/journey/chat_detail/cubit/chat_detail_cubit.dart';
+import 'package:pinpin/presentation/themes/themes.dart';
 
 import '../../widgets/button_widget/icon_button_widget.dart';
 import '../../widgets/chat_view/chatview.dart';
+import '../../widgets/provider/provider_widget.dart';
 import 'common/theme.dart';
+import 'cubit/chat_detail_option_cubit.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({Key? key, required this.model}) : super(key: key);
@@ -255,44 +258,72 @@ class _MoreWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = context.read<AppService>().state.user;
-    return Padding(
-      padding: EdgeInsets.only(bottom: 10.h),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          if (model.adminIds.contains(user?.uId) ||
-              model.author?.uId == user?.uId)
-            IconButtonWidget(
-              onPressed: () {},
-              icon: const Icon(Icons.person_add),
-              title: ChatDetailConstants.addMembers.tr,
-            ),
-          if (model.adminIds.contains(user?.uId) ||
-              model.author?.uId == user?.uId)
-            IconButtonWidget(
-              onPressed: () {},
-              icon: const Icon(Icons.person_remove),
-              title: ChatDetailConstants.deleteMembers.tr,
-            ),
-          model.author?.uId == user?.uId
-              ? IconButtonWidget(
-                  onPressed: () {},
-                  icon: Assets.icons.trash.svg(
-                    height: 30.sp,
-                    width: 30.sp,
-                  ),
-                  title: ChatDetailConstants.delete.tr,
-                )
-              : IconButtonWidget(
-                  onPressed: () {},
-                  icon: Assets.icons.logout.svg(
-                    height: 30.sp,
-                    width: 30.sp,
-                  ),
-                  title: ChatDetailConstants.leave.tr,
+    return ProviderWidget<ChatDetailOptionCubit>(
+      params: [model],
+      child: Builder(builder: (context) {
+        return Padding(
+          padding: EdgeInsets.only(bottom: 10.h),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (model.adminIds.contains(user?.uId) ||
+                  model.author?.uId == user?.uId)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    IconButtonWidget(
+                      onPressed: () {},
+                      icon: const Icon(Icons.person_add),
+                      title: ChatDetailConstants.addMembers.tr,
+                    ),
+                    IconButtonWidget(
+                      onPressed: () {},
+                      icon: const Icon(Icons.person_remove),
+                      title: ChatDetailConstants.deleteMembers.tr,
+                    ),
+                  ],
                 ),
-        ],
-      ),
+              if (model.adminIds.contains(user?.uId) ||
+                  model.author?.uId == user?.uId)
+                SizedBox(
+                  height: 7.h,
+                ),
+              if (model.adminIds.contains(user?.uId) ||
+                  model.author?.uId == user?.uId)
+                Divider(
+                  color: AppColor.black,
+                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  IconButtonWidget(
+                    onPressed: () {},
+                    icon: const Icon(Icons.people_sharp),
+                    title: ChatDetailConstants.members.tr,
+                  ),
+                  model.author?.uId == user?.uId
+                      ? IconButtonWidget(
+                          onPressed: () {},
+                          icon: Assets.icons.trash.svg(
+                            height: 30.sp,
+                            width: 30.sp,
+                          ),
+                          title: ChatDetailConstants.delete.tr,
+                        )
+                      : IconButtonWidget(
+                          onPressed: () {},
+                          icon: Assets.icons.logout.svg(
+                            height: 30.sp,
+                            width: 30.sp,
+                          ),
+                          title: ChatDetailConstants.leave.tr,
+                        ),
+                ],
+              ),
+            ],
+          ),
+        );
+      }),
     );
   }
 }
