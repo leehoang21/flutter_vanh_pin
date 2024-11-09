@@ -167,15 +167,14 @@ class AuthRepositoryImpl extends AuthRepository {
     try {
       KeyApp keyApp = KeyApp();
       final key = await keyApp.getKeyAes(config.auth.currentUser?.uid ?? '');
-      dioApiClient.get(
+      final result = await dioApiClient.get(
         url: StringConstants.urlCheckAuthenticator,
         formData: {
           'Pin': token,
-          'SecretCode':
-              StringConstants.appTitle2 + key!.$1.base64.substring(16, 32),
+          'SecretCode': key!.$1.base64.substring(16, 32),
         },
       );
-      return true;
+      return result == 'True';
     } catch (e) {
       return false;
     }

@@ -22,7 +22,7 @@ void main() async {
     preferences: getIt.get<TranslatePreferences>(),
   );
   // Set the background messaging handler early on, as a named top-level function
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  //FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   runApp(
     LocalizedApp(

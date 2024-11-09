@@ -5,4 +5,5 @@ class ChatDetailConstants {
   static const String addMembers = 'Add members';
   static const String deleteMembers = 'Delete members';
   static const String delete = 'Delete';
+  static const String leave = 'Leave';
 }

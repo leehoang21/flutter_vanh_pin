@@ -54,5 +54,11 @@
   "Log out": "Log out",
   "invalid_phone": "Invalid phone",
   "invalid_email": "Invalid email",
-  "user_empty": "User name is empty"
+  "user_empty": "User name is empty",
+  "biometrics": "Biometrics",
+  "auth": "Authenticate",
+  "please_auth": "Please authenticate",
+  "transaction.update": "Update Transaction",
+  "auth_fail": "Authentication failed",
+  "cancel": "Cancel"
 }

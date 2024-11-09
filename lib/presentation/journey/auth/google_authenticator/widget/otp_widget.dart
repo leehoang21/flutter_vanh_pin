@@ -5,7 +5,6 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:pinpin/presentation/journey/auth/google_authenticator/cubit/google_authenticator_cubit.dart';
 
 import '../../../../themes/themes.dart';
-import '../../../../widgets/button_widget/text_button_widget.dart';
 import '../google_authenticator_contants.dart';
 
 class OtpWidget extends StatelessWidget {
@@ -15,7 +14,7 @@ class OtpWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
           GoogleAuthenticatorScreenContants.description,
@@ -24,7 +23,7 @@ class OtpWidget extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: 10.h,
+          height: 20.h,
         ),
         PinCodeTextField(
           keyboardType: TextInputType.number,
@@ -32,6 +31,9 @@ class OtpWidget extends StatelessWidget {
           appContext: context,
           length: 6,
           controller: pinCodeController,
+          onCompleted: (value) {
+            context.read<GoogleAuthenticatorCubit>().verify(value);
+          },
           pinTheme: PinTheme(
             shape: PinCodeFieldShape.box,
             borderRadius: BorderRadius.circular(6),
@@ -42,14 +44,6 @@ class OtpWidget extends StatelessWidget {
             inactiveColor: AppColor.platinum,
             selectedColor: AppColor.taupeGray,
           ),
-        ),
-        TextButtonWidget2(
-          onPressed: () {
-            context
-                .read<GoogleAuthenticatorCubit>()
-                .verify(pinCodeController.text);
-          },
-          title: GoogleAuthenticatorScreenContants.confirm,
         ),
       ],
     );

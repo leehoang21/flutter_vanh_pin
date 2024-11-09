@@ -205,7 +205,14 @@ class ChatRepositoryImpl extends ChatRepository {
       final message = data.message;
       //
       data = data.copyWith(
-          message: keyApp.encrypted(message, key!.$1.base64, key.$2.base64));
+          message: keyApp.encrypted(message, key!.$1.base64, key.$2.base64),
+          replyMessage: data.replyMessage.copyWith(
+            message: keyApp.encrypted(
+              data.replyMessage.message,
+              key.$1.base64,
+              key.$2.base64,
+            ),
+          ));
       //
       if (!isNullEmpty(id)) {
         await _doc

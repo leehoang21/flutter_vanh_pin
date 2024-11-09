@@ -274,15 +274,23 @@ class _MoreWidget extends StatelessWidget {
               icon: const Icon(Icons.person_remove),
               title: ChatDetailConstants.deleteMembers.tr,
             ),
-          if (model.author?.uId == user?.uId)
-            IconButtonWidget(
-              onPressed: () {},
-              icon: Assets.icons.trash.svg(
-                height: 30.sp,
-                width: 30.sp,
-              ),
-              title: ChatDetailConstants.delete.tr,
-            ),
+          model.author?.uId == user?.uId
+              ? IconButtonWidget(
+                  onPressed: () {},
+                  icon: Assets.icons.trash.svg(
+                    height: 30.sp,
+                    width: 30.sp,
+                  ),
+                  title: ChatDetailConstants.delete.tr,
+                )
+              : IconButtonWidget(
+                  onPressed: () {},
+                  icon: Assets.icons.logout.svg(
+                    height: 30.sp,
+                    width: 30.sp,
+                  ),
+                  title: ChatDetailConstants.leave.tr,
+                ),
         ],
       ),
     );
