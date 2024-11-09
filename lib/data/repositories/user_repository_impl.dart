@@ -212,4 +212,24 @@ class UserRepositoryImpl extends UserRepository {
       return [];
     }
   }
+
+  registerGoogleAuthenticator(bool isAuthenticator) async {
+    try {
+      final bool exists = await exits();
+      if (exists) {
+        final param = {
+          'isAuthenticator': isAuthenticator,
+        };
+        await _doc.update(param);
+        appService.setUser(appService.state.user!.copyWith(
+          isAuthenticator: isAuthenticator,
+        ));
+      } else {
+        return AppError(message: StringConstants.userNotExists);
+      }
+      return null;
+    } catch (e) {
+      return AppError(message: e.toString());
+    }
+  }
 }

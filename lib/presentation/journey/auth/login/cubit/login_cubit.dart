@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:equatable/equatable.dart';
+import 'package:pinpin/common/configs/biometric/biometric_config.dart';
 import 'package:pinpin/common/configs/local_storage/local_storage.dart';
 import 'package:pinpin/common/exception/app_error.dart';
 import 'package:pinpin/common/extension/bloc_extension.dart';
@@ -9,10 +10,8 @@ import 'package:pinpin/common/service/app_service.dart';
 import 'package:pinpin/common/utils/app_utils.dart';
 import 'package:pinpin/domain/use_cases/notification_use_case.dart';
 import 'package:pinpin/domain/use_cases/user_use_case.dart';
-import '../../../../../common/di/di.dart';
 import '../../../../../common/enums/login_type.dart';
 import '../../../../../common/service/key.dart';
-import '../../../../../common/service/notification_message_service.dart';
 import '../../../../../data/models/notification_model.dart';
 import '../../../../../domain/use_cases/auth_use_case.dart';
 import '../../../../bloc/base_bloc/base_bloc.dart';
@@ -28,6 +27,7 @@ class LoginCubit extends BaseBloc<LoginState> {
     this.keyService,
     this.userUseCase,
     this.localStorage,
+    this.biometricConfig,
   ) : super(const LoginState());
   final AuthUseCase authUseCase;
   AppService appService;
@@ -36,11 +36,12 @@ class LoginCubit extends BaseBloc<LoginState> {
   final UserUseCase userUseCase;
   final LocalStorage localStorage;
   final KeyService keyService;
+  final BiometricConfig biometricConfig;
 
   @override
   onInit() async {
     showLoading();
-
+    await canAuthBiometric();
     super.onInit();
     hideLoading();
   }
@@ -58,6 +59,11 @@ class LoginCubit extends BaseBloc<LoginState> {
           loginType: loginType,
         );
         break;
+      case LoginType.biometric:
+        result = await authUseCase.login(
+          loginType: loginType,
+        );
+        break;
       case LoginType.password:
         result = await authUseCase.login(
           loginType: loginType,
@@ -69,22 +75,22 @@ class LoginCubit extends BaseBloc<LoginState> {
     }
 
     if (result == null) {
-      
-      final i = NotificationMessageService(
-        await getIt.getAsync<NotificationUseCase>(),
-        await getIt.getAsync<KeyService>(),
-        getIt.get<AppService>(),
-      );
-      getIt.registerSingleton<NotificationMessageService>(i);
       //
       final KeyApp keyApp = KeyApp();
       final key = await keyApp.getKeyAes(appService.state.user!.uId!);
-    //
+      //
       if (key != null) {
-        pushAndRemoveUntil(
-          const MainRoute(),
-          predicate: (route) => false,
-        );
+        if (appService.state.user?.isAuthenticator == true) {
+          pushAndRemoveUntil(
+            const GoogleAuthenticatorRoute(),
+            predicate: (route) => false,
+          );
+        } else {
+          pushAndRemoveUntil(
+            const MainRoute(),
+            predicate: (route) => false,
+          );
+        }
       } else {
         final DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
         final AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
@@ -111,6 +117,11 @@ class LoginCubit extends BaseBloc<LoginState> {
     hideLoading();
   }
 
+  Future canAuthBiometric() async {
+    final result = await biometricConfig.canAuthenticateBiometric;
+    emit(state.copyWith(canAuthBiometric: result));
+  }
+
   listenLoginNewDivice(DateTime time, String content) {
     loginSubscription = notificationUseCase
         .listen(time, NotificationType.key, content)
@@ -132,10 +143,17 @@ class LoginCubit extends BaseBloc<LoginState> {
               final user = await userUseCase.get();
               appService.setUser(user);
               //
-              pushAndRemoveUntil(
-                const MainRoute(),
-                predicate: (route) => false,
-              );
+              if (user?.isAuthenticator == true) {
+                pushAndRemoveUntil(
+                  const GoogleAuthenticatorRoute(),
+                  predicate: (route) => false,
+                );
+              } else {
+                pushAndRemoveUntil(
+                  const MainRoute(),
+                  predicate: (route) => false,
+                );
+              }
             }
           } catch (e) {
             logger(e);

@@ -5,6 +5,7 @@ import '../../data/models/chat_model.dart';
 import '../../data/models/group_model.dart';
 import '../../data/models/post_model.dart';
 import '../../data/models/user_model.dart';
+import '../journey/auth/google_authenticator/google_authenticator_screen_provider.dart';
 import '../journey/auth/login/login_screen_provider.dart';
 import '../journey/auth/register/register_screen_provider.dart';
 import '../journey/chat/chat_screen_provider.dart';
@@ -41,6 +42,9 @@ class AppRouter extends _$AppRouter {
         ),
         AutoRoute(
           page: RegisterRoute.page,
+        ),
+        AutoRoute(
+          page: GoogleAuthenticatorRoute.page,
         ),
         //main
         AutoRoute(

@@ -20,9 +20,10 @@ abstract class AuthRepository {
     required String oldPass,
   });
   Future<Either<UserModel, AppError>> loginWithGoogle();
+  Future<AppError?> loginWithBiometric();
   Future<Either<UserModel, AppError>> loginWithToken(String token);
   Future<String?> getJWT();
   Future<bool> checkGoogleAuthenticator(String token);
-  Future<String> createGoogleAuthenticator();
   Future<void> logout();
+  Future<String?> registerGoogleAuthenticator(bool isAuthenticator);
 }

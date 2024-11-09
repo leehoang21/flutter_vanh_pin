@@ -40,6 +40,8 @@ import '../../domain/use_cases/post_use_case.dart' as _i652;
 import '../../domain/use_cases/storage_use_case.dart' as _i967;
 import '../../domain/use_cases/user_use_case.dart' as _i390;
 import '../../presentation/bloc/loading_bloc/loading_bloc.dart' as _i190;
+import '../../presentation/journey/auth/google_authenticator/cubit/google_authenticator_cubit.dart'
+    as _i340;
 import '../../presentation/journey/auth/login/cubit/login_cubit.dart' as _i217;
 import '../../presentation/journey/auth/register/cubit/register_cubit.dart'
     as _i863;
@@ -72,6 +74,7 @@ import '../../presentation/journey/settings/cubit/settings_cubit.dart' as _i121;
 import '../../presentation/journey/splash/splash_controller.dart' as _i675;
 import '../../presentation/widgets/card_widget/post_card_controller.dart'
     as _i517;
+import '../configs/biometric/biometric_config.dart' as _i488;
 import '../configs/dio/dio_config.dart' as _i576;
 import '../configs/firebase_config.dart' as _i585;
 import '../configs/lang/translate_preferences.dart' as _i96;
@@ -79,6 +82,7 @@ import '../configs/local_storage/local_storage.dart' as _i439;
 import '../configs/notification_config/notification_config.dart' as _i843;
 import '../service/app_service.dart' as _i307;
 import '../service/key.dart' as _i769;
+import '../service/notification_message_service.dart' as _i186;
 
 extension GetItInjectableX on _i174.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -120,12 +124,14 @@ extension GetItInjectableX on _i174.GetIt {
       );
       return i.init().then((_) => i);
     });
-    gh.factoryAsync<_i1073.AuthRepository>(() async => _i895.AuthRepositoryImpl(
-          await getAsync<_i585.FirebaseConfig>(),
-          gh<_i576.DioApiClient>(),
-          gh<_i307.AppService>(),
-          gh<_i439.LocalStorage>(),
-        ));
+    gh.singletonAsync<_i488.BiometricConfig>(() async {
+      final i = _i488.BiometricConfig(
+        gh<_i307.AppService>(),
+        await getAsync<_i585.FirebaseConfig>(),
+        localStorage: gh<_i439.LocalStorage>(),
+      );
+      return i.init().then((_) => i);
+    });
     gh.factoryAsync<_i941.PostRepository>(() async => _i704.PostRepositoryImpl(
           await getAsync<_i585.FirebaseConfig>(),
           gh<_i307.AppService>(),
@@ -152,6 +158,13 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factoryAsync<_i986.NotificationUseCase>(() async =>
         _i986.NotificationUseCase(
             repository: await getAsync<_i1060.NotificationRepository>()));
+    gh.factoryAsync<_i1073.AuthRepository>(() async => _i895.AuthRepositoryImpl(
+          await getAsync<_i585.FirebaseConfig>(),
+          gh<_i576.DioApiClient>(),
+          gh<_i307.AppService>(),
+          gh<_i439.LocalStorage>(),
+          await getAsync<_i488.BiometricConfig>(),
+        ));
     gh.factoryAsync<_i652.PostUseCase>(() async =>
         _i652.PostUseCase(repository: await getAsync<_i941.PostRepository>()));
     gh.factoryAsync<_i941.CreatePostCubit>(() async => _i941.CreatePostCubit(
@@ -160,6 +173,12 @@ extension GetItInjectableX on _i174.GetIt {
         ));
     gh.factoryAsync<_i657.CommentUseCase>(() async => _i657.CommentUseCase(
         repository: await getAsync<_i1036.CommentRepository>()));
+    gh.singletonAsync<_i186.NotificationMessageService>(
+        () async => _i186.NotificationMessageService(
+              await getAsync<_i986.NotificationUseCase>(),
+              await getAsync<_i769.KeyService>(),
+              gh<_i307.AppService>(),
+            ));
     gh.factoryAsync<_i271.UserRepository>(() async => _i790.UserRepositoryImpl(
           await getAsync<_i585.FirebaseConfig>(),
           await getAsync<_i101.StorageRepository>(),
@@ -207,18 +226,6 @@ extension GetItInjectableX on _i174.GetIt {
           await getAsync<_i823.GroupUseCase>(),
           gh<_i307.AppService>(),
         ));
-    gh.factoryAsync<_i217.LoginCubit>(() async => _i217.LoginCubit(
-          await getAsync<_i1063.AuthUseCase>(),
-          gh<_i307.AppService>(),
-          await getAsync<_i986.NotificationUseCase>(),
-          await getAsync<_i769.KeyService>(),
-          await getAsync<_i390.UserUseCase>(),
-          gh<_i439.LocalStorage>(),
-        ));
-    gh.factoryAsync<_i121.SettingsCubit>(() async => _i121.SettingsCubit(
-          await getAsync<_i652.PostUseCase>(),
-          await getAsync<_i1063.AuthUseCase>(),
-        ));
     gh.factoryAsync<_i77.ProfileThirdCubit>(() async => _i77.ProfileThirdCubit(
           await getAsync<_i390.UserUseCase>(),
           await getAsync<_i343.FriendUseCase>(),
@@ -237,6 +244,11 @@ extension GetItInjectableX on _i174.GetIt {
           await getAsync<_i1060.NotificationRepository>(),
           await getAsync<_i843.NotificationConfig>(),
         ));
+    gh.factoryAsync<_i530.EditProfileCubit>(() async => _i530.EditProfileCubit(
+          pickImageUseCase: await getAsync<_i967.StorageUseCase>(),
+          userUseCase: await getAsync<_i390.UserUseCase>(),
+          appService: gh<_i307.AppService>(),
+        ));
     gh.factoryAsync<_i449.HomeCubit>(() async => _i449.HomeCubit(
           await getAsync<_i652.PostUseCase>(),
           await getAsync<_i390.UserUseCase>(),
@@ -247,14 +259,24 @@ extension GetItInjectableX on _i174.GetIt {
           await getAsync<_i343.FriendUseCase>(),
           userUseCase: await getAsync<_i390.UserUseCase>(),
         ));
-    gh.factoryAsync<_i530.EditProfileCubit>(() async => _i530.EditProfileCubit(
-          pickImageUseCase: await getAsync<_i967.StorageUseCase>(),
-          userUseCase: await getAsync<_i390.UserUseCase>(),
-          appService: gh<_i307.AppService>(),
-        ));
     gh.factoryAsync<_i863.RegisterCubit>(() async => _i863.RegisterCubit(
           pickImageUseCase: await getAsync<_i967.StorageUseCase>(),
           authUseCase: await getAsync<_i1063.AuthUseCase>(),
+        ));
+    gh.factoryAsync<_i217.LoginCubit>(() async => _i217.LoginCubit(
+          await getAsync<_i1063.AuthUseCase>(),
+          gh<_i307.AppService>(),
+          await getAsync<_i986.NotificationUseCase>(),
+          await getAsync<_i769.KeyService>(),
+          await getAsync<_i390.UserUseCase>(),
+          gh<_i439.LocalStorage>(),
+          await getAsync<_i488.BiometricConfig>(),
+        ));
+    gh.factoryAsync<_i121.SettingsCubit>(() async => _i121.SettingsCubit(
+          await getAsync<_i652.PostUseCase>(),
+          await getAsync<_i1063.AuthUseCase>(),
+          await getAsync<_i488.BiometricConfig>(),
+          await getAsync<_i585.FirebaseConfig>(),
         ));
     gh.factoryAsync<_i675.SplashController>(() async => _i675.SplashController(
           gh<_i439.LocalStorage>(),
@@ -264,6 +286,8 @@ extension GetItInjectableX on _i174.GetIt {
           await getAsync<_i652.PostUseCase>(),
           await getAsync<_i823.GroupUseCase>(),
         ));
+    gh.factoryAsync<_i340.GoogleAuthenticatorCubit>(() async =>
+        _i340.GoogleAuthenticatorCubit(await getAsync<_i1063.AuthUseCase>()));
     gh.factoryAsync<_i140.ChatUseCase>(() async =>
         _i140.ChatUseCase(repository: await getAsync<_i606.ChatRepository>()));
     gh.factoryAsync<_i301.CreateGroupChatCubit>(

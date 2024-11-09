@@ -23,6 +23,7 @@ class UserModel with _$UserModel {
     String? education,
     String? job,
     DateTime? birthday,
+    bool? isAuthenticator,
     @Default([]) List<String> devices,
     @Default(<FriendModel>[]) List<FriendModel> friends,
     @Default(<String>[]) List<String> groupIds,

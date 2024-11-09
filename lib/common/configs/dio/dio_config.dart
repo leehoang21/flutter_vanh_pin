@@ -65,4 +65,21 @@ class DioApiClient {
       logger(e);
     }
   }
+
+  Future<T?> get<T>({
+    String? url,
+    Map<String, dynamic>? formData,
+  }) async {
+    try {
+      final result = await _dio.get(
+        url!,
+        data: formData,
+        queryParameters: formData,
+      );
+      return result.data;
+    } catch (e) {
+      logger(e);
+      return null;
+    }
+  }
 }

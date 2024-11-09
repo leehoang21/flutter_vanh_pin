@@ -2,6 +2,7 @@ class StringConstants {
   static const String requiredThisField = "This field is required";
   static const String msgErrorUnknown = 'msgErrorUnknown';
   static const String appTitle = 'Pin pin';
+  static const String appTitle2 = 'Pin_pin';
   static const String userNotFound = 'user_not_found';
   static const String imagePath = 'assets/images/';
   static const String iconPath = 'assets/icons/';
@@ -15,9 +16,9 @@ class StringConstants {
       'https://cellphones.com.vn/sforum/wp-content/uploads/2024/02/anh-thien-nhien-1.jpg';
 
   static const urlCreateAuthenticator =
-      'https://www.authenticatorApi.com/pair.aspx?AppName=PinPin&AppInfo=Vanh&SecretCode=';
+      'https://www.authenticatorApi.com/pair.aspx';
   static const urlCheckAuthenticator =
-      'https://www.authenticatorapi.com/Validate.aspx?Pin=123456&SecretCode=';
+      'https://www.authenticatorapi.com/Validate.aspx';
   static const urlNotificationAdmin =
       'https://fcm.googleapis.com/v1/projects/learning-english-6441b/messages:send';
 }

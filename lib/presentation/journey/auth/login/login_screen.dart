@@ -70,6 +70,20 @@ class LoginScreen extends StatelessWidget {
                       keyboardType: TextInputType.emailAddress,
                       textStyle: ThemeText.style14Medium
                           .copyWith(fontWeight: FontWeight.normal),
+                      suffixIcon:
+                          context.watch<LoginCubit>().state.canAuthBiometric
+                              ? IconButton(
+                                  icon: Assets.images.biometrics.image(
+                                    width: 30.sp,
+                                    height: 30.sp,
+                                  ),
+                                  onPressed: () {
+                                    context
+                                        .read<LoginCubit>()
+                                        .login(LoginType.biometric);
+                                  },
+                                )
+                              : const SizedBox(),
                     ),
                   ),
                   Padding(

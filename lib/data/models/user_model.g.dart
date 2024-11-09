@@ -21,6 +21,7 @@ _$UserModelImpl _$$UserModelImplFromJson(Map<String, dynamic> json) =>
       birthday: json['birthday'] == null
           ? null
           : DateTime.parse(json['birthday'] as String),
+      isAuthenticator: json['isAuthenticator'] as bool?,
       devices: (json['devices'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
@@ -48,6 +49,7 @@ Map<String, dynamic> _$$UserModelImplToJson(_$UserModelImpl instance) =>
       'education': instance.education,
       'job': instance.job,
       'birthday': instance.birthday?.toIso8601String(),
+      'isAuthenticator': instance.isAuthenticator,
       'devices': instance.devices,
       'friends': instance.friends.map((e) => e.toJson()).toList(),
       'groupIds': instance.groupIds,

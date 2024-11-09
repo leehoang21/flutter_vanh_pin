@@ -35,6 +35,16 @@ class AuthUseCase {
     return repository.signOut();
   }
 
+  Future<Either<UserModel, AppError>> loginWithGoogle() async {
+    final result = await repository.loginWithGoogle();
+    return result;
+  }
+
+  Future<AppError?> loginWithPassword(
+      {required String email, required String pass}) {
+    return repository.loginWithPassword(email: email, pass: pass);
+  }
+
   Future<AppError?> login({
     required LoginType loginType,
     String? email,
@@ -47,6 +57,7 @@ class AuthUseCase {
           email: email!,
           pass: password!,
         );
+        break;
       case LoginType.google:
         final result = await repository.loginWithGoogle();
         error = await result.fold(
@@ -58,7 +69,10 @@ class AuthUseCase {
             return error;
           },
         );
-
+        break;
+      case LoginType.biometric:
+        error = await repository.loginWithBiometric();
+        break;
       default:
         return AppError(message: StringConstants.loginTypeNotSupport);
     }
@@ -144,4 +158,12 @@ class AuthUseCase {
   }
 
   Future<String?> getJWT() => repository.getJWT();
+
+  Future<String?> registerGoogleAuthenticator(bool isAuthenticator) {
+    return repository.registerGoogleAuthenticator(isAuthenticator);
+  }
+
+  Future<bool> checkGoogleAuthenticator(String token) {
+    return repository.checkGoogleAuthenticator(token);
+  }
 }
