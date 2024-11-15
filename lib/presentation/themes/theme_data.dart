@@ -80,17 +80,5 @@ ThemeData appTheme() {
         return null;
       }),
     ),
-    checkboxTheme: CheckboxThemeData(
-      fillColor:
-          WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
-        if (states.contains(WidgetState.disabled)) {
-          return null;
-        }
-        if (states.contains(WidgetState.selected)) {
-          return AppColor.primaryColor;
-        }
-        return null;
-      }),
-    ),
   );
 }

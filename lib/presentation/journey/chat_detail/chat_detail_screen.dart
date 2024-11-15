@@ -11,11 +11,13 @@ import 'package:pinpin/presentation/journey/chat_detail/chat_detail_constants.da
 import 'package:pinpin/presentation/journey/chat_detail/cubit/chat_detail_cubit.dart';
 import 'package:pinpin/presentation/themes/themes.dart';
 
+import '../../../data/models/user_model.dart';
 import '../../widgets/button_widget/icon_button_widget.dart';
 import '../../widgets/chat_view/chatview.dart';
 import '../../widgets/provider/provider_widget.dart';
 import 'common/theme.dart';
 import 'cubit/chat_detail_option_cubit.dart';
+import 'widgets/memers_widget.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({Key? key, required this.model}) : super(key: key);
@@ -259,7 +261,7 @@ class _MoreWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = context.read<AppService>().state.user;
     return ProviderWidget<ChatDetailOptionCubit>(
-      params: [model],
+      params: [model, const <UserModel>[]],
       child: Builder(builder: (context) {
         return Padding(
           padding: EdgeInsets.only(bottom: 10.h),
@@ -272,12 +274,51 @@ class _MoreWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     IconButtonWidget(
-                      onPressed: () {},
+                      onPressed: () {
+                        final users = _getUsers(
+                          context
+                              .read<AppService>()
+                              .state
+                              .user!
+                              .friends
+                              .map((e) => e.user!)
+                              .toList(),
+                          context.read<ChatDetailOptionCubit>().data.members,
+                        );
+                        context.showBottomSheet(
+                          child: MembersWidget(
+                            title: ChatDetailConstants.addMembers.tr,
+                            users: users,
+                            onPressed: (users) {
+                              context
+                                  .read<ChatDetailOptionCubit>()
+                                  .addMember(users);
+                            },
+                            model: context.read<ChatDetailOptionCubit>().data,
+                          ),
+                        );
+                      },
                       icon: const Icon(Icons.person_add),
                       title: ChatDetailConstants.addMembers.tr,
                     ),
                     IconButtonWidget(
-                      onPressed: () {},
+                      onPressed: () {
+                        final users = getUsers2(
+                            context.read<ChatDetailOptionCubit>().data.members,
+                            context);
+                        context.showBottomSheet(
+                          child: MembersWidget(
+                            users: users,
+                            title: ChatDetailConstants.deleteMembers.tr,
+                            onPressed: (users) {
+                              context
+                                  .read<ChatDetailOptionCubit>()
+                                  .removeMember(users);
+                            },
+                            model: context.read<ChatDetailOptionCubit>().data,
+                          ),
+                        );
+                      },
                       icon: const Icon(Icons.person_remove),
                       title: ChatDetailConstants.deleteMembers.tr,
                     ),
@@ -297,13 +338,27 @@ class _MoreWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   IconButtonWidget(
-                    onPressed: () {},
+                    onPressed: () async {
+                      await context.showBottomSheet(
+                        child: MembersWidget(
+                          users: context
+                              .read<ChatDetailOptionCubit>()
+                              .data
+                              .members,
+                          title: ChatDetailConstants.members.tr,
+                          onPressed: null,
+                          model: context.read<ChatDetailOptionCubit>().data,
+                        ),
+                      );
+                    },
                     icon: const Icon(Icons.people_sharp),
                     title: ChatDetailConstants.members.tr,
                   ),
                   model.author?.uId == user?.uId
                       ? IconButtonWidget(
-                          onPressed: () {},
+                          onPressed: () {
+                            context.read<ChatDetailOptionCubit>().delete();
+                          },
                           icon: Assets.icons.trash.svg(
                             height: 30.sp,
                             width: 30.sp,
@@ -325,5 +380,27 @@ class _MoreWidget extends StatelessWidget {
         );
       }),
     );
+  }
+
+  List<UserModel> _getUsers(
+      List<UserModel> users, List<UserModel> removeUsers) {
+    List<UserModel> result = [];
+    for (final i in users) {
+      if (!removeUsers.any((element) => element.uId == i.uId)) {
+        result.add(i);
+      }
+    }
+    return result;
+  }
+
+  List<UserModel> getUsers2(List<UserModel> users, BuildContext context) {
+    List<UserModel> result = [];
+    final removeUser = context.read<AppService>().state.user;
+    for (final i in users) {
+      if (i.uId != removeUser?.uId) {
+        result.add(i);
+      }
+    }
+    return result;
   }
 }

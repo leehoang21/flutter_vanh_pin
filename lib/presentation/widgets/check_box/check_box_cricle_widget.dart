@@ -22,17 +22,16 @@ class _CheckboxCricleWidgetState extends State<CheckboxCricleWidget> {
         duration: const Duration(milliseconds: 500),
         curve: Curves.fastLinearToSlowEaseIn,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(100),
-          border: Border.all(
-            color: Colors.black,
-            width: 1.5,
-          ),
-        ),
+            shape: BoxShape.circle,
+            border: Border.all(
+              color: Colors.black,
+              width: 1,
+            )),
         child: widget.value
             ? const Center(
                 child: Icon(
                 Icons.check_rounded,
-                color: Colors.black,
+                color: Colors.green,
                 weight: 2,
                 size: 18,
               ))

@@ -4,6 +4,7 @@ import 'package:pinpin/data/models/user_model.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pinpin/presentation/widgets/button_widget/text_button_widget.dart';
 import '../../../themes/themes.dart';
+import '../../../widgets/check_box/check_box_cricle_widget.dart';
 import '../../../widgets/image_app_widget/avatar_widget.dart';
 
 class AddMemberWidget extends StatefulWidget {
@@ -112,7 +113,11 @@ class _ItemAddMeberState extends State<_ItemAddMeber> {
               style: ThemeText.style12Regular,
             ),
             const Spacer(),
-            Checkbox(value: widget.data.value, onChanged: widget.onChanged)
+            GestureDetector(
+                onTap: () {
+                  widget.onChanged(!widget.data.value);
+                },
+                child: CheckboxCricleWidget(value: widget.data.value))
           ],
         ),
       ),
