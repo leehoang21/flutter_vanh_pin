@@ -65,6 +65,11 @@ dependencies:
   flutter_locker: ^2.1.4
   local_auth: ^2.3.0
   flutter_widget_from_html: ^0.15.2
+  flutter_local_notifications: ^18.0.1
+  floating_draggable_widget: ^2.3.0
+  pie_menu: ^3.2.7
+  like_button: ^2.0.5
+  badges: ^3.1.2
  
 
 dev_dependencies:

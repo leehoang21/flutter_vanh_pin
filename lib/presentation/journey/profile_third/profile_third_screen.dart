@@ -9,7 +9,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pinpin/presentation/widgets/button_widget/text_button_widget.dart';
 import 'package:pinpin/presentation/widgets/image_app_widget/avatar_widget.dart';
 import '../../../common/service/app_service.dart';
+import '../../widgets/card_widget/card_custom.dart';
+import '../../widgets/card_widget/post_card.dart';
 import '../../widgets/image_app_widget/image_app.dart';
+import '../../widgets/scaffold_wdiget/scaffold_widget.dart';
 import 'cubit/profile_third_cubit.dart';
 import 'profile_third_constants.dart';
 import 'package:pinpin/data/models/chat_model.dart';
@@ -24,17 +27,33 @@ class ProfileThirdScreen extends StatefulWidget {
 class _ProfileThirdScreenState extends State<ProfileThirdScreen> {
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Column(
+    return ScaffoldWidget(
+      padding: EdgeInsets.zero,
+      body: ListView(
         children: [
-          const _WallPaperAndAvatarWidget(),
-          SizedBox(
-            height: 10.h,
+          CardCustom(
+            padding: EdgeInsets.zero,
+            child: Column(
+              children: [
+                const _WallPaperAndAvatarWidget(),
+                SizedBox(
+                  height: 10.h,
+                ),
+                const _Info(),
+                SizedBox(
+                  height: 10.h,
+                ),
+                SizedBox(
+                  height: 12.h,
+                ),
+              ],
+            ),
           ),
-          const _Info(),
           SizedBox(
-            height: 10.h,
+            height: 12.h,
           ),
+          for (var item in context.watch<ProfileThirdCubit>().state.posts)
+            PostCard(model: item),
         ],
       ),
     );

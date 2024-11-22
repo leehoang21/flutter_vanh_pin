@@ -22,16 +22,16 @@ class ChatUseCase {
 
   Future<AppError?> addMember({
     required List<UserModel> memers,
-    required String chatId,
+    required ChatModel model,
   }) {
-    return repository.addMember(memers: memers, chatId: chatId);
+    return repository.addMember(memers: memers, model: model);
   }
 
   Future<AppError?> removeMember({
     required List<UserModel> memers,
-    required String chatId,
+    required ChatModel model,
   }) {
-    return repository.removeMember(memers: memers, chatId: chatId);
+    return repository.removeMember(memers: memers, model: model);
   }
 
   Future<AppError?> delete({required String id}) {
@@ -47,11 +47,10 @@ class ChatUseCase {
 
   Future<AppError?> sendOrUpdateMessage({
     required Message data,
-    required String chatId,
-    required String idKey,
+    required ChatModel model,
+    String? id,
   }) {
-    return repository.sendOrUpdateMessage(
-        data: data, chatId: chatId, idKey: idKey);
+    return repository.sendOrUpdateMessage(data: data, model: model, id: id);
   }
 
   Stream<Either<List<ChatModel>, AppError>> get() {

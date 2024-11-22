@@ -24,12 +24,4 @@ class UserUseCase {
   }) {
     return repository.get(id: id);
   }
-
-  Future<List<String>> getPublicKey({
-    String? uId,
-  }) {
-    return repository.getPublicKey(uId: uId);
-  }
-
-  Future<void> addPublicKey() => repository.addPublicKey();
 }

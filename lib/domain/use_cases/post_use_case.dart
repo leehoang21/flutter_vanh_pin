@@ -24,17 +24,17 @@ class PostUseCase {
         content: content, images: images, group: group, share: share);
   }
 
-  Stream<Either<Map<int, List<PostModel>>, AppError>> get() {
+  Stream<Either<List<Future<PostModel>>, AppError>> get() {
     return repository.get();
   }
 
-  Stream<Either<List<PostModel>, AppError>> getToGroup(
+  Stream<Either<List<Future<PostModel>>, AppError>> getToGroup(
     List<String> groupIds,
   ) {
     return repository.getToGroup(groupIds);
   }
 
-  Stream<Either<List<PostModel>, AppError>> getToUser(String userId) {
+  Stream<Either<List<Future<PostModel>>, AppError>> getToUser(String userId) {
     return repository.getToUser(userId);
   }
 

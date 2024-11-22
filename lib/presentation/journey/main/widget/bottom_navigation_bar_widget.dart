@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinpin/common/extension/string_extension.dart';
+import 'package:pinpin/common/service/app_service.dart';
 import 'package:pinpin/presentation/themes/themes.dart';
 import 'package:pinpin/presentation/widgets/image_app_widget/image_app.dart';
 import 'bottom_navigation_bar_constants.dart';
+import 'package:badges/badges.dart' as badges;
 
 class BottomNavigationBarWidget extends StatelessWidget {
   const BottomNavigationBarWidget({
@@ -24,15 +27,23 @@ class BottomNavigationBarWidget extends StatelessWidget {
       onTap: onTap,
       items: iconsData.asMap().entries.map((entry) {
         return BottomNavigationBarItem(
-          icon: Padding(
-            padding: BottomNavigationBarConstants.itemPadding,
-            child: AppImageWidget(
-              path: entry.value["iconPath"],
-              width: BottomNavigationBarConstants.iconWidth,
-              height: BottomNavigationBarConstants.iconWidth,
-              color: currentIndex == entry.key
-                  ? AppColor.ebonyClay
-                  : AppColor.grey,
+          icon: badges.Badge(
+            showBadge: entry.value["label"] == "Notifications" &&
+                context.watch<AppService>().state.notificationCount > 0,
+            badgeContent: Text(
+              context.watch<AppService>().state.notificationCount.toString(),
+              style: const TextStyle(color: Colors.white),
+            ),
+            child: Padding(
+              padding: BottomNavigationBarConstants.itemPadding,
+              child: AppImageWidget(
+                path: entry.value["iconPath"],
+                width: BottomNavigationBarConstants.iconWidth,
+                height: BottomNavigationBarConstants.iconWidth,
+                color: currentIndex == entry.key
+                    ? AppColor.ebonyClay
+                    : AppColor.grey,
+              ),
             ),
           ),
           label: (entry.value["label"] as String).tr,

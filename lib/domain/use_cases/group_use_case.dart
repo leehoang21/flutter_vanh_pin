@@ -1,6 +1,7 @@
 import 'package:either_dart/either.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../common/enums/app_enums.dart';
 import '../../common/exception/app_error.dart';
 import '../../data/models/group_model.dart';
 import '../../data/models/user_model.dart';
@@ -32,8 +33,17 @@ class GroupUseCase {
     return repository.getDetail(id);
   }
 
-  Future<AppError?> addMembers(UserModel user, String id) {
-    return repository.addMembers(user, id);
+  Future<AppError?> joinGroup(
+      UserModel user, String id, GroupType type, String content) {
+    return repository.joinGroup(user, id, type, content);
+  }
+
+  Future<AppError?> addMembers(UserModel user, String id, GroupType type) {
+    return repository.addMembers(user, id, type);
+  }
+
+  Future<AppError?> removeMembers(UserModel user, String id, GroupType type) {
+    return repository.removeMembers(user, id, type);
   }
 
   Future<AppError?> leave(UserModel user, String id) {
@@ -42,5 +52,9 @@ class GroupUseCase {
 
   Future<AppError?> delete(String id) {
     return repository.delete(id);
+  }
+
+  Future<AppError?> update(String avatar, String background, String id) {
+    return repository.update(avatar, background, id);
   }
 }

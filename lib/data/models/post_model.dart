@@ -32,4 +32,7 @@ class PostModel with _$PostModel {
     final data = doc.data() as Map<String, dynamic>;
     return PostModel.fromJson(data).copyWith(uId: doc.id);
   }
+
+  factory PostModel.empty() =>
+      PostModel(author: const UserModel(), time: DateTime(2000), content: '');
 }

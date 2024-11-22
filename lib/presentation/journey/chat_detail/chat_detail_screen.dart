@@ -284,6 +284,7 @@ class _MoreWidget extends StatelessWidget {
                               .map((e) => e.user!)
                               .toList(),
                           context.read<ChatDetailOptionCubit>().data.members,
+                          context,
                         );
                         context.showBottomSheet(
                           child: MembersWidget(
@@ -383,10 +384,16 @@ class _MoreWidget extends StatelessWidget {
   }
 
   List<UserModel> _getUsers(
-      List<UserModel> users, List<UserModel> removeUsers) {
+    List<UserModel> users,
+    List<UserModel> removeUsers,
+    BuildContext context,
+  ) {
     List<UserModel> result = [];
+    final memberIds = context.read<ChatDetailOptionCubit>().data.memberIds;
+    final removes =
+        removeUsers.where((element) => memberIds.contains(element.uId));
     for (final i in users) {
-      if (!removeUsers.any((element) => element.uId == i.uId)) {
+      if (!removes.any((element) => element.uId == i.uId)) {
         result.add(i);
       }
     }
@@ -395,12 +402,16 @@ class _MoreWidget extends StatelessWidget {
 
   List<UserModel> getUsers2(List<UserModel> users, BuildContext context) {
     List<UserModel> result = [];
+
     final removeUser = context.read<AppService>().state.user;
+    final memberIds = context.read<ChatDetailOptionCubit>().data.memberIds;
+
     for (final i in users) {
       if (i.uId != removeUser?.uId) {
         result.add(i);
       }
     }
+    result.removeWhere((element) => !memberIds.contains(element.uId));
     return result;
   }
 }

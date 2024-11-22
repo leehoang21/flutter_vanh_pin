@@ -13,21 +13,20 @@ abstract class ChatRepository {
 
   Future<AppError?> addMember({
     required List<UserModel> memers,
-    required String chatId,
+    required ChatModel model,
   });
 
   Future<AppError?> removeMember({
     required List<UserModel> memers,
-    required String chatId,
+    required ChatModel model,
   });
 
   Future<AppError?> delete({required String id});
 
   Future<AppError?> sendOrUpdateMessage({
     required Message data,
-    required String chatId,
     String? id,
-    required String idKey,
+    required ChatModel model,
   });
 
   Future<AppError?> deleteMessage({

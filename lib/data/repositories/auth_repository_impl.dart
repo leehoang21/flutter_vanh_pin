@@ -227,4 +227,16 @@ class AuthRepositoryImpl extends AuthRepository {
     } catch (_) {}
     return null;
   }
+
+  @override
+  Future<AppError?> changePassword(String pass) async {
+    try {
+      await config.auth.currentUser?.updatePassword(pass);
+      return null;
+    } on FirebaseException catch (e) {
+      return AppError(message: e.message ?? e.code);
+    } catch (e) {
+      return AppError(message: e.toString());
+    }
+  }
 }

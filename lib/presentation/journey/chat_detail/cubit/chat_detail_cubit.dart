@@ -108,7 +108,9 @@ class ChatDetailCubit extends BaseBloc<ChatDetailState> {
       status: MessageStatus.read,
     );
     final result = await chatUseCase.sendOrUpdateMessage(
-        data: message, chatId: data.uId ?? '', idKey: data.idKey!);
+      data: message,
+      model: data,
+    );
     if (result != null) {
       showSnackbar(translationKey: result.message);
     }

@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$ProfileThirdState {
   UserModel get user => throw _privateConstructorUsedError;
+  List<PostModel> get posts => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ProfileThirdStateCopyWith<ProfileThirdState> get copyWith =>
@@ -29,7 +30,7 @@ abstract class $ProfileThirdStateCopyWith<$Res> {
           ProfileThirdState value, $Res Function(ProfileThirdState) then) =
       _$ProfileThirdStateCopyWithImpl<$Res, ProfileThirdState>;
   @useResult
-  $Res call({UserModel user});
+  $Res call({UserModel user, List<PostModel> posts});
 
   $UserModelCopyWith<$Res> get user;
 }
@@ -48,12 +49,17 @@ class _$ProfileThirdStateCopyWithImpl<$Res, $Val extends ProfileThirdState>
   @override
   $Res call({
     Object? user = null,
+    Object? posts = null,
   }) {
     return _then(_value.copyWith(
       user: null == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as UserModel,
+      posts: null == posts
+          ? _value.posts
+          : posts // ignore: cast_nullable_to_non_nullable
+              as List<PostModel>,
     ) as $Val);
   }
 
@@ -74,7 +80,7 @@ abstract class _$$LoadingImplCopyWith<$Res>
       __$$LoadingImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({UserModel user});
+  $Res call({UserModel user, List<PostModel> posts});
 
   @override
   $UserModelCopyWith<$Res> get user;
@@ -92,12 +98,17 @@ class __$$LoadingImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? user = null,
+    Object? posts = null,
   }) {
     return _then(_$LoadingImpl(
       null == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as UserModel,
+      null == posts
+          ? _value._posts
+          : posts // ignore: cast_nullable_to_non_nullable
+              as List<PostModel>,
     ));
   }
 }
@@ -105,14 +116,21 @@ class __$$LoadingImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$LoadingImpl implements _Loading {
-  const _$LoadingImpl(this.user);
+  const _$LoadingImpl(this.user, final List<PostModel> posts) : _posts = posts;
 
   @override
   final UserModel user;
+  final List<PostModel> _posts;
+  @override
+  List<PostModel> get posts {
+    if (_posts is EqualUnmodifiableListView) return _posts;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_posts);
+  }
 
   @override
   String toString() {
-    return 'ProfileThirdState(user: $user)';
+    return 'ProfileThirdState(user: $user, posts: $posts)';
   }
 
   @override
@@ -120,11 +138,13 @@ class _$LoadingImpl implements _Loading {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LoadingImpl &&
-            (identical(other.user, user) || other.user == user));
+            (identical(other.user, user) || other.user == user) &&
+            const DeepCollectionEquality().equals(other._posts, _posts));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, user);
+  int get hashCode => Object.hash(
+      runtimeType, user, const DeepCollectionEquality().hash(_posts));
 
   @JsonKey(ignore: true)
   @override
@@ -134,10 +154,13 @@ class _$LoadingImpl implements _Loading {
 }
 
 abstract class _Loading implements ProfileThirdState {
-  const factory _Loading(final UserModel user) = _$LoadingImpl;
+  const factory _Loading(final UserModel user, final List<PostModel> posts) =
+      _$LoadingImpl;
 
   @override
   UserModel get user;
+  @override
+  List<PostModel> get posts;
   @override
   @JsonKey(ignore: true)
   _$$LoadingImplCopyWith<_$LoadingImpl> get copyWith =>

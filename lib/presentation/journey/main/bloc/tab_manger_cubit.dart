@@ -1,4 +1,6 @@
 import 'package:auto_route/auto_route.dart';
+
+import 'package:pinpin/data/models/notification_model.dart';
 import 'package:pinpin/presentation/bloc/base_bloc/base_bloc.dart';
 import 'package:pinpin/presentation/routers/app_router.dart';
 import 'package:injectable/injectable.dart';
@@ -6,8 +8,8 @@ import 'package:injectable/injectable.dart';
 @injectable
 class TabMangerCubit extends BaseBloc<int> {
   TabMangerCubit() : super(0);
-
   late final List<PageRouteInfo<dynamic>> tabs;
+  NotificationModel? message;
 
   void changePage(int index) {
     emit(index);

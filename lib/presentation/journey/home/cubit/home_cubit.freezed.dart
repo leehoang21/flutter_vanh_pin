@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$HomeState {
-  Map<int, List<PostModel>> get posts => throw _privateConstructorUsedError;
+  List<PostModel> get posts => throw _privateConstructorUsedError;
   List<UserModel> get users => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -29,7 +29,7 @@ abstract class $HomeStateCopyWith<$Res> {
   factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) then) =
       _$HomeStateCopyWithImpl<$Res, HomeState>;
   @useResult
-  $Res call({Map<int, List<PostModel>> posts, List<UserModel> users});
+  $Res call({List<PostModel> posts, List<UserModel> users});
 }
 
 /// @nodoc
@@ -52,7 +52,7 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
       posts: null == posts
           ? _value.posts
           : posts // ignore: cast_nullable_to_non_nullable
-              as Map<int, List<PostModel>>,
+              as List<PostModel>,
       users: null == users
           ? _value.users
           : users // ignore: cast_nullable_to_non_nullable
@@ -68,7 +68,7 @@ abstract class _$$LoadedImplCopyWith<$Res> implements $HomeStateCopyWith<$Res> {
       __$$LoadedImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Map<int, List<PostModel>> posts, List<UserModel> users});
+  $Res call({List<PostModel> posts, List<UserModel> users});
 }
 
 /// @nodoc
@@ -89,7 +89,7 @@ class __$$LoadedImplCopyWithImpl<$Res>
       null == posts
           ? _value._posts
           : posts // ignore: cast_nullable_to_non_nullable
-              as Map<int, List<PostModel>>,
+              as List<PostModel>,
       null == users
           ? _value._users
           : users // ignore: cast_nullable_to_non_nullable
@@ -101,17 +101,16 @@ class __$$LoadedImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$LoadedImpl implements _Loaded {
-  const _$LoadedImpl(
-      final Map<int, List<PostModel>> posts, final List<UserModel> users)
+  const _$LoadedImpl(final List<PostModel> posts, final List<UserModel> users)
       : _posts = posts,
         _users = users;
 
-  final Map<int, List<PostModel>> _posts;
+  final List<PostModel> _posts;
   @override
-  Map<int, List<PostModel>> get posts {
-    if (_posts is EqualUnmodifiableMapView) return _posts;
+  List<PostModel> get posts {
+    if (_posts is EqualUnmodifiableListView) return _posts;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_posts);
+    return EqualUnmodifiableListView(_posts);
   }
 
   final List<UserModel> _users;
@@ -151,11 +150,10 @@ class _$LoadedImpl implements _Loaded {
 
 abstract class _Loaded implements HomeState {
   const factory _Loaded(
-          final Map<int, List<PostModel>> posts, final List<UserModel> users) =
-      _$LoadedImpl;
+      final List<PostModel> posts, final List<UserModel> users) = _$LoadedImpl;
 
   @override
-  Map<int, List<PostModel>> get posts;
+  List<PostModel> get posts;
   @override
   List<UserModel> get users;
   @override

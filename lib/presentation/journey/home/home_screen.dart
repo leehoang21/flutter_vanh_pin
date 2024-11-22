@@ -79,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
             BlocBuilder<HomeCubit, HomeState>(
               builder: (context, state) {
                 return Column(
-                    children: convertMaptoListAndSoft(state.posts)
+                    children: state.posts
                         .map(
                           (e) => PostCard(
                             model: e,

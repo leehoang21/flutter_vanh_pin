@@ -63,12 +63,16 @@ class IconPostButtonWidget extends StatelessWidget {
   final Widget icon;
   final Color? buttonColor;
   final String? title;
+  final TextStyle? textStyle;
+  final double? width;
   const IconPostButtonWidget({
     Key? key,
     required this.onPressed,
     this.buttonColor,
     this.title,
     required this.icon,
+    this.textStyle,
+    this.width,
   }) : super(key: key);
 
   @override
@@ -89,9 +93,10 @@ class IconPostButtonWidget extends StatelessWidget {
           if (title != null)
             Text(
               title!,
-              style: ThemeText.body2.copyWith(
-                fontSize: 10.sp,
-              ),
+              style: textStyle ??
+                  ThemeText.body2.copyWith(
+                    fontSize: 10.sp,
+                  ),
             )
         ],
       ),

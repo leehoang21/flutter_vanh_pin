@@ -59,6 +59,11 @@ class KeyApp {
     return (Key.fromBase64(key), IV.fromBase64(iv));
   }
 
+  static List<String> fromKeyString(String keyString) {
+    final keyIv = keyString.split(',,,');
+    return keyIv;
+  }
+
   Future<(Key, IV)?> getKeyAes(String uId) async {
     final value =
         await FlutterKeychain.get(key: DefaultEnvironment.key + (uId));
@@ -79,7 +84,7 @@ class KeyApp {
         key: DefaultEnvironment.iv + uId, value: keyValue.$2.base64);
   }
 
-  encrypted(String plainText, String key, String iv) {
+  String encrypted(String plainText, String key, String iv) {
     final keyValue = _fromKey(key, iv);
     final encrypter =
         Encrypter(AES(keyValue.$1, mode: AESMode.ctr, padding: null));
@@ -87,7 +92,7 @@ class KeyApp {
     return encrypted.base64;
   }
 
-  decrypted(String cipherText, String key, String iv) {
+  String decrypted(String cipherText, String key, String iv) {
     final keyValue = _fromKey(key, iv);
 
     final encrypter =

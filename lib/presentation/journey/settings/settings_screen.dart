@@ -50,7 +50,27 @@ class _SettingsScreenState extends State<SettingsScreen> {
           _ItemSetting(
             item: ItemSettingModel(
               title: SettingsConstants.changePassword.tr,
-              onTap: () {},
+              onTap: () async {
+                await context.showBottomSheet(
+                  child: SizedBox(
+                    height: 0.6.sh,
+                    child: const _ReloginWidget(),
+                  ),
+                );
+                final credential = context.read<AppService>().state.credential;
+                if (credential != null) {
+                  await context.showBottomSheet(
+                    child: SizedBox(
+                      height: 0.6.sh,
+                      child: _ChagePassWidget(
+                        cubit: context.read<SettingsCubit>(),
+                      ),
+                    ),
+                  );
+                  setState(() {});
+                  context.read<AppService>().setCredential(null);
+                }
+              },
             ),
           ),
           _ItemSetting(
@@ -67,8 +87,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         child: const _ReloginWidget(),
                       ),
                     );
-                    await context.read<SettingsCubit>().registerBiometric();
-                    setState(() {});
+                    final credential =
+                        context.read<AppService>().state.credential;
+                    if (credential != null) {
+                      await context.read<SettingsCubit>().registerBiometric();
+                      setState(() {});
+                      context.read<AppService>().setCredential(null);
+                    }
                   } else {
                     context.read<SettingsCubit>().unRegisterBiometric();
                   }
@@ -279,6 +304,84 @@ class _ReloginWidgetState extends State<_ReloginWidget> {
                 ))
               ],
             )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _ChagePassWidget extends StatelessWidget {
+  _ChagePassWidget({super.key, required this.cubit});
+
+  final TextEditingController controller = TextEditingController();
+
+  final TextEditingController controllerPassword = TextEditingController();
+
+  final formKey = GlobalKey<FormState>();
+  final SettingsCubit cubit;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20.w),
+      child: Form(
+        key: formKey,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding:
+                      EdgeInsets.only(top: LoginConstants.distanceTextToField),
+                  child: SecurityTextFieldWidget(
+                    controller: controller,
+                    keyboardType: TextInputType.text,
+                    validate: AppValidator.validatePassword,
+                    hintText: 'New Password'.tr,
+                    textStyle: ThemeText.style14Medium
+                        .copyWith(fontWeight: FontWeight.normal),
+                  ),
+                ),
+                Padding(
+                  padding:
+                      EdgeInsets.only(top: LoginConstants.distanceTextToField),
+                  child: SecurityTextFieldWidget(
+                    controller: controllerPassword,
+                    keyboardType: TextInputType.text,
+                    validate: (pass) {
+                      if (pass != controller.text) {
+                        return "Password not match".tr;
+                      }
+                      return null;
+                    },
+                    hintText: 'Confirm Password'.tr,
+                    textStyle: ThemeText.style14Medium
+                        .copyWith(fontWeight: FontWeight.normal),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: LoginConstants.distanceButtonToField,
+                  ),
+                  child: TextButtonWidget(
+                    onPressed: () async {
+                      final currentFocus = FocusScope.of(context);
+                      if (!currentFocus.hasPrimaryFocus &&
+                          currentFocus.focusedChild != null) {
+                        FocusManager.instance.primaryFocus!.unfocus();
+                      }
+                      if (formKey.currentState!.validate()) {
+                        cubit.changePass(controller.text);
+                      }
+                    },
+                    title: 'Change Password'.tr,
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
       ),

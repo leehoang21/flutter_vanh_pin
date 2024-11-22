@@ -28,8 +28,7 @@ class ChatDetailOptionCubit extends BaseBloc<ChatDetailOptionState> {
       users.map((e) => (false, e)).toList();
 
   addMember(List<UserModel> members) async {
-    final result =
-        await chatUseCase.addMember(memers: members, chatId: data.uId ?? '');
+    final result = await chatUseCase.addMember(memers: members, model: data);
     pop('');
     if (result != null) {
       showSnackbar(translationKey: result.toString());
@@ -39,8 +38,7 @@ class ChatDetailOptionCubit extends BaseBloc<ChatDetailOptionState> {
   }
 
   removeMember(List<UserModel> members) async {
-    final result =
-        await chatUseCase.removeMember(memers: members, chatId: data.uId ?? '');
+    final result = await chatUseCase.removeMember(memers: members, model: data);
     pop('');
     if (result != null) {
       showSnackbar(translationKey: result.toString());

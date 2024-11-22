@@ -2,10 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinpin/common/constants/app_dimens.dart';
-import 'package:pinpin/common/enums/app_enums.dart';
 import 'package:pinpin/common/extension/string_extension.dart';
-import 'package:pinpin/common/service/app_service.dart';
-import 'package:pinpin/common/utils/app_utils.dart';
 import 'package:pinpin/presentation/routers/app_router.dart';
 import 'package:pinpin/presentation/widgets/appbar_widget/appbar_main_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -66,17 +63,22 @@ class _GroupWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: context
-          .watch<GroupCubit>()
-          .state
-          .myGroups
-          .map(
-            (e) => _GroupItemWidget(
-              model: e,
-            ),
-          )
-          .toList(),
+    return RefreshIndicator(
+      onRefresh: () async {
+        context.read<GroupCubit>().onInit();
+      },
+      child: ListView(
+        children: context
+            .watch<GroupCubit>()
+            .state
+            .myGroups
+            .map(
+              (e) => _GroupItemWidget(
+                model: e,
+              ),
+            )
+            .toList(),
+      ),
     );
   }
 }
@@ -86,17 +88,22 @@ class _DiscoveryWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: context
-          .watch<GroupCubit>()
-          .state
-          .groups
-          .map(
-            (e) => _GroupItemWidget(
-              model: e,
-            ),
-          )
-          .toList(),
+    return RefreshIndicator(
+      onRefresh: () async {
+        context.read<GroupCubit>().onInit();
+      },
+      child: ListView(
+        children: context
+            .watch<GroupCubit>()
+            .state
+            .groups
+            .map(
+              (e) => _GroupItemWidget(
+                model: e,
+              ),
+            )
+            .toList(),
+      ),
     );
   }
 }
@@ -108,15 +115,11 @@ class _GroupItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: () {
-        if (model.type == GroupType.public ||
-            context.read<AppService>().state.user?.uId == model.author?.uId) {
-          context.pushRoute(GroupDetailRoute(
-            groupModel: model,
-          ));
-        } else {
-          logger('message');
-        }
+      onTap: () async {
+        await context.pushRoute(GroupDetailRoute(
+          groupModel: model,
+        ));
+        context.read<GroupCubit>().onInit();
       },
       leading: Container(
         width: 50.sp,
@@ -134,7 +137,7 @@ class _GroupItemWidget extends StatelessWidget {
         ),
       ),
       title: Text(model.name ?? ''),
-      subtitle: Text(model.members?.length.toString() ?? ''),
+      subtitle: Text(((model.members?.length ?? 0) + 1).toString()),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:pinpin/common/configs/notification_config/notification_config.dart';
 import 'package:pinpin/common/constants/string_constants.dart';
 import 'package:pinpin/common/service/app_service.dart';
 import 'package:pinpin/common/utils/app_utils.dart';
@@ -20,6 +21,7 @@ class UserRepositoryImpl extends UserRepository {
   final AppService appService;
   final FriendRepository friendRepository;
   final KeyService keyService;
+  final NotificationConfig notificationConfig;
 
   final StorageRepository storageRepository;
   UserRepositoryImpl(
@@ -28,6 +30,7 @@ class UserRepositoryImpl extends UserRepository {
     this.appService,
     this.friendRepository,
     this.keyService,
+    this.notificationConfig,
   ) : super();
 
   DocumentReference<Map<String, dynamic>> get _doc => config.userDoc
@@ -66,8 +69,7 @@ class UserRepositoryImpl extends UserRepository {
           background: data.background,
         );
         await _users.doc(config.auth.currentUser?.uid).set(user.toJson());
-        //
-        addPublicKey();
+        notificationConfig.sendToken();
       }
 
       return null;
@@ -154,9 +156,10 @@ class UserRepositoryImpl extends UserRepository {
       //
 
       KeyApp keyApp = KeyApp();
-      final key = await keyApp.getKeyAes(user.uId!);
+      final key = await keyApp.getKeyAes(user.uId ?? '');
+      if (key == null) return user;
       final phone = keyApp.decrypted(
-          user.phoneNumber ?? "", key!.$1.base64, key.$2.base64);
+          user.phoneNumber ?? "", key.$1.base64, key.$2.base64);
       final email =
           keyApp.decrypted(user.email ?? "", key.$1.base64, key.$2.base64);
       //
@@ -175,39 +178,6 @@ class UserRepositoryImpl extends UserRepository {
       final result = await _users.get();
       final users = result.docs.map((e) => UserModel.fromDocument(e)).toList();
       return users;
-    } catch (e) {
-      return [];
-    }
-  }
-
-  @override
-  Future<void> addPublicKey() async {
-    final doc = config.userDoc
-        .collection(DefaultEnvironment.customer)
-        .doc(config.auth.currentUser?.uid)
-        .collection(DefaultEnvironment.key);
-    try {
-      final key = keyService.publicKey.toString();
-      await doc.add({
-        'publicKey': key,
-      });
-    } catch (e) {
-      logger(e);
-    }
-  }
-
-  @override
-  Future<List<String>> getPublicKey({String? uId}) async {
-    final doc = config.userDoc
-        .collection(DefaultEnvironment.customer)
-        .doc(uId ?? config.auth.currentUser?.uid)
-        .collection(DefaultEnvironment.key);
-    try {
-      final result = await doc.get();
-      final keys = result.docs
-          .map((e) => (e.data()['publicKey'] as String?) ?? "")
-          .toList();
-      return keys;
     } catch (e) {
       return [];
     }

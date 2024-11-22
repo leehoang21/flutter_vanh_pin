@@ -1,13 +1,13 @@
 import 'dart:async';
-import 'package:crypton/crypton.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:pinpin/common/configs/notification_config/notification_config.dart';
+import 'package:pinpin/common/enums/app_enums.dart';
 import 'package:pinpin/common/service/app_service.dart';
 import 'package:pinpin/common/utils/app_utils.dart';
 import 'package:pinpin/data/models/friend_model.dart';
 import 'package:pinpin/domain/use_cases/friend_use_case.dart';
-import 'package:pinpin/domain/use_cases/notification_use_case.dart';
-
+import 'package:pinpin/domain/use_cases/group_use_case.dart';
 import '../../../../common/service/key.dart';
 import '../../../../data/models/notification_model.dart';
 import '../../../../data/models/user_model.dart';
@@ -23,43 +23,33 @@ class NotificationCubit extends BaseBloc<NotificationState> {
     this.friendUseCase,
     this.appService,
     this.userUseCase,
-    this.notificationUseCase,
+    this.notificationConfig,
+    this.groupUseCase,
   ) : super(const NotificationState());
   final FriendUseCase friendUseCase;
   final AppService appService;
   final UserUseCase userUseCase;
-  final NotificationUseCase notificationUseCase;
+  final NotificationConfig notificationConfig;
+  final GroupUseCase groupUseCase;
   StreamSubscription? notificationSubscription;
 
   @override
   Future onInit() async {
-    get();
     super.onInit();
   }
 
-  get() {
-    notificationSubscription?.cancel();
-    notificationSubscription = notificationUseCase.get().listen((event) {
-      final notifications = event
-          .where((element) =>
-              element.type != NotificationType.message &&
-              element.type != NotificationType.keyChat)
-          .toList();
-      emit(state.copyWith(notifications: notifications));
-    });
-  }
-
-  read(String? id) async {
-    await notificationUseCase.read(id);
-  }
-
   action(NotificationModel notification) async {
-    read(notification.id);
-    if (notification.type == NotificationType.addFriend) {
-      await _acceptAddFriend(notification.author);
-    } else if (notification.type == NotificationType.login) {
-      await _sendKey(notification.token ?? '', notification.content ?? '');
-    }
+    try {
+      await appService.readNotification(notification);
+      if (notification.type == NotificationType.addFriend) {
+        await _acceptAddFriend(notification.author);
+      } else if (notification.type == NotificationType.login) {
+        await _sendKey(notification.user!, notification.content ?? '',
+            notification.token ?? '', notification.id ?? '');
+      } else if (notification.type == NotificationType.joinGroup) {
+        await _addGroup(notification);
+      }
+    } on Exception catch (_) {}
   }
 
   _acceptAddFriend(UserModel? user) async {
@@ -71,6 +61,18 @@ class NotificationCubit extends BaseBloc<NotificationState> {
     ));
 
     try {
+      appService.setUser(
+        appService.state.user!.copyWith(
+          friends: [
+            ...appService.state.user!.friends,
+            FriendModel(
+              user: user,
+              status: FriendStatus.accepted,
+              author: appService.state.user,
+            ),
+          ],
+        ),
+      );
       final user0 = await userUseCase.get();
       if (user0 != null) {
         appService.setUser(user0);
@@ -80,20 +82,32 @@ class NotificationCubit extends BaseBloc<NotificationState> {
     }
   }
 
-  _sendKey(String key, String device) async {
-    final publicKey = RSAPublicKey.fromString(key);
+  _addGroup(NotificationModel notification) async {
+    return groupUseCase.addMembers(
+        notification.author!,
+        notification.id!,
+        notification.content == GroupType.public.name
+            ? GroupType.public
+            : GroupType.private);
+  }
+
+  _sendKey(
+      UserModel user, String device, String token, String publicKey) async {
     final KeyApp keyApp = KeyApp();
     final key0 = await keyApp.getKeyAes(appService.state.user!.uId!);
-    final privateKey = publicKey.encrypt(
-      '${key0!.$1.base64},,,${key0.$2.base64}',
-    );
     //
-    notificationUseCase.addNotification(NotificationModel(
-      type: NotificationType.key,
-      createdAt: DateTime.now(),
-      author: appService.state.user,
-      token: privateKey,
-      content: device,
-    ));
+    notificationConfig.sendMessenger(
+      NotificationModel(
+        type: NotificationType.accessAccount,
+        createdAt: DateTime.now(),
+        author: appService.state.user,
+        user: user,
+        token: '${key0!.$1.base64},,,${key0.$2.base64}',
+        content: device,
+        id: user.uId,
+      ),
+      token: token,
+      publicKey: publicKey,
+    );
   }
 }

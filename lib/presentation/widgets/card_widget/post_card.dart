@@ -234,7 +234,7 @@ class Like extends StatelessWidget {
           color: AppColor.white,
         ),
         child: SizedBox(
-          height: 35.h,
+          height: 40.h,
           child: EmojiRow(
             onTapMore: () {
               showPopup.close();
@@ -366,8 +366,8 @@ class _AuthorCard extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.sp),
                     image: DecorationImage(
-                      image:
-                          CachedNetworkImageProvider(model.group?.avatar ?? ''),
+                      image: CachedNetworkImageProvider(model.group?.avatar ??
+                          'https://cellphones.com.vn/sforum/wp-content/uploads/2024/02/anh-thien-nhien-1.jpg'),
                       fit: BoxFit.fill,
                     ),
                   ),

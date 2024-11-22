@@ -71,7 +71,15 @@ extension ShowExtensionContext on BuildContext {
       ),
       backgroundColor: Theme.of(this).scaffoldBackgroundColor,
       builder: (BuildContext context) {
-        return child;
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            child,
+            SizedBox(
+              height: MediaQuery.of(context).viewInsets.bottom,
+            ),
+          ],
+        );
       },
     ).whenComplete(
       () {

@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinpin/common/di/di.dart';
@@ -12,6 +13,7 @@ import 'package:pinpin/presentation/widgets/button_widget/text_button_widget.dar
 import 'package:pinpin/presentation/widgets/refresh_widget.dart';
 import 'package:pinpin/presentation/widgets/scaffold_wdiget/scaffold_widget.dart';
 import '../../../data/models/friend_model.dart';
+import '../../routers/app_router.dart';
 import '../../themes/themes.dart';
 import '../../widgets/image_app_widget/avatar_widget.dart';
 import 'friend_constants.dart';
@@ -91,34 +93,41 @@ class _ItemFriend extends StatefulWidget {
 class _ItemFriendState extends State<_ItemFriend> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(
-        bottom: 10.h,
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          AvatarWidget(
-            path: widget.data.avatar,
-            size: 40.sp,
-          ),
-          SizedBox(
-            width: 10.w,
-          ),
-          Text(
-            widget.data.userName ?? '',
-            style: ThemeText.style12Regular,
-          ),
-          const Spacer(),
-          if (widget.isAdd)
-            TextButtonWidget2(
-                onPressed: () async {
-                  final bloc = await getIt.getAsync<FriendCubit>();
-                  bloc.addFriend(widget.data);
-                },
-                title: 'Add friend'.tr),
-        ],
+    return InkWell(
+      onTap: () {
+        context.pushRoute(ProfileThirdRoute(
+          user: widget.data,
+        ));
+      },
+      child: Padding(
+        padding: EdgeInsets.only(
+          bottom: 10.h,
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            AvatarWidget(
+              path: widget.data.avatar,
+              size: 40.sp,
+            ),
+            SizedBox(
+              width: 10.w,
+            ),
+            Text(
+              widget.data.userName ?? '',
+              style: ThemeText.style12Regular,
+            ),
+            const Spacer(),
+            if (widget.isAdd)
+              TextButtonWidget2(
+                  onPressed: () async {
+                    final bloc = await getIt.getAsync<FriendCubit>();
+                    bloc.addFriend(widget.data);
+                  },
+                  title: 'Add friend'.tr),
+          ],
+        ),
       ),
     );
   }

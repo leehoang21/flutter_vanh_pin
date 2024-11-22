@@ -6,6 +6,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:pinpin/domain/use_cases/user_use_case.dart';
 
+import '../../../../common/enums/app_enums.dart';
 import '../../../../data/models/post_model.dart';
 import '../../../../data/models/user_model.dart';
 import '../../../bloc/base_bloc/base_bloc.dart';
@@ -16,7 +17,7 @@ part 'home_state.dart';
 @injectable
 class HomeCubit extends BaseBloc<HomeState> {
   HomeCubit(this.postUseCase, this.userUseCase, this.appService)
-      : super(const HomeState({}, []));
+      : super(const HomeState([], []));
   final PostUseCase postUseCase;
   final UserUseCase userUseCase;
   final AppService appService;
@@ -59,17 +60,22 @@ class HomeCubit extends BaseBloc<HomeState> {
 
   void getPosts() async {
     _postSubscription.cancel();
-    _postSubscription = postUseCase.get().listen((event) {
+    _postSubscription = (postUseCase.get()).listen((event) {
       event.fold(
-        (posts) {
-          emit(
-            state.copyWith(
-              posts: {
-                ...state.posts,
-                ...posts,
-              },
-            ),
-          );
+        (futurePosts) async {
+          final posts = <PostModel>[];
+          for (final post in futurePosts) {
+            final p = await post;
+            if (p.group?.type == GroupType.private &&
+                ((p.group!.memberIds!.contains(appService.state.user?.uId)) ||
+                    p.group?.author?.uId != appService.state.user?.uId)) {
+              continue;
+            } else {
+              posts.add(p);
+            }
+          }
+          //
+          emit(state.copyWith(posts: posts));
         },
         (error) {
           showSnackbar(translationKey: error.toString());

@@ -15,22 +15,13 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$NotificationState {
-  List<NotificationModel> get notifications =>
-      throw _privateConstructorUsedError;
-
-  @JsonKey(ignore: true)
-  $NotificationStateCopyWith<NotificationState> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+mixin _$NotificationState {}
 
 /// @nodoc
 abstract class $NotificationStateCopyWith<$Res> {
   factory $NotificationStateCopyWith(
           NotificationState value, $Res Function(NotificationState) then) =
       _$NotificationStateCopyWithImpl<$Res, NotificationState>;
-  @useResult
-  $Res call({List<NotificationModel> notifications});
 }
 
 /// @nodoc
@@ -42,30 +33,13 @@ class _$NotificationStateCopyWithImpl<$Res, $Val extends NotificationState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? notifications = null,
-  }) {
-    return _then(_value.copyWith(
-      notifications: null == notifications
-          ? _value.notifications
-          : notifications // ignore: cast_nullable_to_non_nullable
-              as List<NotificationModel>,
-    ) as $Val);
-  }
 }
 
 /// @nodoc
-abstract class _$$NotificationStateImplCopyWith<$Res>
-    implements $NotificationStateCopyWith<$Res> {
+abstract class _$$NotificationStateImplCopyWith<$Res> {
   factory _$$NotificationStateImplCopyWith(_$NotificationStateImpl value,
           $Res Function(_$NotificationStateImpl) then) =
       __$$NotificationStateImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({List<NotificationModel> notifications});
 }
 
 /// @nodoc
@@ -75,71 +49,28 @@ class __$$NotificationStateImplCopyWithImpl<$Res>
   __$$NotificationStateImplCopyWithImpl(_$NotificationStateImpl _value,
       $Res Function(_$NotificationStateImpl) _then)
       : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? notifications = null,
-  }) {
-    return _then(_$NotificationStateImpl(
-      notifications: null == notifications
-          ? _value._notifications
-          : notifications // ignore: cast_nullable_to_non_nullable
-              as List<NotificationModel>,
-    ));
-  }
 }
 
 /// @nodoc
 
 class _$NotificationStateImpl implements _NotificationState {
-  const _$NotificationStateImpl(
-      {final List<NotificationModel> notifications = const []})
-      : _notifications = notifications;
-
-  final List<NotificationModel> _notifications;
-  @override
-  @JsonKey()
-  List<NotificationModel> get notifications {
-    if (_notifications is EqualUnmodifiableListView) return _notifications;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_notifications);
-  }
+  const _$NotificationStateImpl();
 
   @override
   String toString() {
-    return 'NotificationState(notifications: $notifications)';
+    return 'NotificationState()';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$NotificationStateImpl &&
-            const DeepCollectionEquality()
-                .equals(other._notifications, _notifications));
+        (other.runtimeType == runtimeType && other is _$NotificationStateImpl);
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(_notifications));
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$NotificationStateImplCopyWith<_$NotificationStateImpl> get copyWith =>
-      __$$NotificationStateImplCopyWithImpl<_$NotificationStateImpl>(
-          this, _$identity);
+  int get hashCode => runtimeType.hashCode;
 }
 
 abstract class _NotificationState implements NotificationState {
-  const factory _NotificationState(
-      {final List<NotificationModel> notifications}) = _$NotificationStateImpl;
-
-  @override
-  List<NotificationModel> get notifications;
-  @override
-  @JsonKey(ignore: true)
-  _$$NotificationStateImplCopyWith<_$NotificationStateImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  const factory _NotificationState() = _$NotificationStateImpl;
 }

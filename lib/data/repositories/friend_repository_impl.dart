@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:pinpin/common/configs/notification_config/notification_config.dart';
 import 'package:pinpin/common/service/app_service.dart';
 import 'package:pinpin/common/utils/app_utils.dart';
 import 'package:injectable/injectable.dart';
 import 'package:pinpin/data/models/friend_model.dart';
 import 'package:pinpin/data/models/notification_model.dart';
-import 'package:pinpin/domain/repositories/notification_repository.dart';
 import '../../common/configs/default_environment.dart';
 import '../../common/configs/firebase_config.dart';
 import '../../domain/repositories/friend_repository.dart';
@@ -14,14 +14,14 @@ import '../../domain/repositories/storage_repository.dart';
 class FriendRepositoryImpl extends FriendRepository {
   final FirebaseConfig config;
   final AppService appService;
-  final NotificationRepository notificationRepository;
+  final NotificationConfig notificationConfig;
 
   final StorageRepository storageRepository;
   FriendRepositoryImpl(
     this.config,
     this.storageRepository,
     this.appService,
-    this.notificationRepository,
+    this.notificationConfig,
   ) : super();
 
   DocumentReference<Map<String, dynamic>> _friends(String id) =>
@@ -49,17 +49,12 @@ class FriendRepositoryImpl extends FriendRepository {
   Future<bool> addFriend(FriendModel model) async {
     try {
       if (model.status == FriendStatus.pending) {
-        notificationRepository.addNotification(
+        notificationConfig.sendMessenger(
           NotificationModel(
             type: NotificationType.addFriend,
             createdAt: DateTime.now(),
             author: appService.state.user,
             user: model.user,
-            data: FriendModel(
-              user: model.user,
-              author: appService.state.user,
-              status: FriendStatus.pending,
-            ).toJson(),
           ),
         );
       } else {
@@ -78,7 +73,7 @@ class FriendRepositoryImpl extends FriendRepository {
           ),
         );
         //
-        notificationRepository.addNotification(
+        notificationConfig.sendMessenger(
           NotificationModel(
             type: NotificationType.addFriendSuccess,
             createdAt: DateTime.now(),

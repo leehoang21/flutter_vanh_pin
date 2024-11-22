@@ -24,7 +24,10 @@ class DefaultEnvironment {
   static const String privateKey = 'privateKey';
 
   //local
+  static const String uid = 'uid';
   static const String lang = 'lang';
+  static const String notifications = 'notifications';
+  static const String notificationMessages = 'notificationMessages';
   static const String vn = 'vn';
   static const String en = 'en';
 }

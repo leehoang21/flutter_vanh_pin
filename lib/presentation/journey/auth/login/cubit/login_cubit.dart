@@ -3,12 +3,12 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pinpin/common/configs/biometric/biometric_config.dart';
 import 'package:pinpin/common/configs/local_storage/local_storage.dart';
+import 'package:pinpin/common/configs/notification_config/notification_config.dart';
 import 'package:pinpin/common/exception/app_error.dart';
 import 'package:pinpin/common/extension/bloc_extension.dart';
 import 'package:injectable/injectable.dart';
 import 'package:pinpin/common/service/app_service.dart';
 import 'package:pinpin/common/utils/app_utils.dart';
-import 'package:pinpin/domain/use_cases/notification_use_case.dart';
 import 'package:pinpin/domain/use_cases/user_use_case.dart';
 import '../../../../../common/enums/login_type.dart';
 import '../../../../../common/service/key.dart';
@@ -23,7 +23,7 @@ class LoginCubit extends BaseBloc<LoginState> {
   LoginCubit(
     this.authUseCase,
     this.appService,
-    this.notificationUseCase,
+    this.notificationConfig,
     this.keyService,
     this.userUseCase,
     this.localStorage,
@@ -31,7 +31,7 @@ class LoginCubit extends BaseBloc<LoginState> {
   ) : super(const LoginState());
   final AuthUseCase authUseCase;
   AppService appService;
-  NotificationUseCase notificationUseCase;
+  NotificationConfig notificationConfig;
   StreamSubscription? loginSubscription;
   final UserUseCase userUseCase;
   final LocalStorage localStorage;
@@ -98,15 +98,16 @@ class LoginCubit extends BaseBloc<LoginState> {
         emit(state.copyWith(
           isNewDevice: true,
         ));
-        notificationUseCase.addNotification(
-          NotificationModel(
-            type: NotificationType.login,
-            createdAt: time,
-            author: appService.state.user,
-            content: '${androidInfo.brand} ${androidInfo.device}',
-            token: keyService.publicKey.toString(),
-          ),
-        );
+        //
+        final token = await notificationConfig.getTokenFirebase();
+        notificationConfig.sendMessenger(NotificationModel(
+          type: NotificationType.login,
+          createdAt: time,
+          author: appService.state.user,
+          content: '${androidInfo.brand} ${androidInfo.device}',
+          token: token,
+          id: keyService.publicKey.toString(),
+        ));
         listenLoginNewDivice(
             time, '${androidInfo.brand} ${androidInfo.device}');
       }
@@ -123,46 +124,35 @@ class LoginCubit extends BaseBloc<LoginState> {
   }
 
   listenLoginNewDivice(DateTime time, String content) {
-    loginSubscription = notificationUseCase
-        .listen(time, NotificationType.key, content)
-        .listen((event) {
-      event.fold(
-        (value) async {
-          try {
-            //
-            for (final item in value) {
-              final List<String> privateKey =
-                  keyService.decrypteRsa(item.token ?? '').split(',,,');
-              final key = privateKey[0];
-              final iv = privateKey[1];
-
-              final KeyApp keyApp = KeyApp();
-              keyApp.setKeyAes(key, iv, appService.state.user?.uId ?? "");
-              userUseCase.addPublicKey();
-              //
-              final user = await userUseCase.get();
-              appService.setUser(user);
-              //
-              if (user?.isAuthenticator == true) {
-                pushAndRemoveUntil(
-                  const GoogleAuthenticatorRoute(),
-                  predicate: (route) => false,
-                );
-              } else {
-                pushAndRemoveUntil(
-                  const MainRoute(),
-                  predicate: (route) => false,
-                );
-              }
-            }
-          } catch (e) {
-            logger(e);
+    loginSubscription = appService.stream.listen((event) async {
+      try {
+        //
+        for (final item in event.notifications) {
+          if (item.type != NotificationType.accessAccount) {
+            continue;
           }
-        },
-        (error) {
-          showSnackbar(translationKey: error.message);
-        },
-      );
+          final List<String> privateKey = (item.token ?? '').split(',,,');
+          if (privateKey.length < 2) {
+            continue;
+          }
+          final key = privateKey[0];
+          final iv = privateKey[1];
+
+          final KeyApp keyApp = KeyApp();
+          keyApp.setKeyAes(key, iv, appService.state.user?.uId ?? "");
+          //
+          final user = await userUseCase.get();
+          appService.setUser(user);
+          notificationConfig.sendToken();
+          loginSubscription?.cancel();
+          pushAndRemoveUntil(
+            const SplashRoute(),
+            predicate: (route) => false,
+          );
+        }
+      } catch (e) {
+        logger(e);
+      }
     });
   }
 }

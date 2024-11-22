@@ -1,6 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:pinpin/common/configs/background_service_config.dart';
 import 'common/configs/lang/translate_preferences.dart';
 import 'common/constants/language_constants.dart';
 import 'common/di/di.dart';
@@ -8,7 +9,9 @@ import 'common/initializer/init.dart';
 import 'presentation/app/app.dart';
 
 @pragma('vm:entry-point')
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {}
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  onListen(message, true);
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,7 +25,7 @@ void main() async {
     preferences: getIt.get<TranslatePreferences>(),
   );
   // Set the background messaging handler early on, as a named top-level function
-  //FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   runApp(
     LocalizedApp(

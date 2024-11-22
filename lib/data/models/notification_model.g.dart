@@ -18,11 +18,10 @@ _$NotificationModelImpl _$$NotificationModelImplFromJson(
           : UserModel.fromJson(json['user'] as Map<String, dynamic>),
       content: json['content'] as String?,
       token: json['token'] as String?,
-      isRead: json['isRead'] as bool? ?? false,
       createdAt: json['createdAt'] == null
           ? null
           : DateTime.parse(json['createdAt'] as String),
-      data: json['data'] as Map<String, dynamic>?,
+      isRead: json['isRead'] as bool? ?? false,
       id: json['id'] as String?,
     );
 
@@ -34,19 +33,22 @@ Map<String, dynamic> _$$NotificationModelImplToJson(
       'user': instance.user?.toJson(),
       'content': instance.content,
       'token': instance.token,
-      'isRead': instance.isRead,
       'createdAt': instance.createdAt?.toIso8601String(),
-      'data': instance.data,
+      'isRead': instance.isRead,
       'id': instance.id,
     };
 
 const _$NotificationTypeEnumMap = {
   NotificationType.addFriend: 'addFriend',
-  NotificationType.message: 'message',
   NotificationType.comment: 'comment',
   NotificationType.addFriendSuccess: 'addFriendSuccess',
+  NotificationType.joinGroup: 'joinGroup',
   NotificationType.addGroupSuccess: 'addGroupSuccess',
-  NotificationType.key: 'key',
-  NotificationType.keyChat: 'keyChat',
+  NotificationType.removeGroupSuccess: 'removeGroupSuccess',
+  NotificationType.accessAccount: 'accessAccount',
   NotificationType.login: 'login',
+  NotificationType.message: 'message',
+  NotificationType.addGroupChatSuccess: 'addGroupChatSuccess',
+  NotificationType.removeGroupChatSuccess: 'removeGroupChatSuccess',
+  NotificationType.keyChat: 'keyChat',
 };

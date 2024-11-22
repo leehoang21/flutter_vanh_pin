@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:pinpin/common/enums/app_enums.dart';
 import 'package:pinpin/common/extension/string_extension.dart';
 import 'package:pinpin/presentation/widgets/text_field_widget/text_field_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../common/constants/app_dimens.dart';
 import '../../../common/constants/layout_constants.dart';
+import '../../../common/utils/pick_image.dart';
 import '../../widgets/appbar_widget/appbar_widget.dart';
 import '../../widgets/button_widget/text_button_widget.dart';
 import '../../widgets/image_app_widget/image_app.dart';
@@ -37,9 +39,11 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
         },
         child: Column(
           children: [
-            const _WallPaperAndAvatarWidget(
-              'https://cellphones.com.vn/sforum/wp-content/uploads/2024/02/anh-thien-nhien-1.jpg',
-              'https://cellphones.com.vn/sforum/wp-content/uploads/2024/02/anh-thien-nhien-1.jpg',
+            _WallPaperAndAvatarWidget(
+              context.watch<CreateGroupCubit>().state.background?.path ??
+                  'https://cellphones.com.vn/sforum/wp-content/uploads/2024/02/anh-thien-nhien-1.jpg',
+              context.watch<CreateGroupCubit>().state.avatar?.path ??
+                  'https://cellphones.com.vn/sforum/wp-content/uploads/2024/02/anh-thien-nhien-1.jpg',
             ),
             Padding(
               padding: EdgeInsets.symmetric(
@@ -109,10 +113,17 @@ class _WallPaperAndAvatarWidget extends StatelessWidget {
           Align(
             alignment: Alignment.topLeft,
             child: InkWell(
-              onTap: () {},
+              onTap: () {
+                final PickImage pickImage = PickImage();
+                pickImage.pickImage(source: ImageSource.gallery).then((value) {
+                  if (value != null) {
+                    context.read<CreateGroupCubit>().pickBackground(value);
+                  }
+                });
+              },
               child: AppImageWidget(
                 path: wallPaperUrl,
-                fit: BoxFit.fill,
+                fit: BoxFit.cover,
                 height: 160.h,
                 width: 1.sw,
               ),
@@ -123,11 +134,21 @@ class _WallPaperAndAvatarWidget extends StatelessWidget {
             left: 40.sp,
             height: 80.sp,
             width: 80.sp,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(10.sp),
-              child: AppImageWidget(
-                path: avatarUrl,
-                fit: BoxFit.cover,
+            child: InkWell(
+              onTap: () {
+                final PickImage pickImage = PickImage();
+                pickImage.pickImage(source: ImageSource.gallery).then((value) {
+                  if (value != null) {
+                    context.read<CreateGroupCubit>().pickAvatar(value);
+                  }
+                });
+              },
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10.sp),
+                child: AppImageWidget(
+                  path: avatarUrl,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ),

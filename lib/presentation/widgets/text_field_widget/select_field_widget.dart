@@ -55,7 +55,7 @@ class _SelectFieldWidgetState<T> extends State<SelectFieldWidget<T>> {
                 Icon(
                   Icons.list,
                   size: 16.sp,
-                  color: Colors.yellow,
+                  color: Colors.red,
                 ),
                 SizedBox(
                   width: 4.w,
@@ -112,7 +112,7 @@ class _SelectFieldWidgetState<T> extends State<SelectFieldWidget<T>> {
                 Icons.arrow_forward_ios_outlined,
               ),
               iconSize: 14.sp,
-              iconEnabledColor: const Color.fromRGBO(255, 235, 59, 1),
+              iconEnabledColor: Colors.red,
               iconDisabledColor: Colors.grey,
             ),
             dropdownStyleData: DropdownStyleData(
@@ -121,7 +121,7 @@ class _SelectFieldWidgetState<T> extends State<SelectFieldWidget<T>> {
               padding: EdgeInsets.only(left: 14.w, right: 14.w),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(14),
-                color: AppColor.fieldColor,
+                color: AppColor.black,
               ),
               scrollbarTheme: ScrollbarThemeData(
                 radius: Radius.circular(40.r),

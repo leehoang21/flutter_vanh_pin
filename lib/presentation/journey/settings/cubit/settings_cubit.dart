@@ -4,12 +4,14 @@ import 'package:pinpin/common/extension/bloc_extension.dart';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:pinpin/common/extension/string_extension.dart';
 import 'package:pinpin/domain/use_cases/auth_use_case.dart';
 import 'package:pinpin/presentation/routers/app_router.dart';
 import '../../../../common/enums/login_type.dart';
 import '../../../../common/exception/app_error.dart';
 import '../../../../domain/use_cases/post_use_case.dart';
 import '../../../bloc/base_bloc/base_bloc.dart';
+import '../../../widgets/snackbar_widget/snackbar_widget.dart';
 
 part 'settings_cubit.freezed.dart';
 part 'settings_state.dart';
@@ -31,6 +33,18 @@ class SettingsCubit extends BaseBloc<SettingsState> {
   void logout() async {
     await authUseCase.signOut();
     pushAndRemoveUntil(const LoginRoute(), predicate: (route) => false);
+  }
+
+  changePass(String pass) async {
+    final error = await authUseCase.changePassword(pass);
+    if (error != null) {
+      showSnackbar(translationKey: error.toString());
+    } else {
+      await pop('');
+      showSnackbar(
+          translationKey: 'Change password success'.tr,
+          type: SnackBarType.success);
+    }
   }
 
   Future registerBiometric() async {

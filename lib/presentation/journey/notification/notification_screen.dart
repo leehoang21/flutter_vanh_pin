@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pinpin/common/service/app_service.dart';
 import 'package:pinpin/common/utils/app_utils.dart';
 import 'package:pinpin/data/models/notification_model.dart';
 import 'package:pinpin/presentation/journey/notification/cubit/notification_cubit.dart';
@@ -36,7 +37,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
             height: 10.h,
           ),
           for (int i = 0;
-              i < context.watch<NotificationCubit>().state.notifications.length;
+              i < context.watch<AppService>().state.notifications.length;
               i++)
             _ItemNotification(
               index: i,
@@ -58,44 +59,33 @@ class _ItemNotification extends StatefulWidget {
 class _ItemNotificationState extends State<_ItemNotification> {
   @override
   Widget build(BuildContext context) {
-    final data =
-        context.watch<NotificationCubit>().state.notifications[widget.index];
-    return GestureDetector(
-      onTap: () {
-        if (data.type!.checkRead) {
-          context.read<NotificationCubit>().read(data.id);
-        }
-        setState(() {});
-      },
-      child: Container(
-        color: data.isRead
-            ? AppColor.backgroundColor
-            : AppColor.grey.withOpacity(0.1),
-        margin: EdgeInsets.only(bottom: 10.h),
-        padding: EdgeInsets.all(10.w),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            AvatarWidget(
-              path: data.author?.avatar ?? '',
-              size: 40.sp,
-            ),
-            SizedBox(
-              width: 10.w,
-            ),
-            Expanded(child: _content(data)),
-            SizedBox(
-              width: 10.w,
-            ),
-            (!isNullEmpty(data.type?.titleAction) && !data.isRead)
-                ? TextButtonWidget2(
-                    onPressed: () {
-                      context.read<NotificationCubit>().action(data);
-                    },
-                    title: data.type?.titleAction ?? '')
-                : const SizedBox(),
-          ],
-        ),
+    final data = context.watch<AppService>().state.notifications[widget.index];
+    return Container(
+      color: AppColor.backgroundColor,
+      margin: EdgeInsets.only(bottom: 10.h),
+      padding: EdgeInsets.all(10.w),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          AvatarWidget(
+            path: data.author?.avatar ?? '',
+            size: 40.sp,
+          ),
+          SizedBox(
+            width: 10.w,
+          ),
+          Expanded(child: _content(data)),
+          SizedBox(
+            width: 10.w,
+          ),
+          (!isNullEmpty(data.type?.titleAction) && !data.isRead)
+              ? TextButtonWidget2(
+                  onPressed: () {
+                    context.read<NotificationCubit>().action(data);
+                  },
+                  title: data.type?.titleAction ?? '')
+              : const SizedBox(),
+        ],
       ),
     );
   }

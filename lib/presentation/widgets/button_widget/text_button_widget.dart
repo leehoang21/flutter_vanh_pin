@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pinpin/common/constants/app_dimens.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../common/constants/layout_constants.dart';
 import '../../../../presentation/themes/themes.dart';
@@ -35,10 +34,10 @@ class TextButtonWidget extends StatelessWidget {
             buttonState == ButtonState.active
                 ? buttonColor ?? AppColor.black
                 : AppColor.iron),
-        shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-          RoundedRectangleBorder(
+        shape: WidgetStateProperty.all(
+          const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
-              Radius.circular(12.r),
+              Radius.circular(500),
             ),
           ),
         ),

@@ -24,11 +24,11 @@ abstract class PostRepository {
     required String postId,
   });
 
-  Stream<Either<Map<int, List<PostModel>>, AppError>> get();
-  Stream<Either<List<PostModel>, AppError>> getToGroup(
+  Stream<Either<List<Future<PostModel>>, AppError>> get();
+  Stream<Either<List<Future<PostModel>>, AppError>> getToGroup(
     List<String> groupIds,
   );
-  Stream<Either<List<PostModel>, AppError>> getToUser(String userId);
+  Stream<Either<List<Future<PostModel>>, AppError>> getToUser(String userId);
 
   Future<AppError?> like({
     required String emoji,

@@ -49,12 +49,12 @@ class AppBarMainWidget extends StatelessWidget implements PreferredSize {
                     icon: const Icon(Icons.add_circle_outline,
                         color: Colors.black),
                   ),
-            IconButton(
-                onPressed: onSearch,
-                icon: const Icon(
-                  Icons.search,
-                  color: Colors.black,
-                )),
+            // IconButton(
+            //     onPressed: onSearch,
+            //     icon: const Icon(
+            //       Icons.search,
+            //       color: Colors.black,
+            //     )),
           ],
         ),
       ),

@@ -1,6 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:crypton/crypton.dart';
-import 'package:dart_firebase_admin/messaging.dart' as messaging;
 import 'package:either_dart/either.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:injectable/injectable.dart';
@@ -8,7 +6,6 @@ import 'package:pinpin/common/extension/string_extension.dart';
 import 'package:pinpin/common/utils/app_utils.dart';
 import 'package:pinpin/data/models/chat_model.dart';
 import 'package:pinpin/data/models/user_model.dart';
-import 'package:pinpin/domain/repositories/notification_repository.dart';
 import 'package:pinpin/domain/repositories/user_repository.dart';
 
 import '../../common/configs/default_environment.dart';
@@ -26,14 +23,12 @@ class ChatRepositoryImpl extends ChatRepository {
   final FirebaseConfig config;
   final AppService appService;
   final UserRepository userRepository;
-  final NotificationRepository notificationRepository;
   final NotificationConfig notificationConfig;
 
   ChatRepositoryImpl(
     this.config,
     this.appService,
     this.userRepository,
-    this.notificationRepository,
     this.notificationConfig,
   );
 
@@ -61,7 +56,7 @@ class ChatRepositoryImpl extends ChatRepository {
         final KeyApp keyApp = KeyApp();
         data = data.copyWith(
           createdAt: DateTime.now(),
-          idKey: keyApp.gennerateKey.$1.base64,
+          idKey: keyApp.gennerateKey.$1.base16,
         );
         final param = data.toJson();
 
@@ -79,7 +74,6 @@ class ChatRepositoryImpl extends ChatRepository {
   }
 
   _sendKey(UserModel user, String chatId, (Key, IV) key0) async {
-    final publicKeys = await userRepository.getPublicKey(uId: user.uId);
     final KeyApp keyApp = KeyApp();
     await keyApp.setKeyAes(
       key0.$1.base64,
@@ -87,29 +81,19 @@ class ChatRepositoryImpl extends ChatRepository {
       chatId,
     );
     //
-    for (final keyString in publicKeys) {
-      try {
-        final publicKey = RSAPublicKey.fromString(keyString);
-
-        final content = publicKey.encrypt(
-          '${key0.$1.base64},,,${key0.$2.base64}',
-        );
-        //
-        await notificationRepository.addNotification(
-          NotificationModel(
-            type: NotificationType.keyChat,
-            createdAt: DateTime.now(),
-            author: appService.state.user,
-            user: user,
-            token: keyString,
-            content: content,
-            id: chatId,
-          ),
-        );
-      } catch (e) {
-        logger(e);
-      }
-    }
+    final content = '${key0.$1.base64},,,${key0.$2.base64}';
+    //
+    await notificationConfig.sendMessenger(
+      NotificationModel(
+        type: NotificationType.keyChat,
+        createdAt: DateTime.now(),
+        author: appService.state.user,
+        user: user,
+        token: content,
+        content: '',
+        id: chatId,
+      ),
+    );
   }
 
   @override
@@ -161,47 +145,49 @@ class ChatRepositoryImpl extends ChatRepository {
   @override
   Future<AppError?> removeMember({
     required List<UserModel> memers,
-    required String chatId,
+    required ChatModel model,
   }) async {
     if (config.auth.currentUser == null) return null;
     try {
       final data = memers.map((e) => e.toJson()).toList();
-      await _doc.doc(chatId).update({'members': FieldValue.arrayRemove(data)});
+      await _doc.doc(model.uId).update({
+        'memberIds': FieldValue.arrayRemove(data.map((e) => e['uId']).toList())
+      });
+      //send notification
+      for (final i in memers) {
+        KeyApp keyApp = KeyApp();
+        final key = await keyApp.getKeyAes(model.idKey ?? '');
+        await notificationConfig.sendMessenger(
+          NotificationModel(
+            type: NotificationType.removeGroupChatSuccess,
+            createdAt: DateTime.now(),
+            author: appService.state.user,
+            user: i,
+            token: '${key!.$1.base64},,,${key.$2.base64}',
+            content: '',
+            id: model.idKey,
+          ),
+        );
+      }
+      //
     } catch (e) {
       return AppError(message: e.toString());
     }
     return null;
   }
 
-  _pushNotification(String title, String message) async {
-    final tokens =
-        await notificationConfig.getToken(config.auth.currentUser!.uid);
-    for (final token in tokens) {
-      await config.messaging.send(
-        messaging.TokenMessage(
-          token: token,
-          notification: messaging.Notification(
-            title: title,
-            body: message,
-          ),
-        ),
-      );
-    }
-  }
-
   @override
   Future<AppError?> sendOrUpdateMessage({
     required Message data,
-    required String chatId,
     String? id,
-    required String idKey,
+    required ChatModel model,
   }) async {
     if (config.auth.currentUser == null) return null;
     try {
       //
       KeyApp keyApp = KeyApp();
 
-      final key = await keyApp.getKeyAes(idKey);
+      final key = await keyApp.getKeyAes(model.idKey ?? '');
       final message = data.message;
       //
       data = data.copyWith(
@@ -216,32 +202,44 @@ class ChatRepositoryImpl extends ChatRepository {
       //
       if (!isNullEmpty(id)) {
         await _doc
-            .doc(chatId)
+            .doc(model.uId)
             .collection(DefaultEnvironment.message)
             .doc(id)
             .update(data.toJson());
 
-        await _doc.doc(chatId).update({
+        await _doc.doc(model.uId).update({
           'chatContent': data.message,
           'updatedAt': data.createdAt.toIso8601String(),
         });
       } else {
         final param = data.toJson();
         //
-        if (data.messageType == MessageType.text) {
-          _pushNotification("Message".tr, message);
+        for (final i in model.members) {
+          if (i.uId != appService.state.user?.uId) {
+            notificationConfig.sendMessenger(
+              NotificationModel(
+                type: NotificationType.message,
+                createdAt: DateTime.now(),
+                author: appService.state.user,
+                user: i,
+                content: data.messageType == MessageType.text
+                    ? message
+                    : "${appService.state.user!.userName}${'sent photo'.tr}",
+              ),
+            );
+          }
         }
         //
         final result = await _doc
-            .doc(chatId)
+            .doc(model.uId)
             .collection(DefaultEnvironment.message)
             .add(param);
         await _doc
-            .doc(chatId)
+            .doc(model.uId)
             .collection(DefaultEnvironment.message)
             .doc(result.id)
             .update({'uId': result.id});
-        await _doc.doc(chatId).update({
+        await _doc.doc(model.uId).update({
           'chatContent': data.message,
           'updatedAt': data.createdAt.toIso8601String(),
           'createdAt': data.createdAt.toIso8601String(),
@@ -256,12 +254,32 @@ class ChatRepositoryImpl extends ChatRepository {
   @override
   Future<AppError?> addMember({
     required List<UserModel> memers,
-    required String chatId,
+    required ChatModel model,
   }) async {
     if (config.auth.currentUser == null) return null;
     try {
       final data = memers.map((e) => e.toJson()).toList();
-      await _doc.doc(chatId).update({'members': FieldValue.arrayUnion(data)});
+      await _doc.doc(model.uId).update({
+        'members': FieldValue.arrayUnion(data),
+        'memberIds': FieldValue.arrayUnion(data.map((e) => e['uId']).toList()),
+      });
+      //send notification
+      for (final i in memers) {
+        KeyApp keyApp = KeyApp();
+        final key = await keyApp.getKeyAes(model.idKey ?? '');
+        await notificationConfig.sendMessenger(
+          NotificationModel(
+            type: NotificationType.addGroupChatSuccess,
+            createdAt: DateTime.now(),
+            author: appService.state.user,
+            user: i,
+            token: '${key!.$1.base64},,,${key.$2.base64}',
+            content: '',
+            id: model.idKey,
+          ),
+        );
+      }
+      //
     } catch (e) {
       return AppError(message: e.toString());
     }

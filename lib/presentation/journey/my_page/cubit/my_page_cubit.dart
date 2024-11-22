@@ -36,7 +36,12 @@ class MyPageCubit extends BaseBloc<MyPageState> {
     _postSubscription =
         postUseCase.getToUser(state.user.uId ?? '').listen((event) {
       event.fold(
-        (posts) {
+        (futurePosts) async {
+          final posts = <PostModel>[];
+          for (final post in futurePosts) {
+            posts.add(await post);
+          }
+          //
           emit(state.copyWith(posts: posts));
         },
         (error) {
