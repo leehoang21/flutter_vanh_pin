@@ -3,6 +3,7 @@ import 'package:floating_draggable_widget/floating_draggable_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:pinpin/common/assets/assets.gen.dart';
 import 'package:pinpin/common/service/app_service.dart';
 import 'package:pinpin/presentation/routers/app_router.dart';
@@ -29,7 +30,11 @@ class MainScreen extends StatelessWidget {
         floatingWidget: FloatingActionButton(
           backgroundColor: AppColor.black,
           onPressed: () async {
-            context.pushRoute(const ChatRoute());
+            await FlutterWindowManager.addFlags(
+                FlutterWindowManager.FLAG_SECURE);
+            await context.pushRoute(const ChatRoute());
+            await FlutterWindowManager.clearFlags(
+                FlutterWindowManager.FLAG_SECURE);
           },
           shape: const CircleBorder(),
           child: Center(

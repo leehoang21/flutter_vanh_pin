@@ -70,6 +70,8 @@ dependencies:
   pie_menu: ^3.2.7
   like_button: ^2.0.5
   badges: ^3.1.2
+  safe_device: ^1.1.9
+  flutter_windowmanager: ^0.2.0
  
 
 dev_dependencies:

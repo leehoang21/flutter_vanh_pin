@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pinpin/common/extension/show_extension.dart';
 import 'package:pinpin/presentation/themes/themes.dart';
 
 import '../../../common/assets/assets.gen.dart';
@@ -26,10 +27,25 @@ class _SplashScreenProviderState extends State<SplashScreenProvider> {
   init() async {
     SplashController controller = await getIt.getAsync<SplashController>();
     controller.login().then((value) {
-      if (value) {
+      if (value == true) {
         AutoRouter.of(context).replace(const HomeRoute());
-      } else {
+      } else if (value == false) {
         AutoRouter.of(context).replace(const LoginRoute());
+      } else {
+        context.showDialog(
+          child: AlertDialog(
+            title: const Text('Not safe device'),
+            content: const Text('This device is not safe'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        );
       }
     });
   }
